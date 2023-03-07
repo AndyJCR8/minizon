@@ -1,4 +1,7 @@
+@use './colors' as colors;
+
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..900&family=Urbanist:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300;400;500;600;700&display=swap');
 
 $fontWeights: (
   'Thin': 100, 'ExLight': 200,
@@ -12,19 +15,25 @@ $fontWeights: (
 }
 
 :root {
+  @each $name, $color in colors.$PALLETE1 { --#{$name}: #{$color}; }
+  @each $name, $color in colors.$PALLETE2 { --#{$name}: #{$color}; }
+  @each $name, $color in colors.$PALLETE3 { --#{$name}: #{$color}; }
+  
   font-family: 'Urbanist', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.902);
-  background-color: #242424;
-
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  
+
+  color: var(--P1S8);
+  background-color: var(--P2P1);
 }
 
 body, html, #root, .App {
@@ -32,9 +41,11 @@ body, html, #root, .App {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  .Nunito { font-family: 'Nunito', sans-serif !important; }
+  .Nunito    { font-family: 'Nunito', sans-serif !important; }
+  .ZillaSlab { font-family: 'Zilla Slab', sans-serif !important; }
 }
 
 .Text {
   font-size: 5rem;
+  font-weight: 500;
 }
