@@ -44,6 +44,15 @@ body, html, #root, .App {
   .Nunito    { font-family: 'Nunito', sans-serif !important; }
   .ZillaSlab { font-family: 'Zilla Slab', sans-serif !important; }
 }
+.App {
+  box-sizing: border-box;
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+  }
+}
 
 .Text {
   font-size: 5rem;

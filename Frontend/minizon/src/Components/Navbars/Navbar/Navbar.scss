@@ -1,0 +1,70 @@
+/*
+EL PRINCIPIO PARA APLICAR RESPONSIVIDAD
+ES USAR GRID Y ALGUNAS PROPIEDADES CLAVE
+COMO "grid-template-areas" O "grid-template-columns"
+ADEMÁS DE MEDIA QUERYS PARA OCULTAR
+CIERTOS ELEMENTOS DE LA BARRA DE NAVEGACIÓN
+PARA CIERTOS DISPOSITIVOS
+*/
+
+.navbar {
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "options title actions";
+
+  &Options {
+    grid-area: options;
+  }
+  &Title {
+    display: grid;
+    place-items: center;
+
+    grid-area: title;
+    .title {
+      font-size: 1.5rem;
+      letter-spacing: 5px;
+      margin: 1rem 0;
+    }
+  }
+  &Actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    grid-template-areas: "search navbarItems";
+    grid-area: actions;
+    .navbarSearch { width: 100%; }
+    .navbarItems { grid-area: navbarItems; }
+  }
+  &Search {
+    grid-area: search;
+  }
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 40% 1fr;
+    grid-template-areas:
+    "title actions";
+    &Options { display: none; }
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 40% 1fr;
+    grid-template-areas:
+    "title actions";
+    &Options { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "title" "actions";
+    &Options { display: none; }
+    &Actions { grid-template-areas: "search search"; .navbarItems { display: none; } }
+  }
+  /* @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+    "title title title" "options options options";
+    &Options { display: none; }
+  } */
+
+}

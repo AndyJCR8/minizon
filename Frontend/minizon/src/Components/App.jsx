@@ -1,10 +1,36 @@
-import { useState } from 'react'
+import '@fortawesome/fontawesome-free/scss/fontawesome.scss'
+import '@fortawesome/fontawesome-free/scss/regular.scss'
+import '@fortawesome/fontawesome-free/scss/solid.scss'
+import { useState, useEffect } from 'react'
+import Navbar from './Navbars/Navbar/Navbar'
+import useWindow from '../Hooks/useWindow'
+import Sidebar from './Navbars/Sidebar/Sidebar'
+import Bottombar from './Navbars/Bottombar/Bottombar'
 
 export default function App() {
+  const windowSize = useWindow();
 
   return (
     <div className="App">
-      <p className='Text  ZillaSlab'>M I N I Z O N</p>
+      {
+        windowSize.Width <= 480 ?
+        <> {/* MOBILE */}
+         <Navbar/>
+         <Sidebar/>
+         <Bottombar/>
+        </> :
+        windowSize.Width <= 768 ?
+        <> {/* TABLET */}
+          <Navbar/>
+          <Sidebar/>
+        </> :
+        windowSize.Width <= 1024 ?
+        <>
+          <Navbar/>
+          <Sidebar/>
+        </> : <Navbar/>
+      }
+      
     </div>
   )
 }
