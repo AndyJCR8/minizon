@@ -1,22 +1,24 @@
-import Button from '../../UI Components/Button/Button'
-import Link from '../../UI Components/Link/Link'
+import { Link } from 'react-router-dom'
 import Search from '../../UI Components/Search/Search'
 import './Navbar.scss'
 import React from 'react'
 
 export default function Navbar() {
 
-  const linksInfo = [
-    { className: "icon actionLink", icon: "heart", onClick: () => { console.log("Button 1 pressed") } },
-    { className: "iconText actionLink", text: "0", icon: "bag-shopping", onClick: () => { console.log("Button 2 pressed") } },
-    { className: "icon actionLink", icon: "user-astronaut", onClick: () => { console.log("Button 3 pressed") } },
-  ]
 
   return (
     <nav className='navbar'>
       <div className='navbarOptions'>
         <div className='navbarItems'>
-
+          <div className='navbarItem'>
+            <Link to="/"><i className='fa-solid fa-home'></i>Inicio</Link>  
+          </div>
+          <div className='navbarItem'>
+            <Link to="/"><i className='fa-solid fa-person-shelter'></i>Interiores</Link>  
+          </div>
+          <div className='navbarItem'>
+            <Link to="/"><i className='fa-solid fa-campground'></i>Exteriores</Link>  
+          </div>
         </div>
       </div>
       <div className='navbarTitle'>
@@ -29,15 +31,18 @@ export default function Navbar() {
           {/* <div className='navbarItem'>
              SI ES MUY PEQUEÑA LA PANTALLA ACTIVAR EL SIDEBAR POR MEDIO DE UN BOTÓN
           </div> */}
-          {
-            linksInfo.map((lInfo, i) => {
-              return (
-                <div className='navbarItem' key={i}>
-                  <Link className={lInfo.className} icon={lInfo.icon} text={lInfo.text} onClick={lInfo.onClick}/>
-                </div>
-              )
-            })
-          }
+          <div className='navbarItem'>
+            <Link to="/"><i className='fa-solid fa-heart'></i></Link>
+          </div>
+          <div className='navbarItem'>
+            <Link to="/" className='shopIcon'>
+              <i className='fa-solid fa-bag-shopping'></i>
+              <i className='counter'>9</i>
+            </Link>
+          </div>
+          <div className='navbarItem'>
+            <Link to="/"><i className='fa-solid fa-user'></i></Link>
+          </div>
           
         </div>
       </div>

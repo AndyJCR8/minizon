@@ -45,9 +45,10 @@ body, html, #root, .App {
 }
 .App {
   box-sizing: border-box;
-  
+  margin-top: 5rem;
   @media (max-width: 500px) {
     padding: 2rem;
+    margin-top: 8rem;
   }
   
 }
@@ -56,3 +57,5 @@ body, html, #root, .App {
   font-size: 5rem;
   font-weight: 500;
 }
+
+a { text-decoration: none; }
