@@ -1,0 +1,26 @@
+.link {
+  display: flex; place-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--P5S2);
+  
+  &.icon {
+    font-size: 1.15rem;
+    padding: 0.5rem 0.75rem;
+  }
+  &.iconText {
+    font-size: 1.15rem;
+    padding: 0.5rem 1rem;
+    i { margin-right: 0.5rem; }
+  }
+  &.text {
+
+  }
+  
+  &.selected { color: white; }
+  &.actionLink { color: white; }
+  
+  &:hover { color: var(--P2S2); }
+  &:active { font-size: 1.05rem; }
+  transition: all ease-in-out 75ms;
+}

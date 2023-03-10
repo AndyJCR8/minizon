@@ -15,9 +15,9 @@ $fontWeights: (
 }
 
 :root {
-  @each $name, $color in colors.$PALLETE1 { --#{$name}: #{$color}; }
-  @each $name, $color in colors.$PALLETE2 { --#{$name}: #{$color}; }
-  @each $name, $color in colors.$PALLETE3 { --#{$name}: #{$color}; }
+  @each $pallete in colors.$PALLETES {
+    @each $name, $color in $pallete { --#{$name}: #{$color}; }
+  }
   
   font-family: 'Urbanist', sans-serif;
   line-height: 1.5;
@@ -30,10 +30,6 @@ $fontWeights: (
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  
-
-  color: var(--P1S8);
-  background-color: var(--P2P1);
 }
 
 body, html, #root, .App {
@@ -41,17 +37,19 @@ body, html, #root, .App {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  color: var(--P1S8);
+  background-color: var(--P1P7);
+
   .Nunito    { font-family: 'Nunito', sans-serif !important; }
   .ZillaSlab { font-family: 'Zilla Slab', sans-serif !important; }
 }
 .App {
   box-sizing: border-box;
-  @media (max-width: 768px) {
-    padding: 0.75rem;
+  
+  @media (max-width: 500px) {
+    padding: 2rem;
   }
-  @media (max-width: 480px) {
-    padding: 0.5rem;
-  }
+  
 }
 
 .Text {

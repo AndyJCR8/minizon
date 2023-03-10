@@ -13,7 +13,7 @@ export default function App() {
   return (
     <div className="App">
       {
-        windowSize.Width <= 480 ?
+        windowSize.Width <= 500 ?
         <> {/* MOBILE */}
          <Navbar/>
          <Sidebar/>
