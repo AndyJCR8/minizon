@@ -24,7 +24,11 @@
 
     width: 100%;
     .bottbarItem {
+      display: grid;
+      place-items: center;
       font-size: 1.25rem;
+      width: 100%;
+
       a, p {
         display: flex; place-items: center;
         cursor: pointer;

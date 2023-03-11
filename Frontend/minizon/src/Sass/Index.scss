@@ -56,9 +56,12 @@ body, html, #root, .App {
   
 }
 
-.Text {
-  font-size: 5rem;
-  font-weight: 500;
+.button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
 }
 
-a { text-decoration: none; }
+
+
+a, button, p { text-decoration: none; -webkit-tap-highlight-color: transparent; }
