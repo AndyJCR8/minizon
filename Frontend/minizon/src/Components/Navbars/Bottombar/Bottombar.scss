@@ -1,0 +1,54 @@
+.bottombar {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  
+  position: fixed;
+  
+  bottom: 0;
+  right: 0;
+  padding: 2rem;
+  
+  width: 100%;
+  
+  .bottbarItems {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    place-items: center;
+
+    background-color: var(--P1P8);
+    box-shadow: var(--boxSh);
+
+    padding: 1rem 0;
+    border-radius: 15px;
+
+    width: 100%;
+    .bottbarItem {
+      font-size: 1.25rem;
+      a, p {
+        display: flex; place-items: center;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 0.5rem 0.75rem;
+        &:hover { color: white; }
+        transition: all ease-in-out 75ms;
+      }
+      a:active { scale: 0.9; }
+    }
+
+    .shopIcon { 
+      position: relative;
+      .counter {
+        font-family: "Nunito";
+        font-size: 0.875rem;
+        background-color: var(--P4S4);
+        padding: 0.1rem 0.5rem;
+        border-radius: 20px;
+        position: absolute;
+        top: -0.2rem;
+        right: -0.5rem;
+      }
+    }
+  }
+
+}

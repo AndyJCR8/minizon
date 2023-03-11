@@ -30,6 +30,9 @@ $fontWeights: (
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --boxSh: 0px 0px 15px 1px rgba(0, 0, 0, 0.253);
+  --Anim1: cubic-bezier(.81,-0.29,.24,1.29);
 }
 
 body, html, #root, .App {

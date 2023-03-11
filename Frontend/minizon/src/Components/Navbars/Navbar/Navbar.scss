@@ -31,7 +31,16 @@ PARA CIERTOS DISPOSITIVOS
       font-weight: 500;
 
       width: 100%;
-      .navbarItem { i { margin-right: 0.5rem; } }
+      .navbarItem {
+        i { margin-right: 0.5rem; }
+
+        &.dropdown i:last-child { margin-left: 0.5rem; transition: all ease-in-out 130ms; }
+        &.active {
+          i:last-child { rotate: 180deg; }
+        }
+
+        transition: all ease-in-out 150ms;
+      }
     }
   }
   &Title {
@@ -43,6 +52,7 @@ PARA CIERTOS DISPOSITIVOS
       font-size: 1.5rem;
       letter-spacing: 5px;
       margin: 1rem 4rem;
+      color: white;
     }
   }
   &Actions {
@@ -59,7 +69,7 @@ PARA CIERTOS DISPOSITIVOS
       place-items: center;
 
       width: 100%;
-
+      .navbarItem { font-size: 1.25rem; }
       .shopIcon { 
         position: relative;
         .counter {
@@ -69,24 +79,73 @@ PARA CIERTOS DISPOSITIVOS
           padding: 0.1rem 0.5rem;
           border-radius: 20px;
           position: absolute;
-          top: -1rem;
-          right: -1.25rem;
+          top: -0.2rem;
+          right: -0.5rem;
         }
       }
     }
   }
   &Search { grid-area: search; }
 
-
-  .navbarItem a {
-    display: flex; place-items: center;
-    color: rgba(255, 255, 255, 0.7);
-    &:hover { color: white; }
-    &:active { scale: 0.9; }
-    transition: all ease-in-out 75ms;
+  .navbarItem {
+    a, p {
+      display: flex; place-items: center;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 0.5rem 0.75rem;
+      &:hover { color: white; }
+      transition: all ease-in-out 75ms;
+    }
+    a:active { scale: 0.9; }
   }
-
   
+}
+
+.navbar {
+  .dropdown {
+    position: relative;
+
+    .dropdownMenu {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      grid-auto-flow: column;
+      place-items: center;
+      
+      position: absolute;
+      
+      bottom: 150%;
+      left: -1.5rem;
+      opacity: 0;
+      
+
+      border-radius: 12px;
+      box-shadow: var(--boxSh);
+      padding: 0.25rem 0.75rem;
+
+      .item {
+        display: grid;
+        place-items: start;
+        margin: 0.5rem 1rem;
+        width: 100%;
+        text-align: center;
+      }
+
+      transition: all var(--Anim1) 175ms;
+    }
+
+    &.active {
+      .dropdownMenu {
+        opacity: 1;
+        bottom: auto;
+      }
+    }
+    
+  }
+}
+
+/*-----------------------MEDIA QUERIES-----------------------*/
+.navbar {
   @media (max-width: 1024px) {
     grid-template-columns: auto 1fr;
     grid-template-areas:
@@ -100,15 +159,15 @@ PARA CIERTOS DISPOSITIVOS
     &Title { .title { margin: 1rem 2rem; } }
     &Options { display: none; }
   }
-
+  
   @media (max-width: 500px) {
     grid-template-columns: 1fr;
     grid-template-areas:
     "title" "actions";
-
-    padding: 2rem;
+    
+    padding: 0.5rem 2rem;
     box-sizing: border-box;
-
+    
     &Options { display: none; }
     &Actions {
       grid-template-areas: "search search";
@@ -116,11 +175,5 @@ PARA CIERTOS DISPOSITIVOS
       .navbarItems { display: none; }
     }
   }
-  /* @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-    "title title title" "options options options";
-    &Options { display: none; }
-  } */
-
 }
+/*-----------------------------------------------------------*/
