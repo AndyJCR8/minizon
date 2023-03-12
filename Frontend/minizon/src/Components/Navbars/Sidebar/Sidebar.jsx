@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import './Sidebar.scss'
 import React, { useRef, useEffect } from 'react'
+import { exteriorLinks, interiorsLinks } from '../Navbar/Navbar'
 
 export default function Sidebar() {
   const sidebarOptions = useRef(null)
@@ -8,17 +9,20 @@ export default function Sidebar() {
   useEffect(() => {
     const dropDownItems = sidebarOptions.current.querySelectorAll(".dropdown")
     dropDownItems.forEach(element => {
-      element.addEventListener("mouseenter", () => element.classList.add("active") )
-      element.addEventListener("mouseleave", () => element.classList.remove("active") )
+      //console.log(element)
+      //element.addEventListener("click", () => element.classList.toggle("active") )
+      //element.addEventListener("click", () => element.classList.toggle("active"))
+      element.onclick = () => element.classList.toggle("active");
     })
     /* SI HACE CLICK EN ALGÚN LINK DE LA SIDEBAR SE RETRAE AUTOMATICAMENTE */
     sidebarOptions.current.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => { sidebarOptions.current.classList.remove("active") })
+      //link.addEventListener("click", () => sidebarOptions.current.classList.remove("active"))
+      link.onclick = () => sidebarOptions.current.classList.remove("active")
     })
-    
+    console.log("prueba")
   }, [])
   
-  console.log(sidebarOptions)
+  
   return (
     <nav id='sidebar' className='sidebar' ref={sidebarOptions}>
       <div className='sidebarContainer'>
@@ -70,7 +74,7 @@ export default function Sidebar() {
                 Interiores
                 <i className='fa-solid fa-angle-up'></i>
               </p>
-              <DropdownMenu /* items={interiorsLinks} *//>
+              <DropdownMenu items={interiorsLinks}/>
             </div>
             <div className='sidebarItem dropdown'>
               <p>
@@ -78,7 +82,7 @@ export default function Sidebar() {
                 Exteriores
                 <i className='fa-solid fa-angle-up'></i>
               </p>
-              <DropdownMenu /* items={exteriorLinks} *//>
+              <DropdownMenu items={exteriorLinks}/>
             </div>
           </div>
         </div>
@@ -92,13 +96,13 @@ function DropdownMenu({items}) {
   return (
     <div className='dropdownMenu'>
       {
-        /* items.map((item, i) => {
+        items.map((item, i) => {
           return (
             <div className='item' key={i}>
               <Link to={item.path}>{item.content}</Link>
             </div>
           )
-        }) */
+        })
       }
     </div>
   )

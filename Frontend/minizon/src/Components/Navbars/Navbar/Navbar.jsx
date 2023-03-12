@@ -3,7 +3,7 @@ import Search from '../../UI Components/Search/Search'
 import './Navbar.scss'
 import React, { useRef, useEffect } from 'react'
 
-const interiorsLinks = [
+export const interiorsLinks = [
   { path: "/", content: "item1" },
   { path: "/", content: "item2" },
   { path: "/", content: "item3" },
@@ -12,7 +12,7 @@ const interiorsLinks = [
   { path: "/", content: "item6" }
 ]
 
-const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + 7) } });
+export const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + 7) } });
 
 export default function Navbar() {
 
@@ -21,8 +21,10 @@ export default function Navbar() {
   useEffect(() => {
     const dropDownItems = navbarOptions.current.querySelectorAll(".dropdown")
     dropDownItems.forEach(element => {
-      element.addEventListener("mouseenter", () => element.classList.add("active") )
-      element.addEventListener("mouseleave", () => element.classList.remove("active") )
+      //element.addEventListener("mouseenter", () => element.classList.add("active") )
+      element.onmouseenter = () => element.classList.add("active")
+      //element.addEventListener("mouseleave", () => element.classList.remove("active") )
+      element.onmouseleave = () => element.classList.remove("active")
     })
   }, [])
 

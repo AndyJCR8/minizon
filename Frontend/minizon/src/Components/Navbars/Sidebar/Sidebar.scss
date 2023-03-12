@@ -18,7 +18,7 @@
     height: 100%;
   
     background-color: var(--P1P8);
-  
+    box-shadow: var(--boxSh);
     
     .sidebarHeader {
       display: grid;
@@ -27,7 +27,7 @@
       
       width: 100%;
       margin: 1.25rem 0;
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
       padding: 0 1rem;
       
       
@@ -49,7 +49,7 @@
         margin-right: 0.5rem;
         border-radius: 10px;
 
-        &:active { scale: 0.9; }
+        &:active { scale: 0.8; }
 
         transition: all ease-in-out 75ms;
       }
@@ -58,15 +58,16 @@
       overflow-y: overlay;
       overflow-x: hidden;
       .sidebarItems {
+        display: grid;
         font-size: 1.25rem;
         font-weight: 500;
         
         .sidebarItem {
-          a, p {
+          &:not(.dropdown) a, p {
             display: grid;
             grid-template-columns: 20% 50% 30%;
             place-items: start;
-            margin: 1.5rem 0;
+            margin: 0.75rem 0;
             & i:first-child { place-self: center; }
             &:not(a) i:last-child { align-self: center; justify-self: start; }
           }
@@ -88,7 +89,7 @@
         &:hover { color: white; }
         transition: all ease-in-out 75ms;
       }
-      a:active { scale: 0.9; }
+      a:active { scale: 0.8; }
     }
 
   }
@@ -107,7 +108,29 @@
     translate: 0% 0%;
   }
 
-  transition: all var(--Anim1) 150ms;
+  transition: all var(--Anim1) 225ms;
+}
+
+.sidebar {
+  .dropdown {
+    
+    .dropdownMenu {
+      display: grid;
+      padding: 0 2.5rem;
+      
+      overflow: hidden;
+      max-height: 0;
+      transition: all var(--Anim1) 150ms;
+
+      .item {
+        margin: 0.5rem 0;
+      }
+    }
+    &.active .dropdownMenu {
+      overflow: hidden;
+      max-height: 100rem;
+    }
+  }
 }
 
 .sidebarContainer {
