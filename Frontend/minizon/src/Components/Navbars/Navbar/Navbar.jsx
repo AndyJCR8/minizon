@@ -2,13 +2,12 @@ import { Link } from 'react-router-dom'
 import Search from '../../UI Components/Search/Search'
 import './Navbar.scss'
 import React, { useRef, useEffect, useState } from 'react'
-import useNavLinks from '../../../Hooks/useNavLinks'
+import { exteriorLinks, interiorsLinks } from '../links'
 
 
 export default function Navbar() {
 
   const navbarOptions = useRef(null)
-  const {interiorsLinks, exteriorLinks} = useNavLinks()
   
   useEffect(() => {
     const dropDownItems = navbarOptions.current.querySelectorAll(".dropdown")

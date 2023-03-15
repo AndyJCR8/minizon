@@ -1,6 +1,4 @@
-import React from 'react'
-
-const interiorsLinks = [
+export const interiorsLinks = [
   { path: null, icon: "chair", content: "item1", links: [
     { path: "/", content: "subItem1" },
     { path: "/", content: "subItem2" },
@@ -24,9 +22,4 @@ const interiorsLinks = [
   { path: "/", content: "item8" },
 ]
 
-const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + interiorsLinks.length) } });
-
-export default function useNavLinks() {
-
-  return ({interiorsLinks: interiorsLinks, exteriorLinks: exteriorLinks})
-}
+export const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + interiorsLinks.length) } });

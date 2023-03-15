@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import './Sidebar.scss'
 import React, { useRef, useEffect } from 'react'
-import { exteriorLinks, interiorsLinks } from '../Navbar/Navbar'
+import { exteriorLinks, interiorsLinks } from '../links'
+
 
 export default function Sidebar() {
   const sidebarOptions = useRef(null)
+  
   
   useEffect(() => {
     const dropDownItems = sidebarOptions.current.querySelectorAll(".dropdown")
