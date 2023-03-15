@@ -36,7 +36,7 @@ PARA CIERTOS DISPOSITIVOS
 
         &.dropdown i:last-child { margin-left: 0.5rem; transition: all ease-in-out 130ms; }
         &.active {
-          i:last-child { rotate: 180deg; }
+          > p i:last-child { rotate: 180deg; }
         }
 
         transition: all ease-in-out 150ms;
@@ -107,35 +107,61 @@ PARA CIERTOS DISPOSITIVOS
 
     .dropdownMenu {
       display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(3, 1fr);
+      box-sizing: border-box;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr;
       grid-auto-flow: column;
       place-items: center;
       
       position: absolute;
       
       bottom: 150%;
+      //bottom: auto;
       left: -1.5rem;
       opacity: 0;
+      //opacity: 1;
+
+      width: fit-content;
       
 
       border-radius: 12px;
       box-shadow: var(--boxSh);
       padding: 0.25rem 0.75rem;
 
-      .item {
+      .links, .linksContent {
         display: grid;
-        place-items: start;
-        margin: 0.5rem 1rem;
-        width: 100%;
-        text-align: center;
+        grid-template-rows: repeat(6, 1fr);
+        grid-auto-flow: column;
+        .item {
+          display: grid;
+          place-items: start;
+          text-align: center;
+          box-sizing: border-box;
+          padding: 0.5rem 1rem;
+          width: 100%;
+        }
+      }
+
+      .divisor {
+        margin: 1rem;
+        width: 3px;
+        border-radius: 200px;
+        height: 90%;
+
+        box-sizing: border-box;
+        background-color: rgba(255, 255, 255, 0.1);
       }
 
       transition: all var(--Anim1) 175ms;
     }
 
     &.active {
+      & > a, & > p { color: white; }
       .dropdownMenu {
+        .item.active > p {
+          color: white;
+          i:last-child { margin-left: 0.75rem; }
+        }
         opacity: 1;
         bottom: auto;
       }

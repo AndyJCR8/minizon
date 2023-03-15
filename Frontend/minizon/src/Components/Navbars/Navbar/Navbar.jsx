@@ -1,22 +1,14 @@
 import { Link } from 'react-router-dom'
 import Search from '../../UI Components/Search/Search'
 import './Navbar.scss'
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
+import useNavLinks from '../../../Hooks/useNavLinks'
 
-export const interiorsLinks = [
-  { path: "/", content: "item1" },
-  { path: "/", content: "item2" },
-  { path: "/", content: "item3" },
-  { path: "/", content: "item4" },
-  { path: "/", content: "item5" },
-  { path: "/", content: "item6" }
-]
-
-export const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + 7) } });
 
 export default function Navbar() {
 
   const navbarOptions = useRef(null)
+  const {interiorsLinks, exteriorLinks} = useNavLinks()
   
   useEffect(() => {
     const dropDownItems = navbarOptions.current.querySelectorAll(".dropdown")
@@ -80,17 +72,58 @@ export default function Navbar() {
 }
 
 function DropdownMenu({items}) {
-  return (
-    <div className='dropdownMenu'>
-      {
-        items.map((item, i) => {
-          return (
-            <div className='item' key={i}>
-              <Link to={item.path}>{item.content}</Link>
-            </div>
-          )
+  
+  const dropdownMenu = useRef(null)
+  const [subItems, setSubItems] = useState([]);
+
+  const setLinks = (evt, item) => {
+    if(item.links) {
+      setSubItems(item.links)
+      
+      if(!evt.currentTarget.classList.contains("active")) {
+        dropdownMenu.current.querySelector(".links").querySelectorAll(".item").forEach(el => {
+          if(el.classList.contains("active")) el.classList.remove("active")
         })
+        evt.currentTarget.classList.add("active")
       }
+    }
+    else setSubItems([])
+  }
+
+  return (
+    <div className='dropdownMenu' ref={dropdownMenu}>
+      <div className='links'>
+        {
+          items.map((item, i) => {
+            
+            return (
+              <div className='item' key={i}
+              onClick={(evt) => setLinks(evt, item)}>
+                {
+                  item.icon ?
+                  <p>
+                    <i className={`fa-solid fa-${item.icon}`}></i>{item.content}<i className='fa-solid fa-angle-right'></i>
+                  </p>
+                  :
+                  <Link to={item.path}> {item.content} </Link>
+                }
+              </div>
+            )
+          })
+        }
+      </div>
+      <div className='divisor'> </div>
+      <div className='linksContent'>
+        {
+          subItems.length > 0 ? subItems.map((link, i) => {
+            return (
+              <div className='item' key={i}>
+                <Link to={link.path}> {link.content} </Link>
+              </div>
+            )
+          }) : null
+        }
+      </div>
     </div>
   )
 }
