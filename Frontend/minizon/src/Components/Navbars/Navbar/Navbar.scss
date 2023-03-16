@@ -104,7 +104,8 @@ PARA CIERTOS DISPOSITIVOS
 .navbar {
   .dropdown {
     position: relative;
-
+    z-index: 10;
+    
     .dropdownMenu {
       display: grid;
       box-sizing: border-box;
@@ -120,11 +121,12 @@ PARA CIERTOS DISPOSITIVOS
       left: -1.5rem;
       opacity: 0;
       //opacity: 1;
-
+      
       width: fit-content;
       
 
       border-radius: 12px;
+      background-color: var(--P1P8);
       box-shadow: var(--boxSh);
       padding: 0.25rem 0.75rem;
 
