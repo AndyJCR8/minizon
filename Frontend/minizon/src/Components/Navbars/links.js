@@ -22,4 +22,4 @@ export const interiorsLinks = [
   { path: "/", content: "item8" },
 ]
 
-export const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + interiorsLinks.length) } });
+export const exteriorLinks = interiorsLinks.map((x, i) => { return { path: x.path, content: "item" + (i + interiorsLinks.length + 1) } });

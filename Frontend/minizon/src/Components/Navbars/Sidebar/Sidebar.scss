@@ -74,7 +74,7 @@
           //i { margin-right: 0.5rem; }
           &.dropdown i:last-child { transition: all ease-in-out 130ms; }
           &.active {
-            i:last-child { rotate: 180deg; }
+            > p i:last-child { rotate: 180deg; }
           }
         }
       }
@@ -116,20 +116,35 @@
     
     .dropdownMenu {
       display: grid;
-      padding: 0 2.5rem;
+      padding: 0 1rem;
       
       overflow: hidden;
       max-height: 0;
       transition: all var(--Anim1) 150ms;
 
-      .item {
-        margin: 0.5rem 0;
+      > .item { margin: 0.5rem 0.5rem; }
+      
+      .itemsContainer {
+        display: grid;
+
+        .items {
+          display: grid;
+          padding: 0 1.5rem;
+          
+          overflow: hidden;
+          max-height: 0;
+          transition: all var(--Anim1) 150ms;
+          .item { margin: 0.5rem; }
+        }
+
+        &.active {
+          & .items { max-height: 100rem; }
+          i:last-child { rotate: 180deg; }
+        }
       }
     }
-    &.active .dropdownMenu {
-      overflow: hidden;
-      max-height: 100rem;
-    }
+
+    &.active .dropdownMenu { max-height: 100rem; }
   }
 }
 

@@ -14,14 +14,15 @@ export default function Sidebar() {
       //console.log(element)
       //element.addEventListener("click", () => element.classList.toggle("active") )
       //element.addEventListener("click", () => element.classList.toggle("active"))
-      element.onclick = () => element.classList.toggle("active");
+      element.querySelector("p").onclick = () => element.classList.toggle("active")
+      //console.log(element, element.querySelector("p"))
     })
     /* SI HACE CLICK EN ALGÚN LINK DE LA SIDEBAR SE RETRAE AUTOMATICAMENTE */
     sidebarOptions.current.querySelectorAll("a").forEach(link => {
       //link.addEventListener("click", () => sidebarOptions.current.classList.remove("active"))
       link.onclick = () => sidebarOptions.current.classList.remove("active")
     })
-    console.log("prueba")
+    
   }, [])
   
   
@@ -34,39 +35,6 @@ export default function Sidebar() {
         </div>
         <div className="sidebarBody">
           <div className="sidebarItems">
-            {/* <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consequuntur facilis totam explicabo ducimus est et dignissimos corrupti doloremque ex modi obcaecati expedita sint quo repellendus harum illo, ratione quaerat.
-            </div> */}
             <div className='sidebarItem'>
               <Link to="/"><i className='fa-solid fa-home'></i>Inicio</Link>
             </div>
@@ -100,8 +68,30 @@ function DropdownMenu({items}) {
       {
         items.map((item, i) => {
           return (
-            <div className='item' key={i}>
-              <Link to={item.path}>{item.content}</Link>
+            <div className={item.links ? "itemsContainer" : "item"} key={i}
+            onClick={item.links ? (evt) => { evt.currentTarget.classList.toggle("active") } : null}>
+              {
+                item.links ?
+                <>
+                  <p>
+                    <i className={`fa-solid fa-${item.icon}`}></i>
+                    {item.content}
+                    <i className='fa-solid fa-angle-up'></i>
+                  </p>
+                  <div className='items'>
+                    {
+                      item.links.map((link, i) => {
+                        return (
+                          <div className='item' key={i}>
+                            <Link to={link.path}>{link.content}</Link>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                </>
+                : <Link to={item.path}>{item.content}</Link>
+              }
             </div>
           )
         })
