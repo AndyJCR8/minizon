@@ -1,0 +1,78 @@
+.carousel {
+  position: relative;
+  overflow: hidden;
+
+  .inner {
+    white-space: nowrap;
+    height: 100%;
+    .carouselItem {
+      display: inline-flex;
+      place-items: center;
+      place-content: center;
+      
+      height: 100%;
+      background-color: var(--P1P2);
+      color: white;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      &:nth-child(1) {
+
+      }
+      &:nth-child(2) {
+        img { object-position: 0 80%; }
+        
+      }
+      &:nth-child(3) {
+        img { object-position: 0 65%; }
+        
+      }
+      &:nth-child(4) {
+        img { object-position: 0 100%; }
+        
+      }
+
+      &:nth-child(5) {
+
+      }
+      
+    }
+    transition: all ease-in-out 300ms;
+  }
+
+  .indicators {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    .carouselBtn {
+      position: absolute;
+      width: 4rem;
+      height: 100%;
+      
+      font-size: 1.5rem;
+      top: 50%;
+      translate: 0% -50%;
+      color: white;
+
+      &:nth-child(1) { left: 0rem; }
+      &:nth-child(2) { right: 0rem; }
+      &:hover { background-color: rgba($color: #000000, $alpha: .02); }
+      &:active { background-color: rgba($color: #000000, $alpha: .05); }
+
+      @media (max-width: 1024px) { font-size: 1.5rem; }
+      @media (max-width: 768px) { font-size: 1.25rem; }
+      @media (max-width: 500px) { font-size: 1rem; }
+
+      transition: all ease-in-out 200ms;
+    }
+
+    z-index: 9;
+  }
+
+}

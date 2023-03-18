@@ -108,7 +108,8 @@
     translate: 0% 0%;
   }
 
-  transition: all var(--Anim1) 225ms;
+  //transition: all var(--Anim1) 225ms;
+  transition: all ease 200ms;
 }
 
 .sidebar {

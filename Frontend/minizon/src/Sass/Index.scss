@@ -46,7 +46,7 @@ body, html, #root, .App {
   .Nunito    { font-family: 'Nunito', sans-serif !important; }
   .ZillaSlab { font-family: 'Zilla Slab', sans-serif !important; }
   ::-webkit-scrollbar {
-    width: 14px;
+    width: 17px;
   }
   
   ::-webkit-scrollbar-thumb {
@@ -61,8 +61,7 @@ body, html, #root, .App {
   box-sizing: border-box;
   padding-top: 5rem;
   @media (max-width: 500px) {
-    padding: 2rem;
-    margin-top: 8rem;
+    margin-top: 3rem;
   }
   
 }
@@ -76,3 +75,17 @@ body, html, #root, .App {
 
 
 a, button, p { text-decoration: none; -webkit-tap-highlight-color: transparent; }
+/*---------------------------------MEDIA QUERIES---------------------------------*/
+/*
+@media (max-width: 1024px) {
+  
+}
+@media (max-width: 768px) {
+  
+}
+
+@media (max-width: 500px) {
+  
+}
+*/
+/*-------------------------------------------------------------------------------*/
