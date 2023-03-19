@@ -1,6 +1,7 @@
 import Carousel, { CarouselItem } from "./Carousel/Carousel"
 import "./Home.scss"
 import React from 'react'
+import Section from "./Section/Section"
 
 export default function Home() {
   return (
@@ -32,33 +33,8 @@ export default function Home() {
             linkPath={'/categories/mostbuyed'}
             dataPath={'/link/backend/productosMasVendidos'}/>
         */}
-        <Section/>
-        <Section/>
-        <Section/>
-        <Section/>
+        <Section title="Más vendidos" linkText="ver todos" linkPath="/" productsCount={5}/>
       </div>
-    </div>
-  )
-}
-
-function Section({title, linkText, linkPath, dataPath}) {
-  return (
-    <div className="section">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore dicta corporis! Ipsam ut reprehenderit quae sunt neque deserunt, cupiditate sint eligendi saepe nemo amet accusamus officia suscipit ab veniam!</p>
     </div>
   )
 }

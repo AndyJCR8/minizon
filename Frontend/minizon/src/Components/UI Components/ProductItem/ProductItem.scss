@@ -1,0 +1,97 @@
+$holderLoadingAnim: loading infinite ease-in-out 1.5s;
+
+.productItem {
+  display: grid;
+  grid-template-rows: 12rem minmax(8rem, 1fr) 5rem;
+
+  width: 12rem;
+  min-height: 25rem;
+  
+  border-radius: 15px;
+
+  background-color: var(--P1P8);
+  box-shadow: var(--boxShV1);
+
+  &:not(.loading) {
+    cursor: pointer;
+    &:hover { scale: 1.02; }
+    transition: all ease-in-out 175ms;
+  }
+
+  /*-----------HOLDERS-----------*/
+  &.loading {
+    .itemHeader {
+      padding: 0.5rem;
+      box-sizing: border-box;
+  
+      .imgHolder {
+        width: 100%;
+        height: 11rem;
+        background-color: var(--P1P6);
+        border-radius: 15px;
+        
+        animation: $holderLoadingAnim;
+      }
+    }
+    .itemBody {
+      padding: 0 1rem;
+      .categoryHolder {
+        width: 70%;
+        height: 2rem;
+      }
+      .nameHolder {
+        width: 100%;
+        height: 3rem;
+      }
+      .categoryHolder, .nameHolder {
+        margin-top: 1rem;
+        border-radius: 5px;
+        background-color: var(--P1P6);
+        animation: $holderLoadingAnim 0.5s;
+      }
+    }
+    .itemFooter {
+      display: grid;
+      grid-auto-flow: column;
+      padding: 0 0.75rem;
+      
+      .priceHolder {
+        width: 80%;
+        height: 30%;
+        border-radius: 5px;
+      }
+      .cartHolder {
+        width: 50%;
+        height: 50%;
+        margin-left: auto;
+        border-radius: 50%;
+      }
+      
+      .priceHolder, .cartHolder {
+        margin-top: auto;
+        margin-bottom: auto;
+        background-color: var(--P1P6);
+        animation: $holderLoadingAnim 1s;
+      }
+    }
+  }
+  /*-----------------------------*/
+
+  /*-----------CONTENT-----------*/
+  .itemHeader {
+
+  }
+  .itemBody {
+
+  }
+  .itemFooter {
+    &:hover { cursor: initial; }
+  }
+  /*-----------------------------*/
+}
+
+@keyframes loading {
+  0%   { opacity: 1;  }
+  50%  { opacity: .5; }
+  100% { opacity: 1;  }
+}

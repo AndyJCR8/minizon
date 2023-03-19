@@ -32,7 +32,9 @@
     
     //@media (max-width: 500px) { height: 45%; }
   }
+  
   .sections {
-    height: 100%;
+    display: grid;
+    
   }
 }
