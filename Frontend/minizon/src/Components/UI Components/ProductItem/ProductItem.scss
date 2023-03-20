@@ -2,10 +2,10 @@ $holderLoadingAnim: loading infinite ease-in-out 1.5s;
 
 .productItem {
   display: grid;
-  grid-template-rows: 12rem minmax(8rem, 1fr) 5rem;
+  grid-template-rows: 12rem minmax(5rem, 1fr) 5rem;
 
   width: 12rem;
-  min-height: 25rem;
+  min-height: 22rem;
   
   border-radius: 15px;
 
@@ -79,12 +79,50 @@ $holderLoadingAnim: loading infinite ease-in-out 1.5s;
 
   /*-----------CONTENT-----------*/
   .itemHeader {
+    img {
+      width: 100%;
+      height: 12rem;
+      border-radius: 15px;
 
+      object-fit: cover;
+    }
   }
   .itemBody {
+    padding: 0 1rem;
+    
+    .catContainer {
+      display: grid;
+      align-items: end;
 
+      width: 70%;
+      height: 2rem;
+      font-size: 0.85rem;
+
+      font-weight: 600;
+      
+      color: rgba($color: #FFF, $alpha: 0.7);
+    }
+    .nameContainer {
+      display: grid;
+      align-items: center;
+
+      width: 100%;
+      height: min-content;
+      margin-top: 0.25rem;
+
+      font-weight: 600;
+    }
+    
   }
   .itemFooter {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    padding: 0 0.75rem;
+    color: var(--P1S6);
+    font-weight: 800;
+  }
+  .itemBody, .itemFooter {
     &:hover { cursor: initial; }
   }
   /*-----------------------------*/

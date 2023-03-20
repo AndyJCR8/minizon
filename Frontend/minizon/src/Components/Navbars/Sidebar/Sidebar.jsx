@@ -75,7 +75,9 @@ function DropdownMenu({items}) {
                 <>
                   <p>
                     <i className={`fa-solid fa-${item.icon}`}></i>
-                    {item.content}
+                    <i>
+                     {item.content}
+                    </i>
                     <i className='fa-solid fa-angle-up'></i>
                   </p>
                   <div className='items'>

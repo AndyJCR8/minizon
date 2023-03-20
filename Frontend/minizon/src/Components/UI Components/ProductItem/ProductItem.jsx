@@ -9,13 +9,23 @@ export default function ProductItem({loading, data}) {
         loading ? <ProductItemsLoading/> :
         <>
           <div className="itemHeader">
-            {data.headerData.text}
+            <img src={data.Imagen}/>
           </div>
           <div className="itemBody">
-            
+            <div className="catContainer">
+              <p>{data.Categoria}</p>
+            </div>
+            <div className="nameContainer">
+              <p>{data.Nombre}</p>
+            </div>
           </div>
           <div className="itemFooter">
+            <div className="priceContainer">
+              <p>Q {data.PrecioDeVenta}</p>
+            </div>
+            <div className="cartContainer">
 
+            </div>
           </div>
         </>
       }

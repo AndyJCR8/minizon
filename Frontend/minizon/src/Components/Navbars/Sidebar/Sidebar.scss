@@ -66,10 +66,12 @@
           &:not(.dropdown) a, p {
             display: grid;
             grid-template-columns: 20% 50% 30%;
+            
             place-items: start;
             margin: 0.75rem 0;
             & i:first-child { place-self: center; }
-            &:not(a) i:last-child { align-self: center; justify-self: start; }
+            & i:nth-child(2) { overflow-wrap: anywhere; }
+            &:not(a) i:last-child { align-self: center; justify-self: start; margin-left: 0.5rem; }
           }
           //i { margin-right: 0.5rem; }
           &.dropdown i:last-child { transition: all ease-in-out 130ms; }
