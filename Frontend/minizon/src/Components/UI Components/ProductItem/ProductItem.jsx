@@ -18,7 +18,7 @@ export default function ProductItem({loading, data}) {
             <div className="nameContainer">
               <p>{data.Nombre}</p>
             </div>
-          </div>
+          </div> 
           <div className="itemFooter">
             <div className="priceContainer">
               <p>Q {data.PrecioDeVenta}</p>
