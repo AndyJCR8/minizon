@@ -10,8 +10,7 @@ export default function Section({title, linkText, linkPath, dataPath, productsCo
 
   useEffect(() => {
     (
-      async function() {
-        const response = (await axios.get(`http://localhost:3001/products?total=${productsCount}`)).data
+      async function() {        const response = (await axios.get(`http://localhost:3001/products?total=${productsCount}`)).data
         setData({state: "ready", items: response.products})
       }
     )()
