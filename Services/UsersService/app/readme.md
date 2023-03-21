@@ -41,3 +41,8 @@ pip install SQLAlchemy
 uvicorn app.main:app --reload
 ```
 >Posteriormente entrar a un navegador e ingresar a la siguiente dirección **http://localhost:8000/**
+
+# Token keys
+
+> Para que el servicio funcione correctamente es necesario generar las claves públicas y privadas para el proyecto, por lo que es necesario crear una carpeta dentro del directorio acutal llamada **TokenKeys** y en su interior deben existir los archivos con las claves del servicio
+
