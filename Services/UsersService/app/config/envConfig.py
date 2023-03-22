@@ -8,6 +8,8 @@ class Settings(BaseSettings):
 
     DB_NAME: str = 's1Users'
 
+    PVK_NAME: str = 'private_key'
+    PBK_NAME: str = 'public_key'
     JWT_PASS: str
     
     class Config:

@@ -52,10 +52,13 @@ openssl rsa -in private_key.pem -pubout -out public_key.pem
 ### Variables de entorno
 
 >Para que pueda funcionar el servicio es neceasrio indicar en el archivo **.env** las siguientes variables de entorno:
-> * **DB_HOST**: dirección de alojamiento de la base de datos de PostgreSQL, e.g: <em>localhost</em> o <em>127.0.0.1</em>
+> * **DB_HOST**: dirección de alojamiento de la base de datos de PostgreSQL, Ej. <em>localhost</em> o <em>127.0.0.1</em>
 > * **DB_USER**: nombre del usuario de la base de datos
 > * **DB_PASS**: contraseña de acceso a la base de datos
 > * **DB_NAME**: nombre de la base de datos de usuarios
+> * **PVK_NAME**: nombre del archivo de la clave privada almacenada en la carpeta <em>TokenKeys</em>
+> * **PBK_NAME**: nombre del archivo de la clave pública almacenada en la carpeta <em>TokenKeys</em>
+>> solo indicar el nombre, ya que la extensión debe terminar obligatoriamente en **.pem** en ambas claves
 > * **JWT_PASS**: contraseña para cifrar y decifrar tokens JWT
 > 
 > Es importante tomar en cuenta que el archivo **.env.example** contiene un ejemplo de configuración de las variables de entorno, y que para que el proyecto sea funcional es necesario la creación del archivo **.env** manualmente y colocar correctamente las credenciales anteriormente mencionadas

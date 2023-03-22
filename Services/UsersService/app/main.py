@@ -9,13 +9,20 @@ app.include_router(users.router)
 
 @app.get('/')
 async def root():
-    token = code.generateNewToken({"some": "payload"})
-    #decodedToken = code.verifyToken(token[:-2])
+    token = code.generateNewToken({"some": "payload"}, 61)
+    #decodedToken = code.verifyToken(token[:-2] + "12")
     decodedToken = code.verifyToken(token)
     return {
         "data": {
             "Token": token,
-            "Decoded": decodedToken,
+            "DecodedRes": decodedToken,
             "DBName": settings.DB_NAME
         }
+    }
+
+@app.get("/verify")
+async def verifyToken(token: str):
+    decodedToken = code.verifyToken(token)
+    return {
+        "info": decodedToken
     }
