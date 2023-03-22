@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI
 from .routers import users
 from .JWT import code
-from .config import settings
+from .config.envConfig import settings
 
 app = FastAPI()
 
