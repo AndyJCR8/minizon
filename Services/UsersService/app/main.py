@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI
 from .routers import users
 from .JWT import code
+from .config import settings
 
 app = FastAPI()
 
@@ -14,6 +15,7 @@ async def root():
     return {
         "data": {
             "Token": token,
-            "Decoded": decodedToken
+            "Decoded": decodedToken,
+            "DBName": settings.DB_NAME
         }
     }
