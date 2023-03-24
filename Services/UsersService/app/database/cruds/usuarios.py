@@ -10,9 +10,8 @@ def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
 
 def createUsuario(db: Session, usuario: schemas.UsuarioCreate):
     salt = bc.gensalt()
-    print(f"OriginalPass: {usuario.Password}")
+    
     hashedPass = bc.hashpw(usuario.Password.encode('utf-8'), salt)
-    print(f"HashedPass: {hashedPass}")
 
     #if not usuario.Nickname: usuario["Nickname"] = usuario["Nombre"]
     usuario.Password = hashedPass
