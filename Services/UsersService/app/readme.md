@@ -20,6 +20,11 @@ pip install pyjwt
 pip install "pyjwt[crypto]"
 ```
 
+### bcrypt
+
+```sh
+pip install bcrypt
+```
 
 ### SQLAlchemy
 
@@ -30,6 +35,11 @@ pip install SQLAlchemy
 ### Pydantic
 ```sh
 pip install pydantic
+```
+
+### psycopg2
+```sh
+pip install psycopg2
 ```
 
 # Seguridad

@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from .routers import users
 from .JWT import code
 from .config.envConfig import settings
@@ -20,7 +20,7 @@ async def root():
         }
     }
 
-@app.get("/verify")
+@app.get("/api/verify")
 async def verifyToken(token: str):
     decodedToken = code.verifyToken(token)
     return {
