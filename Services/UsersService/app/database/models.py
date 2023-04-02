@@ -7,15 +7,17 @@ class Usuario(Base):
 
   IDUsuario = Column(Integer, primary_key=True, index=True)
   Nombre = Column(String)
-  Nickname = Column(String)
-  FechaNacimiento = Column(Date)
+  Edad = Column(Integer, nullable=True)
+  #Nickname = Column(String) DESCARTADO
+  #FechaNacimiento = Column(Date) DESCARTADO
   Telefono = Column(BigInteger)
   Email = Column(String)
-  Direccion = Column(String)
+  #Direccion = Column(String) DESCARTADO
   Password = Column(String)
   
   #RELACION CON TODAS LAS DIRECCIONES DEL USUARIO
   direcciones = relationship('Direccion', back_populates='usuario', cascade="all, delete-orphan")
+  tarjetas = relationship('Tarjeta', back_populates='usuario', cascade="all, delete-orphan")
 
 class Direccion(Base):
   __tablename__ = 'direccion'
@@ -26,26 +28,35 @@ class Direccion(Base):
 
   #ID DEL USUARIO
   IDUsuario = mapped_column(ForeignKey('usuario.IDUsuario'))
+  IDMunicipio = mapped_column(ForeignKey('municipio.IDMunicipio'))
   #INFORMACION DE LA RELACION
   usuario = relationship("Usuario", back_populates="direcciones")
+  municipio = relationship("Municipio", back_populates="direcciones")
 
-  #COMPRAS DE LA DIRECCION
-  compras = relationship('Compra', back_populates='direccion', cascade="all, delete-orphan")
+  #PEDIDOS DE LA DIRECCION
+  pedidos = relationship('Pedido', back_populates='direccion', cascade="all, delete-orphan")
 
-class Compra(Base):
-  __tablename__ = "compra"
 
-  IDCompra = Column(Integer, primary_key=True, index=True)
-  NIT = BigInteger
+class Pedido(Base):
+  __tablename__ = "pedido"
+  IDPedido = Column(Integer, primary_key=True, index=True)
+  NIT = Column(String)
+  Fecha = Column(Date)
 
-  #ID DE LA DIRECCION
   IDDireccion = mapped_column(ForeignKey('direccion.IDDireccion'))
-  #ID DEL MUNICIPIO
-  IDMunicipio = mapped_column(ForeignKey('municipio.IDMunicipio'))
+  direccion = relationship("Direccion", back_populates="pedidos")
 
-  #INFORMACION DE LAS RELACIONES
-  direccion = relationship("Direccion", back_populates="compras")
-  municipio = relationship("Municipio", back_populates="compras")
+class Tarjeta(Base):
+  __tablename__ = "tarjeta"
+  IDTarjeta = Column(Integer, primary_key=True, index=True)
+  Identificador = Column(BigInteger)
+  YearVencimiento = Column(Integer)
+  MesVencimiento = Column(Integer)
+  NombreTitular = Column(String)
+  CodigoSeguridad = Column(Integer)
+
+  IDUsuario = mapped_column(ForeignKey('usuario.IDUsuario'))
+  usuario = relationship("Usuario", back_populates="tarjetas")
 
 class Municipio(Base):
   __tablename__ = "municipio"
@@ -59,8 +70,8 @@ class Municipio(Base):
   #INFORMACION DE LA RELACION
   departamento = relationship("Departamento", back_populates="municipios")
 
-  #COMPRAS DEL MUNICIPIO
-  compras = relationship('Compra', back_populates='municipio', cascade="all, delete-orphan")
+  #DIRECCIONES DEL MUNICIPIO
+  direcciones = relationship('Direccion', back_populates='municipio', cascade="all, delete-orphan")
   
 class Departamento(Base):
   __tablename__ = "departamento"

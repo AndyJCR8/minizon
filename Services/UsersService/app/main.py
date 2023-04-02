@@ -1,15 +1,16 @@
-from fastapi import Depends, FastAPI, HTTPException
+import uuid
+from fastapi import Depends, FastAPI, Header, HTTPException
 from .routers import users
 from .JWT import code
 from .config.envConfig import settings
 
 app = FastAPI()
 
-app.include_router(users.router)
+app.include_router(users.router, prefix='/api')
 
 @app.get('/')
 async def root():
-    token = code.generateNewToken({"some": "payload"}, 61)
+    token = code.generateNewToken({"sub": str(uuid.uuid4()), "iss": "localhost:8001"}, 500)
     #decodedToken = code.verifyToken(token[:-2] + "12")
     decodedToken = code.verifyToken(token)
     return {
@@ -26,3 +27,4 @@ async def verifyToken(token: str):
     return {
         "info": decodedToken
     }
+

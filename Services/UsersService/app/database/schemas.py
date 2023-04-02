@@ -2,7 +2,7 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 #----------COMPRA-----------
-class CompraBase(BaseModel):
+""" class CompraBase(BaseModel):
   NIT: int
 
 class CompraCreate(CompraBase): pass
@@ -11,6 +11,49 @@ class Compra(CompraBase):
   IDCompra: int
   IDDireccion: int
   IDMunicipio: int
+
+  class Config: orm_mode = True """
+#---------------------------
+
+#----------PEDIDO-----------
+class PedidoBase(BaseModel):
+  NIT: str
+  Fecha: date
+
+class PedidoCreate(PedidoBase): pass
+
+class Pedido(PedidoBase):
+  IDDireccion: int
+
+  class Config: orm_mode = True
+#---------------------------
+#---------TARJETA-----------
+class TarjetaBase(BaseModel):
+  Identificador: int
+  YearVencimiento: int
+  MesVencimiento: int
+  NombreTitular: str
+  CodigoSeguridad: int
+
+class TarjetaCreate(TarjetaBase): pass
+
+class Tarjeta(TarjetaBase):
+  IDUsuario: int
+
+  class Config: orm_mode = True
+#--------------------------
+
+#---------DIRECCION---------
+class DireccionBase(BaseModel):
+  Direccion: str
+
+class DireccionCreate(DireccionBase): pass
+
+class Direccion(DireccionBase):
+  IDDireccion: int
+  IDUsuario: int
+
+  Compras: list[Pedido] = []
 
   class Config: orm_mode = True
 #---------------------------
@@ -24,7 +67,7 @@ class MunicipioCreate(MunicipiosBase): pass
 
 class Municipio(MunicipiosBase):
   IDMunicipio: int
-  Compras: list[Compra] = []
+  Compras: list[Direccion] = []
 
   class Config: orm_mode = True
 #---------------------------
@@ -42,35 +85,26 @@ class Departamento(DepartamentoBase):
   class Config: orm_mode = True
 #---------------------------
 
-#---------DIRECCION---------
-class DireccionBase(BaseModel):
-  Direccion: str
-
-class DireccionCreate(DireccionBase): pass
-
-class Direccion(DireccionBase):
-  IDDireccion: int
-  IDUsuario: int
-
-  Compras: list[Compra] = []
-
-  class Config: orm_mode = True
-#---------------------------
-
 #----------USUARIO----------
+class CredencialesUsuario(BaseModel):
+  Email: str
+  Password: str
+
 class UsuarioBase(BaseModel):
   Nombre: str
-  Nickname: str
-  FechaNacimiento: date
+  Edad: int = None
+  #Nickname: str DESCARTADO
+  #FechaNacimiento: date DESCARTADO
   Telefono: int
   Email: str
-  Direccion: str
+  #Direccion: str DESCARTADO
 
 class UsuarioCreate(UsuarioBase): Password: str
 
 class Usuario(UsuarioBase):
   IDUsuario: int
   Direcciones: list[Direccion] = []
+  Tarjetas: list[Tarjeta] = []
 
   class Config: orm_mode = True
 #---------------------------
