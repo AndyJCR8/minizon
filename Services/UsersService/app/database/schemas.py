@@ -1,5 +1,6 @@
 from datetime import date
 from pydantic import BaseModel, Field
+from typing import Optional
 
 #----------COMPRA-----------
 """ class CompraBase(BaseModel):
@@ -100,6 +101,14 @@ class UsuarioBase(BaseModel):
   #Direccion: str DESCARTADO
 
 class UsuarioCreate(UsuarioBase): Password: str
+class UsuarioUpdate(BaseModel):
+  Nombre: Optional[str] = None
+  Edad: Optional[int] = None
+  #Nickname: str DESCARTADO
+  #FechaNacimiento: date DESCARTADO
+  Telefono: Optional[int] = None
+  Email: Optional[str] = None
+  Password: Optional[str] = None
 
 class Usuario(UsuarioBase):
   IDUsuario: int

@@ -25,11 +25,14 @@ async def pruebaUsuario():
     return {"passed": True}
 
 @router.post("/usuario/registro")
-async def createUser(usuario: schemas.UsuarioCreate, db: Session = Depends(getDB)):
+async def registerUsuario(usuario: schemas.UsuarioCreate, db: Session = Depends(getDB)):
     return usuarios.createUsuario(db=db, usuario=usuario)
+
+@router.put("/usuario/actualizacion", dependencies=[Depends(protectedRoute)])
+async def updateUsuario(usuario: schemas.UsuarioUpdate, idUsuario: int, db: Session = Depends(getDB)):
+    return usuarios.updateUsuario(db=db, idUsuario=idUsuario, usuario=usuario)
 
 @router.post("/usuario/login")
 async def login(credenciales: schemas.CredencialesUsuario, db: Session = Depends(getDB)):
-    print(credenciales)
     return usuarios.verifyUsuario(db, credenciales.Email, credenciales.Password)
 

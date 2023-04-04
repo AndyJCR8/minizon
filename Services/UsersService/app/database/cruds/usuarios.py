@@ -1,6 +1,5 @@
 import bcrypt as bc
 from fastapi import HTTPException
-from sqlalchemy import func
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from ...JWT import code
@@ -10,6 +9,23 @@ def getUsuario(db: Session, id: int):
 
 def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
     return db.query(models.Usuario).offset(skip).limit(limit).all()
+
+def verifyUsuario(db: Session, Email: str, Password: str):
+    
+    try:
+
+        usuarios = db.query(models.Usuario).filter(models.Usuario.Email == Email)
+        res = [usuario for usuario in usuarios if bc.checkpw(Password.encode(), usuario.Password.encode())][0].__dict__
+
+    except Exception: raise HTTPException(status_code=406, detail="login failed")
+
+    res.pop("_sa_instance_state")
+    res.pop("Password")
+    res["verified"] = True
+
+    res = { **res, "AuthToken": code.generateNewToken(res) }
+
+    return res
 
 def createUsuario(db: Session, usuario: schemas.UsuarioCreate):
     salt = bc.gensalt()
@@ -28,21 +44,41 @@ def createUsuario(db: Session, usuario: schemas.UsuarioCreate):
 
     dbUsuario.__dict__.pop("Password")
     dbUsuario.__dict__.pop("_sa_instance_state")
-    
-    return { **dbUsuario.__dict__, "AuthToken": code.generateNewToken(dbUsuario.__dict__) }
+    dbUsuario.__dict__["verified"] = True
 
-def verifyUsuario(db: Session, Email: str, Password: str):
+    return { "message": "Usuario creado con éxito", **dbUsuario.__dict__, "AuthToken": code.generateNewToken(dbUsuario.__dict__) }
+
+def updateUsuario(db: Session, idUsuario: int, usuario: schemas.UsuarioUpdate):
+
+    try:
+        salt = bc.gensalt()
+        hashedPass = bc.hashpw(usuario.Password.encode('utf-8'), salt).decode()
+        #if not usuario.Nickname: usuario["Nickname"] = usuario["Nombre"]
+        usuario.Password = hashedPass
+    except Exception as e: pass
     
     try:
+        dbUsuario = db.query(models.Usuario).filter_by(IDUsuario = idUsuario)
+        
+        #VERIFICAMOS SI HAY VALORES NULOS (None)
+        usuarioDict = usuario.dict()
+        for key in list(usuarioDict):
+            if usuarioDict[key] is None: usuarioDict.pop(key)
+        #---------------------------------------
+        #print(usuarioDict)
+        dbUsuario.update(usuarioDict)
+        #db.add(dbUsuario)
+        db.commit()
 
-        usuarios = db.query(models.Usuario).filter(models.Usuario.Email == Email)
-        res = [usuario for usuario in usuarios if bc.checkpw(Password.encode(), usuario.Password.encode())][0].__dict__
+        updated = db.query(models.Usuario).filter_by(IDUsuario = idUsuario).first()
+        #db.refresh(updated)
+    except Exception as e: raise HTTPException(406, detail=f"error detail: {e}")
+    try:
+        updated.__dict__.pop("Password")
+        updated.__dict__.pop("_sa_instance_state")
+    except Exception as e: pass
 
-    except Exception: raise HTTPException(status_code=406, detail="loggin failed")
+    updated.__dict__["verified"] = True
+    print(updated.__dict__)
 
-    res.pop("_sa_instance_state")
-    res.pop("Password")
-    
-    res = { **res, "AuthToken": code.generateNewToken(res) }
-
-    return res
+    return { "message": "Usuario actualizado con éxito", **updated.__dict__, "AuthToken": code.generateNewToken(updated.__dict__) }
