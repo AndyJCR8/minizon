@@ -22,12 +22,28 @@ class PedidoBase(BaseModel):
   Fecha: date
 
 class PedidoCreate(PedidoBase): pass
+class PedidoUpdate(BaseModel):
+  NIT: Optional[str] = None
+  Fecha: Optional[date] = None
 
 class Pedido(PedidoBase):
   IDDireccion: int
 
   class Config: orm_mode = True
 #---------------------------
+
+#-----------MARCA-----------
+class MarcaBase(BaseModel):
+  Nombre: str
+
+class MarcaCreate(MarcaBase): pass
+
+class Marca(MarcaBase):
+  IDMarca: int
+
+  class Config: orm_mode = True
+#--------------------------
+
 #---------TARJETA-----------
 class TarjetaBase(BaseModel):
   Identificador: int
@@ -35,11 +51,24 @@ class TarjetaBase(BaseModel):
   MesVencimiento: int
   NombreTitular: str
   CodigoSeguridad: int
+  TipoCredito: bool
 
-class TarjetaCreate(TarjetaBase): pass
+class TarjetaCreate(TarjetaBase):
+  IDMarca: int
+  
+class TarjetaUpdate(BaseModel):
+  Identificador: Optional[int] = None
+  YearVencimiento: Optional[int] = None
+  MesVencimiento: Optional[int] = None
+  NombreTitular: Optional[str] = None
+  CodigoSeguridad: Optional[int] = None
+  TipoCredito: Optional[bool] = None
+  IDMarca: Optional[int] = None
 
 class Tarjeta(TarjetaBase):
+  IDTarjeta: int
   IDUsuario: int
+  IDMarca: int
 
   class Config: orm_mode = True
 #--------------------------
@@ -48,13 +77,19 @@ class Tarjeta(TarjetaBase):
 class DireccionBase(BaseModel):
   Direccion: str
 
-class DireccionCreate(DireccionBase): pass
+class DireccionCreate(DireccionBase):
+  IDMunicipio: int
+
+class DireccionUpdate(BaseModel):
+  Direccion: Optional[str] = None
+  IDMunicipio: Optional[int] = None
 
 class Direccion(DireccionBase):
   IDDireccion: int
   IDUsuario: int
+  IDMunicipio: int
 
-  Compras: list[Pedido] = []
+  Pedidos: list[Pedido] = []
 
   class Config: orm_mode = True
 #---------------------------
@@ -68,7 +103,7 @@ class MunicipioCreate(MunicipiosBase): pass
 
 class Municipio(MunicipiosBase):
   IDMunicipio: int
-  Compras: list[Direccion] = []
+  Direcciones: list[Direccion] = []
 
   class Config: orm_mode = True
 #---------------------------

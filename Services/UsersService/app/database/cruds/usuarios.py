@@ -1,14 +1,15 @@
 import bcrypt as bc
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+from . import clearUpdateValuesFromDict
 from .. import models, schemas
 from ...JWT import code
 
 def getUsuario(db: Session, id: int):
     return db.query(models.Usuario).filter(models.Usuario.IDUsuario == id).first()
 
-def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
-    return db.query(models.Usuario).offset(skip).limit(limit).all()
+""" def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
+    return db.query(models.Usuario).offset(skip).limit(limit).all() """
 
 def verifyUsuario(db: Session, Email: str, Password: str):
     
@@ -61,11 +62,12 @@ def updateUsuario(db: Session, idUsuario: int, usuario: schemas.UsuarioUpdate):
         dbUsuario = db.query(models.Usuario).filter_by(IDUsuario = idUsuario)
         
         #VERIFICAMOS SI HAY VALORES NULOS (None)
-        usuarioDict = usuario.dict()
+        usuarioDict = clearUpdateValuesFromDict(usuario.dict())
+        """ usuarioDict = usuario.dict()
         for key in list(usuarioDict):
-            if usuarioDict[key] is None: usuarioDict.pop(key)
+            if usuarioDict[key] is None: usuarioDict.pop(key) """
         #---------------------------------------
-        #print(usuarioDict)
+        
         dbUsuario.update(usuarioDict)
         #db.add(dbUsuario)
         db.commit()
@@ -79,6 +81,5 @@ def updateUsuario(db: Session, idUsuario: int, usuario: schemas.UsuarioUpdate):
     except Exception as e: pass
 
     updated.__dict__["verified"] = True
-    print(updated.__dict__)
 
     return { "message": "Usuario actualizado con éxito", **updated.__dict__, "AuthToken": code.generateNewToken(updated.__dict__) }

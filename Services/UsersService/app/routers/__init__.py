@@ -13,15 +13,15 @@ def getDB():
 bearerScheme = HTTPBearer()
 async def protectedRoute(credentials: HTTPAuthorizationCredentials = Depends(bearerScheme)):
     try:
-        code.verifyToken(credentials.credentials)
+        return code.verifyToken(credentials.credentials)
     except Exception as e:
-        raise HTTPException(status_code=401, detail=f"Unauthorized, reason: {str(e)}")
+        raise HTTPException(status_code=401, detail=f"Unauthorized, reason: {e}")
     
 async def service2Issuer(credentials: HTTPAuthorizationCredentials = Depends(bearerScheme)):
     try:
         code.verifyTokenWithISS(credentials.credentials, issuer=settings.S2_DOMAIN)
     except Exception as e:
-        raise HTTPException(status_code=401, detail=f"Unauthorized, reason: {str(e)}")
+        raise HTTPException(status_code=401, detail=f"Unauthorized, reason: {e}")
 
 """ async def protectedRouteWithISS(credentials: HTTPAuthorizationCredentials = Depends(bearerScheme), iss: str = "service1.com"):
     try:
