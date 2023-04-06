@@ -20,6 +20,11 @@ pip install pyjwt
 pip install "pyjwt[crypto]"
 ```
 
+### bcrypt
+
+```sh
+pip install bcrypt
+```
 
 ### SQLAlchemy
 
@@ -30,6 +35,11 @@ pip install SQLAlchemy
 ### Pydantic
 ```sh
 pip install pydantic
+```
+
+### psycopg2
+```sh
+pip install psycopg2
 ```
 
 # Seguridad
@@ -56,6 +66,8 @@ openssl rsa -in private_key.pem -pubout -out public_key.pem
 > * **DB_USER**: nombre del usuario de la base de datos
 > * **DB_PASS**: contraseña de acceso a la base de datos
 > * **DB_NAME**: nombre de la base de datos de usuarios
+> * **S2_DOMAIN**: nombre de dominio donde esté alojado el servicio 2 <em>(servicio de pedidos)</em>, por ejemplo: localhost:8001
+> * **S3_DOMAIN**: nombre de dominio donde esté alojado el servicio 3 <em>(servicio de cobros)</em>, por ejemplo: localhost:8002
 > * **PVK_NAME**: nombre del archivo de la clave privada almacenada en la carpeta <em>TokenKeys</em>
 > * **PBK_NAME**: nombre del archivo de la clave pública almacenada en la carpeta <em>TokenKeys</em>
 >> solo indicar el nombre, ya que la extensión debe terminar obligatoriamente en **.pem** en ambas claves
