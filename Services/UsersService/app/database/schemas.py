@@ -21,10 +21,13 @@ class PedidoBase(BaseModel):
   NIT: str
   Fecha: date
 
-class PedidoCreate(PedidoBase): pass
+class PedidoCreate(PedidoBase):
+  IDDireccion: int
+
 class PedidoUpdate(BaseModel):
   NIT: Optional[str] = None
   Fecha: Optional[date] = None
+  IDDireccion: Optional[int] = None
 
 class Pedido(PedidoBase):
   IDDireccion: int

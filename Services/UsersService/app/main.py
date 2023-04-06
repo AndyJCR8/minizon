@@ -1,6 +1,6 @@
 import uuid
 from fastapi import Depends, FastAPI, Header, HTTPException
-from .routers import usuarios, tarjetas, direcciones
+from .routers import usuarios, tarjetas, direcciones, pedidos
 from .JWT import code
 from .config.envConfig import settings
 
@@ -9,6 +9,7 @@ app = FastAPI()
 app.include_router(usuarios.router, prefix='/api', tags=["CRUD Usuarios"])
 app.include_router(tarjetas.router, prefix='/api', tags=["CRUD Tarjetas"])
 app.include_router(direcciones.router, prefix='/api', tags=["CRUD Direcciones"])
+app.include_router(pedidos.router, prefix='/api', tags=["CRUD Pedidos"])
 
 
 @app.get('/')

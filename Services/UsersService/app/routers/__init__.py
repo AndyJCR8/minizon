@@ -19,7 +19,13 @@ async def protectedRoute(credentials: HTTPAuthorizationCredentials = Depends(bea
     
 async def service2Issuer(credentials: HTTPAuthorizationCredentials = Depends(bearerScheme)):
     try:
-        code.verifyTokenWithISS(credentials.credentials, issuer=settings.S2_DOMAIN)
+        return code.verifyTokenWithISS(credentials.credentials, issuer=settings.S2_DOMAIN)
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=f"Unauthorized, reason: {e}")
+    
+async def service3Issuer(credentials: HTTPAuthorizationCredentials = Depends(bearerScheme)):
+    try:
+        return code.verifyTokenWithISS(credentials.credentials, issuer=settings.S3_DOMAIN)
     except Exception as e:
         raise HTTPException(status_code=401, detail=f"Unauthorized, reason: {e}")
 
