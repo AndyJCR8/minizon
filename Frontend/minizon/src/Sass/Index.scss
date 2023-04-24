@@ -91,9 +91,9 @@ body, html, #root, .App {
   border-radius: 8px;
   padding: 0.5rem 1rem;
   &.primary {
-    background-color: var(--P4S3);
-    box-shadow: var(--SHP4S3);
-    &:hover { background-color: var(--HVP4S3); }
+    background-color: var(--P1P4);
+    box-shadow: var(--SHP1P4);
+    &:hover { background-color: var(--HVP1P4); }
     &:active { scale: 0.95; }
   }
 

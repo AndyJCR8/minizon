@@ -6,7 +6,7 @@ import { MessageContext } from "../../Components/App"
 
 export default function Home() {
 
-  const messageContext = useContext(MessageContext)
+  /* const messageContext = useContext(MessageContext)
   useEffect(() => {
     setTimeout(() => {
       messageContext = {
@@ -14,7 +14,7 @@ export default function Home() {
         "message": "hola"
       }
     }, 2000);
-  }, []);
+  }, []); */
   return (
     <div className="home">
       <div className="info">

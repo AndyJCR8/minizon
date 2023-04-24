@@ -9,7 +9,11 @@ export default function Login() {
    */
   const loginUser = (e) => {
     e.preventDefault()
+    const form = e.currentTarget
+    console.log(form["email"].value)
+    console.log(form["password"].value)
     
+
   }
 
   return (
@@ -31,7 +35,7 @@ export default function Login() {
         <div className="footer">
           <div className="formButtons">
             <button className="button primary" type="submit" tabIndex={3}>Iniciar sesión</button>
-            <Link to={"/account/register"} className="button secondary" tabIndex={4}>¡Registrarse!</Link>
+            <Link to={"/account/register"} className="button primary" tabIndex={4}>¡Registrarse!</Link>
             {/* <button className="button secondary">¡Registrarse!</button> */}
           </div>
           <div className="separator"></div>
