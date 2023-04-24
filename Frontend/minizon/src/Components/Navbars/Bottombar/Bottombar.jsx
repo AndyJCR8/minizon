@@ -21,7 +21,7 @@ export default function Bottombar() {
           </Link>
         </div>
         <div className='bottbarItem'>
-          <Link to="/"><i className='fa-solid fa-user'></i></Link>
+          <Link to="/account"><i className='fa-solid fa-user'></i></Link>
         </div>
       </div>
     </nav>

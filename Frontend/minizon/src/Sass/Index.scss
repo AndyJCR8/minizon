@@ -18,6 +18,18 @@ $fontWeights: (
   @each $pallete in colors.$PALLETES {
     @each $name, $color in $pallete { --#{$name}: #{$color}; }
   }
+  @each $HVpallete in colors.$HVPalletes {
+    //@debug $HVpallete;
+    @each $name, $value in $HVpallete {
+      --#{$name}: #{$value};
+    }
+  }
+  @each $palleteSh in colors.$SHADOWS {
+    //@debug $palleteSh;
+    @each $name, $value in $palleteSh {
+      --#{$name}: #{$value};
+    }
+  }
   
   font-family: 'Urbanist', sans-serif;
   line-height: 1.5;
@@ -33,6 +45,8 @@ $fontWeights: (
 
   --boxSh:   0px 0px 15px 1px rgba(0, 0, 0, 0.253);
   --boxShV1: 0px 0px 10px 1px rgba(0, 0, 0, 0.08);
+  --boxShV1FocusV: 0px 0px 10px 1px rgba(10, 10, 10, 0.3);
+
   --Anim1: cubic-bezier(.81,-0.29,.24,1.29);
 }
 
@@ -69,14 +83,33 @@ body, html, #root, .App {
 }
 
 .button {
-  background-color: transparent;
+  font-family: "Urbanist";
+  font-size: 1.05rem;
   cursor: pointer;
   border: none;
+
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  &.primary {
+    background-color: var(--P4S3);
+    box-shadow: var(--SHP4S3);
+    &:hover { background-color: var(--HVP4S3); }
+    &:active { scale: 0.95; }
+  }
+
+  &.secondary {
+    background-color: var(--P1P6);
+    box-shadow: var(--SHP1P6);
+    &:hover { background-color: var(--HVP1P6); }
+    &:active { scale: 0.95; }
+  }
+
+  transition: all ease-in-out 125ms;
 }
 
 
 
-a, button, p { text-decoration: none; -webkit-tap-highlight-color: transparent; }
+a, button, p { text-decoration: none; -webkit-tap-highlight-color: transparent; color: white; }
 /*---------------------------------MEDIA QUERIES---------------------------------*/
 /*
 @media (max-width: 1024px) {

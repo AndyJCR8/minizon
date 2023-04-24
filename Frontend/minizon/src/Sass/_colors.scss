@@ -20,7 +20,7 @@ $PALLETE1: (
 'P1S4': #B5ACA3,
 'P1S5': #EBE4DC,
 
-'P1S6': #C5B6B1,
+'P1S6': #c5b6b1,
 'P1S7': #E5E3E4,
 'P1S8': #F5F6F8,
 );
@@ -82,6 +82,36 @@ $PALLETE5: (
 /*---------*/
 /*----------------------------------------------------------------------------*/
 
-/*EXPORT*/
+/*EXPORTS*/
 $PALLETES: $PALLETE1, $PALLETE2, $PALLETE3, $PALLETE4, $PALLETE5;
-/*------*/
+
+$HVPalletes: ();
+@each $pallete in $PALLETES {
+  $vals: ();
+  @each $name, $color in $pallete {
+    $vals: map-merge(
+      $vals,
+      ('HV#{$name}': rgba($color, 0.90))
+    );
+  }
+
+  $HVPalletes: append($HVPalletes, $vals)
+}
+
+$SHADOWS: ();
+@each $pallete in $PALLETES {
+  
+  $vals: ();
+  @each $name, $color in $pallete {
+    $vals: map-merge(
+      $vals,
+      ('SH#{$name}': 0px 0px 15px 1px rgba($color, 0.1))
+    );
+  }
+  
+  //#{'$PALLETE' + (index($PALLETES, $pallete) + 1) + 'Shadows'}: $vals;
+  $SHADOWS: append($SHADOWS, $vals)
+}
+
+
+/*--------*/

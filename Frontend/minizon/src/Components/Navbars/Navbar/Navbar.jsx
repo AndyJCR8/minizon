@@ -61,7 +61,7 @@ export default function Navbar() {
             </Link>
           </div>
           <div className='navbarItem'>
-            <Link to="/"><i className='fa-solid fa-user'></i></Link>
+            <Link to="/account"><i className='fa-solid fa-user'></i></Link>
           </div>
           
         </div>
