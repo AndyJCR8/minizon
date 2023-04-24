@@ -2,7 +2,7 @@ import '@fortawesome/fontawesome-free/scss/fontawesome.scss'
 import '@fortawesome/fontawesome-free/scss/regular.scss'
 import '@fortawesome/fontawesome-free/scss/solid.scss'
 import '@fortawesome/fontawesome-free/scss/brands.scss'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, createContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './Navbars/Navbar/Navbar'
 import useWindow from '../Hooks/useWindow'
@@ -10,6 +10,9 @@ import Sidebar from './Navbars/Sidebar/Sidebar'
 import Bottombar from './Navbars/Bottombar/Bottombar'
 import Home from '../Pages/Home/Home'
 import Account from '../Pages/Account/Account'
+import Message from './UI Components/Message/Message'
+
+export const MessageContext = createContext()
 
 export default function App() {
   const windowSize = useWindow();
@@ -35,10 +38,14 @@ export default function App() {
           <Sidebar/>
         </> : <Navbar/>
       }
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/account/*' element={<Account/>}/>
-      </Routes>
+      <MessageContext.Provider value={{"data": "hola", "message": "mundo"}}>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/account/*' element={<Account/>}/>
+        </Routes>
+        <Message/>
+      </MessageContext.Provider>
+
     </div>
   )
 }

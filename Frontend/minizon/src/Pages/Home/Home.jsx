@@ -1,9 +1,20 @@
 import Carousel, { CarouselItem } from "./Carousel/Carousel"
 import "./Home.scss"
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Section from "./Section/Section"
+import { MessageContext } from "../../Components/App"
 
 export default function Home() {
+
+  const messageContext = useContext(MessageContext)
+  useEffect(() => {
+    setTimeout(() => {
+      messageContext = {
+        "data": "home",
+        "message": "hola"
+      }
+    }, 2000);
+  }, []);
   return (
     <div className="home">
       <div className="info">
