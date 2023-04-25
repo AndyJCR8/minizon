@@ -6,15 +6,19 @@ import { MessageContext } from "../../Components/App"
 
 export default function Home() {
 
-  /* const messageContext = useContext(MessageContext)
+  const messageContext = useContext(MessageContext)
   useEffect(() => {
-    setTimeout(() => {
-      messageContext = {
-        "data": "home",
-        "message": "hola"
-      }
-    }, 2000);
-  }, []); */
+    messageContext.setMessageData({
+      "message": "Este es un mensaje enviado desde la página principal",
+      //"type": "success",
+      "icon": "home",
+      "time": "3000"
+    })
+    /* setTimeout(() => {
+
+    }, 2000); */
+  }, []);
+
   return (
     <div className="home">
       <div className="info">

@@ -38,14 +38,21 @@ export default function App() {
           <Sidebar/>
         </> : <Navbar/>
       }
-      <MessageContext.Provider value={{"data": "hola", "message": "mundo"}}>
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/account/*' element={<Account/>}/>
-        </Routes>
-        <Message/>
-      </MessageContext.Provider>
-
+      <Body/>
     </div>
+  )
+}
+
+function Body() {
+  const [messageData, setMessageData] = useState({});
+
+  return (
+    <MessageContext.Provider value={{setMessageData: setMessageData}}>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/account/*' element={<Account/>}/>
+      </Routes>
+      <Message data={messageData}/>
+    </MessageContext.Provider>
   )
 }
