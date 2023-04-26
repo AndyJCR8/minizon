@@ -2,17 +2,19 @@ import Carousel, { CarouselItem } from "./Carousel/Carousel"
 import "./Home.scss"
 import React, { useContext, useEffect } from 'react'
 import Section from "./Section/Section"
-import { MessageContext } from "../../Components/App"
+import { NotificationContext } from "../../Components/App"
 
 export default function Home() {
 
-  const messageContext = useContext(MessageContext)
+  const notificationContext = useContext(NotificationContext)
   useEffect(() => {
-    messageContext.setMessageData({
+    notificationContext.setNotificationData({
       "message": "Este es un mensaje enviado desde la página principal",
       //"type": "success",
       "icon": "home",
-      "time": "3000"
+      "execInfo": {
+        "time": "3000"
+      }
     })
     /* setTimeout(() => {
 

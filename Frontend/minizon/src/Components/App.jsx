@@ -10,9 +10,9 @@ import Sidebar from './Navbars/Sidebar/Sidebar'
 import Bottombar from './Navbars/Bottombar/Bottombar'
 import Home from '../Pages/Home/Home'
 import Account from '../Pages/Account/Account'
-import Message from './UI Components/Message/Message'
+import Notification from './UI Components/Notification/Notification'
 
-export const MessageContext = createContext()
+export const NotificationContext = createContext()
 
 export default function App() {
   const windowSize = useWindow();
@@ -44,15 +44,15 @@ export default function App() {
 }
 
 function Body() {
-  const [messageData, setMessageData] = useState({});
+  const [notificationData, setNotificationData] = useState({});
 
   return (
-    <MessageContext.Provider value={{setMessageData: setMessageData}}>
+    <NotificationContext.Provider value={{setNotificationData: setNotificationData}}>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/account/*' element={<Account/>}/>
       </Routes>
-      <Message data={messageData}/>
-    </MessageContext.Provider>
+      <Notification data={notificationData}/>
+    </NotificationContext.Provider>
   )
 }

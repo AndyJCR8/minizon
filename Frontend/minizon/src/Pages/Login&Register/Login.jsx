@@ -1,19 +1,32 @@
 import { Link } from "react-router-dom"
 import "./Credentials.scss"
 import React, { useContext, useEffect } from 'react'
-import { MessageContext } from "../../Components/App"
+import { NotificationContext } from "../../Components/App"
+import { useState } from "react"
 
 export default function Login() {
 
-  const mssContext = useContext(MessageContext)
+  const notiContext = useContext(NotificationContext)
+
+  const [doAfterTime, setDoAfterTime] = useState(null);
 
   useEffect(() => {
-    mssContext.setMessageData({
-      "message": "Este es un mensaje enviado desde el login",
+    const data = {
+      //"message": "Este es un mensaje enviado desde el login",
+      "message": "",
       //"type": "error",
       "icon": "user-astronaut",
-      "time": "3000"
-    })
+      "execInfo": {
+        "time": null,
+        "doAfterTime": null,
+      }
+    }
+
+    notiContext.setNotificationData(data)
+
+    setTimeout(() => {
+      console.log(data)
+    }, 5000);
     
   }, []);
 

@@ -1,5 +1,5 @@
 
-.Message {
+.Notification {
   display: grid;
   place-content: center;
   place-items: center;
@@ -19,7 +19,7 @@
 
   width: fit-content;
 
-  .MessageContainer {
+  .NotificationContainer {
     display: grid;
     grid-template-columns: auto auto;
     
@@ -45,7 +45,7 @@
       opacity: 0;
       //width: 0px;
 
-      transition: width 250ms ease 350ms, opacity 300ms ease-in-out 750ms;
+      transition: width 250ms ease 100ms, opacity 300ms ease-in-out 750ms;
     }
 
   }
@@ -71,7 +71,7 @@
   transition: top ease 1ms 310ms, opacity var(--Anim1) 300ms;
 }
 
-.messageLoader {
+.notificationLoader {
   .loader, .loader:before, .loader:after {
     border-radius: 50%;
     width: 2.5em;
