@@ -16,6 +16,7 @@ export default function Notification({data}) {
       //console.log("NUEVO MENSAJE!")
       setShow(" active")
       console.log(data)
+      console.log("icon: ", icon)
       if(execInfo['time'] != null) {
         const notiWidth = placeHolder.current.getBoundingClientRect().width + 8
         
@@ -31,18 +32,16 @@ export default function Notification({data}) {
         }, 500);
         
       } else {
-        const notiWidth = 0
-        console.log("Hola")
-        setTimeout(() => {
-          setNotificationWidth(notiWidth)
-        }, 500);
-        
-        /* notificationElement.current.classList.add("collapse")
+        setTimeout(() => { setNotificationWidth(0) }, 500);
+
+        execInfo.handleDoAfterTime({do: () => {
+          notificationElement.current.classList.add("collapse")
           
-        setTimeout(() => {
-          setNotificationWidth(0)
-          setTimeout(() => { setShow(""); notificationElement.current.classList.remove("collapse")}, 1000);
-        }, 1000); */
+          setTimeout(() => {
+            setNotificationWidth(0)
+            setTimeout(() => { setShow(""); notificationElement.current.classList.remove("collapse")}, 500);
+          }, 500);
+        }})
       }
     }
     
@@ -53,7 +52,7 @@ export default function Notification({data}) {
       <div className='NotificationContainer'>
         <div className='icon'>
           {
-            icon ? <i className={`fa-solid fa-${icon} ${type ?? ''}`}></i> : <Loader/>
+            icon != "" ? <i className={`fa-solid fa-${icon} ${type ?? ''}`}></i> : <Loader/>
           }
         </div>
         <div ref={notificationElement} className='message' style={{width: `${notificationWidth}px`}}>
@@ -68,7 +67,7 @@ export default function Notification({data}) {
 function Loader() {
   return (
     <div className='notificationLoader'>
-      <span class="loader"></span>
+      <span className="loader"></span>
     </div>
   )
 }

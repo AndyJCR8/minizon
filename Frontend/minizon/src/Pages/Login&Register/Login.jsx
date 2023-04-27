@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import "./Credentials.scss"
-import React, { useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { NotificationContext } from "../../Components/App"
 import { useState } from "react"
 
@@ -8,27 +8,31 @@ export default function Login() {
 
   const notiContext = useContext(NotificationContext)
 
-  const [doAfterTime, setDoAfterTime] = useState(null);
 
-  useEffect(() => {
-    const data = {
-      //"message": "Este es un mensaje enviado desde el login",
-      "message": "",
-      //"type": "error",
-      "icon": "user-astronaut",
-      "execInfo": {
-        "time": null,
-        "doAfterTime": null,
-      }
+  const [answer, setAnswer] = useState("");
+  const [answerType, setAnswerType] = useState("");
+  const [answerActive, setAnswerActive] = useState(false);
+
+  
+  const [doAfterTime, setDoAfterTime] = useState({});
+
+  const handleDoAfterTime = useCallback(
+    (obj) => {
+      setDoAfterTime(obj)
     }
-
-    notiContext.setNotificationData(data)
-
+  ,[])
+  
+  useEffect(() => {
     setTimeout(() => {
-      console.log(data)
+      try {
+        doAfterTime['do']()
+        setAnswer("Inicio de sesión correcto")
+        setAnswerType("success")
+        setAnswerActive(true)
+        setTimeout(() => { setAnswerActive(false) }, 2000);
+      } catch (e) {}
     }, 5000);
-    
-  }, []);
+  }, [doAfterTime]);
 
   /**
    * @param {SubmitEvent} e 
@@ -38,8 +42,15 @@ export default function Login() {
     const form = e.currentTarget
     console.log(form["email"].value)
     console.log(form["password"].value)
-    
 
+    const notificationConf = { "message": "", "icon": "",
+      "execInfo": {
+        "time": null,
+        "handleDoAfterTime": handleDoAfterTime
+      }
+    }
+
+    notiContext.setNotificationData(notificationConf)
   }
 
   return (
@@ -63,6 +74,9 @@ export default function Login() {
             <button className="button primary" type="submit" tabIndex={3}>Iniciar sesión</button>
             <Link to={"/account/register"} className="button primary" tabIndex={4}>¡Registrarse!</Link>
             {/* <button className="button secondary">¡Registrarse!</button> */}
+          </div>
+          <div className={`formAnswerContainer${answerActive ? ' active': ''}`}>
+            <div className={`formAnswer ${answerType}`}>{answer}</div>
           </div>
           <div className="separator"></div>
           <div className="socialNets">
