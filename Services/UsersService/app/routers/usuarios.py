@@ -26,6 +26,7 @@ async def pruebaUsuario():
 
 @router.post("/usuario/registro", name="Registrar nuevo usuario")
 async def registerUsuario(usuario: schemas.UsuarioCreate, db: Session = Depends(getDB)):
+    print("------------------------------REGISTER------------------------------")
     return usuarios.createUsuario(db=db, usuario=usuario)
 
 @router.put("/usuario/actualizacion", dependencies=[Depends(protectedRoute)], name="Actualizar datos de usuario")

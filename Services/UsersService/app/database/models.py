@@ -15,6 +15,7 @@ class Usuario(Base):
   Email = Column(String)
   #Direccion = Column(String) DESCARTADO
   Password = Column(String)
+  Frecuente = Column(Boolean)
   
   #RELACION CON TODAS LAS DIRECCIONES DEL USUARIO
   direcciones = relationship('Direccion', back_populates='usuario', cascade="all, delete-orphan")
