@@ -11,7 +11,7 @@ def getUsuario(db: Session, id: int):
 """ def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
     return db.query(models.Usuario).offset(skip).limit(limit).all() """
 
-def verifyUsuario(db: Session, Email: str, Password: str):
+def verifyUsuario(db: Session, Email: str, Password: str, ExpireInSecs: int = None):
     
     try:
 
@@ -23,8 +23,8 @@ def verifyUsuario(db: Session, Email: str, Password: str):
     res.pop("_sa_instance_state")
     res.pop("Password")
     res["verified"] = True
-
-    res = { **res, "AuthToken": code.generateNewToken(res) }
+    res['AuthToken'] = code.generateNewToken(res, ExpireInSecs if not None else 25200)
+    res['Expires'] = code.verifyToken(res['AuthToken'])['validUntil']
 
     return res
 

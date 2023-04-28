@@ -1,13 +1,23 @@
-import { Link } from "react-router-dom"
 import "./Credentials.scss"
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useState, useEffect } from 'react'
+import { Link, useNavigate } from "react-router-dom"
 import { NotificationContext } from "../../Components/App"
-import { useState } from "react"
+import axios from "axios"
+
+async function postData(data, callback) {
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_SERVICE_1}/usuario/login`, data)
+    callback(res.data)
+  } catch (error) {
+    callback({'detail': `error: ${error}`})
+  }
+}
 
 export default function Login() {
 
-  const notiContext = useContext(NotificationContext)
+  const navigate = useNavigate()
 
+  const notiContext = useContext(NotificationContext)
 
   const [answer, setAnswer] = useState("");
   const [answerType, setAnswerType] = useState("");
@@ -15,24 +25,50 @@ export default function Login() {
 
   
   const [doAfterTime, setDoAfterTime] = useState({});
+  const [formData, setFormData] = useState({});
 
   const handleDoAfterTime = useCallback(
     (obj) => {
       setDoAfterTime(obj)
+      console.log("handleSetted")
     }
   ,[])
   
   useEffect(() => {
-    setTimeout(() => {
-      try {
-        doAfterTime['do']()
-        setAnswer("Inicio de sesión correcto")
-        setAnswerType("success")
+    if(Object.keys(formData).length > 0){
+      postData(formData, (response) => {
+  
+        if(!Object.keys(response).includes("detail")) {
+          setAnswer("Inicio de sesión correcto")
+          setAnswerType("success")
+          /*
+            GUARDAR EL TOKEN DEL USUARIO EN UNA COOKIE CON LA EXPIRACIÓN
+            QUE INDICA EL PROPIO TOKEN
+          */
+         const expires = (new Date(response.Expires)).toUTCString()
+  
+         document.cookie = `token=${response.AuthToken}; expires=${expires}`
+         /* console.log(response)
+         console.log("expires: ", expires) */
+
+         navigate("/account")
+        } else {
+          setAnswer("El correo o la contraseña son incorrectos")
+          setAnswerType("error")
+        }
+        try {
+          if(doAfterTime['do'] != undefined) doAfterTime['do']()
+          else { setTimeout(() => {
+            doAfterTime['do']()
+          }, 1000); }
+        } catch (e) {}
+        
         setAnswerActive(true)
         setTimeout(() => { setAnswerActive(false) }, 2000);
-      } catch (e) {}
-    }, 5000);
-  }, [doAfterTime]);
+
+      })
+    }
+  }, [doAfterTime, formData]);
 
   /**
    * @param {SubmitEvent} e 
@@ -40,8 +76,6 @@ export default function Login() {
   const loginUser = (e) => {
     e.preventDefault()
     const form = e.currentTarget
-    console.log(form["email"].value)
-    console.log(form["password"].value)
 
     const notificationConf = { "message": "", "icon": "",
       "execInfo": {
@@ -51,6 +85,11 @@ export default function Login() {
     }
 
     notiContext.setNotificationData(notificationConf)
+    setFormData({
+      Email: form['email'].value,
+      Password: form['password'].value,
+      ExpireInSecs: form['remember'].checked ? 172800 : 25200
+    })
   }
 
   return (
@@ -62,17 +101,23 @@ export default function Login() {
         <div className="body">
           <section className="formItem">
             <label htmlFor="email"><i className="fa-solid fa-envelope"></i>Correo electrónico</label>
-            <input name="email" className="formInput" type="email" placeholder="email@gmail.com" required tabIndex={1}/>
+            <input id="email" name="email" className="formInput" type="email" placeholder="email@gmail.com" required tabIndex={1}/>
           </section>
           <section className="formItem">
             <label htmlFor="password"><i className="fa-solid fa-lock"></i>Contraseña</label>
-            <input name="password" className="formInput" type="password" placeholder="contraseña" required tabIndex={2}/>
+            <input id="password" name="password" className="formInput" type="password" placeholder="contraseña" required tabIndex={2}/>
+          </section>
+          <section className="formItem rememberField">
+            <div className="rememberUser">
+              <input id="remember" name="remember" className="formCheckbox" type="checkbox" tabIndex={3}/>
+              <label htmlFor="remember" className="chkBoxLabel">Recordar usuario</label>
+            </div>
           </section>
         </div>
         <div className="footer">
           <div className="formButtons">
-            <button className="button primary" type="submit" tabIndex={3}>Iniciar sesión</button>
-            <Link to={"/account/register"} className="button primary" tabIndex={4}>¡Registrarse!</Link>
+            <button className="button primary" type="submit" tabIndex={4}>Iniciar sesión</button>
+            <Link to={"/account/register"} className="button primary" tabIndex={5}>¡Registrarse!</Link>
             {/* <button className="button secondary">¡Registrarse!</button> */}
           </div>
           <div className={`formAnswerContainer${answerActive ? ' active': ''}`}>
@@ -82,8 +127,8 @@ export default function Login() {
           <div className="socialNets">
             <div className="text"><p>O iniciar sesión con</p></div>
             <div className="icons">
-              <Link to={""} className="netIcon" tabIndex={5}><i className="fa-brands fa-facebook"></i></Link>
-              <Link to={""} className="netIcon" tabIndex={6}><i className="fa-brands fa-google"></i></Link>
+              <Link to={""} className="netIcon" tabIndex={6}><i className="fa-brands fa-facebook"></i></Link>
+              <Link to={""} className="netIcon" tabIndex={7}><i className="fa-brands fa-google"></i></Link>
             </div>
           </div>
         </div>

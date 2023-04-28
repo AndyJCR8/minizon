@@ -1,10 +1,20 @@
 import uuid
 from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 from .routers import usuarios, tarjetas, direcciones, pedidos
 from .JWT import code
 from .config.envConfig import settings
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(usuarios.router, prefix='/api', tags=["CRUD Usuarios"])
 app.include_router(tarjetas.router, prefix='/api', tags=["CRUD Tarjetas"])

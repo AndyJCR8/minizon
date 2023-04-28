@@ -128,6 +128,7 @@ class Departamento(DepartamentoBase):
 class CredencialesUsuario(BaseModel):
   Email: str
   Password: str
+  ExpireInSecs: Optional[int] = None
 
 class UsuarioBase(BaseModel):
   Nombre: str

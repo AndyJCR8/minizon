@@ -15,8 +15,7 @@ export default function Notification({data}) {
     if(show === "" && Object.keys(data).length > 1) {
       //console.log("NUEVO MENSAJE!")
       setShow(" active")
-      console.log(data)
-      console.log("icon: ", icon)
+      
       if(execInfo['time'] != null) {
         const notiWidth = placeHolder.current.getBoundingClientRect().width + 8
         

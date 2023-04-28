@@ -5,7 +5,7 @@ from . import protectedRoute, service2Issuer, getDB
 from ..database import models, schemas
 from ..database.database import engine
 from ..database.cruds import usuarios 
-
+from ..JWT import code
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -34,5 +34,12 @@ async def updateUsuario(usuario: schemas.UsuarioUpdate, idUsuario: int, db: Sess
 
 @router.post("/usuario/login", name="Inicio de sesión")
 async def login(credenciales: schemas.CredencialesUsuario, db: Session = Depends(getDB)):
-    return usuarios.verifyUsuario(db, credenciales.Email, credenciales.Password)
+    return usuarios.verifyUsuario(db, credenciales.Email, credenciales.Password, credenciales.ExpireInSecs)
 
+@router.post("/usuario/verifyUser", name="Verificación de token de usuario")
+async def verifyUser(token: str, db: Session = Depends(getDB)):
+    try:
+        code.verifyToken(token)
+        return { "userValid": True }
+    except Exception as e:
+        return { "userValid": False }
