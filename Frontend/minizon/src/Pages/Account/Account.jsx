@@ -17,13 +17,26 @@ export default function Account() {
         <ProtectRoutes>
           <Routes>
             <Route path='/' element={
-              <div>
-                <p>Hola querido usuario!</p>        
-              </div>
+              <AccountGUI/>
             }/>
           </Routes>
         </ProtectRoutes>
       } path='*'/>
     </Routes>
+  )
+}
+
+function AccountGUI({userData}) {
+
+  return (
+    <div className='accountContainer'>
+      <Routes>
+        <Route element={
+          <div className='accountDashboard'>
+            
+          </div>
+        } path='/'/>
+      </Routes>
+    </div>
   )
 }

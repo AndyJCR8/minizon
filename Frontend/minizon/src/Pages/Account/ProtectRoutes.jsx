@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { Children, useState } from 'react'
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -39,7 +39,7 @@ export default function ProtectRoutes({data, children}) {
         setLoading(false)
         if(res.data['userValid']) setUserVerified(true)
         else setUserVerified(false)
-        console.log(res.data)
+        console.log(res.data.UserData)
       })()
     } else {
       setLoading(false)
@@ -47,7 +47,7 @@ export default function ProtectRoutes({data, children}) {
     }
     
   }, []);
-
+  
   return (
     <>
       {

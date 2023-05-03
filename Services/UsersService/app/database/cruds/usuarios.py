@@ -22,7 +22,7 @@ def verifyUsuario(db: Session, Email: str, Password: str, ExpireInSecs: int = No
 
     res.pop("_sa_instance_state")
     res.pop("Password")
-    res["verified"] = True
+    #res["verified"] = True
     res['AuthToken'] = code.generateNewToken(res, ExpireInSecs if not None else 25200)
     res['Expires'] = code.verifyToken(res['AuthToken'])['validUntil']
 

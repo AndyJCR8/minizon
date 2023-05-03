@@ -40,7 +40,16 @@ async def login(credenciales: schemas.CredencialesUsuario, db: Session = Depends
 @router.post("/usuario/verifyUser", name="Verificación de token de usuario")
 async def verifyUser(token: str, db: Session = Depends(getDB)):
     try:
-        code.verifyToken(token)
-        return { "userValid": True }
+        userData = code.verifyToken(token)
+        data = {
+            'IDUsuario': userData['IDUsuario'],
+            'Nombre': userData['Nombre'],
+            'Email': userData['Email'],
+            'Telefono': userData['Telefono'],
+            'Edad': userData['Edad'],
+            'Frecuente': userData['Frecuente'],
+            'validUntil': userData['validUntil']
+        }
+        return { "userValid": True, 'UserData': data }
     except Exception as e:
         return { "userValid": False }
