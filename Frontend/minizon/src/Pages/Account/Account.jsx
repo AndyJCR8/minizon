@@ -1,4 +1,4 @@
-import { Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
+import { Link, Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import './Account.scss'
 import React, { useEffect, useState } from 'react'
 import Login from '../Login&Register/Login'
@@ -6,8 +6,12 @@ import ProtectRoutes from './ProtectRoutes';
 import Register from '../Login&Register/Register';
 import Logout from '../Login&Register/Logout';
 
-export default function Account() {
+import AccountOrders from './Pages/AccountOrders';
+import AccountUserData from './Pages/AccountUserData';
+import AccountAddresses from './Pages/AccountAddresses';
+import AccountCards from './Pages/AccountCards';
 
+export default function Account() {
   return (
     
     <Routes>
@@ -34,19 +38,19 @@ function AccountGUI({userData}) {
           <p className='userEmail'>{userData['Email']}</p>
         </div>
         <ul className='items'>
-          <Link to="" className='item'>
+          <Link to="orders" className='item'>
             <i className='fa-solid fa-cart-flatbed'></i>
             <p>Mis pedidos</p>
           </Link>
-          <Link to="" className='item'>
+          <Link to="userData" className='item'>
             <i className='fa-solid fa-circle-info'></i>
             <p>Mis datos</p>
           </Link>
-          <Link to="" className='item'>
+          <Link to="addresses" className='item'>
             <i className='fa-solid fa-location-dot'></i>
             <p>Mis direcciones</p>
           </Link>
-          <Link to="" className='item'>
+          <Link to="cards" className='item'>
             <i className='fa-solid fa-credit-card'></i>
             <p>Mis tarjetas</p>
           </Link>
@@ -55,18 +59,15 @@ function AccountGUI({userData}) {
           <Link to="/logout" className='button primary'>Cerrar sesión</Link>
         </div>
       </div>
+      <div className='separator'></div>
       <div className='accountContent'>
         <Routes>
-          <Route element={
-            <div className='accountDashboard'>
-              <div className='titleContainer'>
-                <p className='title'>
-                  ¡Bienvenido de nuevo <p className='userName'>{userData['Nombre']}</p>!
-                </p>
-              </div>
-            </div>
-          } path='/'/>
-
+          <Route element={<Navigate to='orders'/>} path='/'/>
+          <Route element={<AccountOrders UserID={userData['IDUsuario']}/>} path='/orders'/>
+          <Route element={<AccountUserData UserID={userData['IDUsuario']}/>} path='/userData'/>
+          <Route element={<AccountAddresses UserID={userData['IDUsuario']}/>} path='/addresses'/>
+          <Route element={<AccountCards UserID={userData['IDUsuario']}/>} path='/cards'/>
+          <Route element={<Navigate to='orders'/>} path='*'/>
         </Routes>
       </div>
     </div>

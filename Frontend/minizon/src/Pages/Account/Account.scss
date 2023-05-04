@@ -1,11 +1,17 @@
 .accountContainer {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 0.5fr 1fr;
+  grid-template-columns: 0.5fr 1px 1fr;
   place-items: center;
 
   width: 100%;
   height: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    overflow-y: overlay;
+  }
 
   .accountNavbar {
     display: grid;
@@ -76,11 +82,25 @@
     }
   }
 
+  .separator {
+    background-color: #ffffff31;
+    border-radius: 9999px;
+    width: 5px;
+    height: 90%;
+    @media (max-width: 768px) {
+      height: 5px;
+      width: 90%;
+    }
+  }
+
   .accountContent {
-    display: grid;
+    display: flex;
     place-content: center;
     place-items: center;
     height: 100%;
     width: 100%;
+
+    padding: 2rem;
+    box-sizing: border-box;
   }
 }
