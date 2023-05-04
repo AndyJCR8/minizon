@@ -30,7 +30,7 @@ def verifyUsuario(db: Session, Email: str, Password: str, ExpireInSecs: int = No
 
 def createUsuario(db: Session, usuario: schemas.UsuarioCreate):
     salt = bc.gensalt()
-    print(usuario)
+    #print(usuario)
     hashedPass = bc.hashpw(usuario.Password.encode('utf-8'), salt).decode()
     
     #if not usuario.Nickname: usuario["Nickname"] = usuario["Nombre"]
