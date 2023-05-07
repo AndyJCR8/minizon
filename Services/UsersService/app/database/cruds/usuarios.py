@@ -5,8 +5,13 @@ from . import clearUpdateValuesFromDict
 from .. import models, schemas
 from ...JWT import code
 
-def getUsuario(db: Session, id: int):
-    return db.query(models.Usuario).filter(models.Usuario.IDUsuario == id).first()
+def getUsuario(db: Session, id: int, userData: dict):
+    if id != userData['IDUsuario']: raise HTTPException(status_code=400, detail="ID Inválido")
+    
+    userData = db.query(models.Usuario).filter(models.Usuario.IDUsuario == id).first()
+    userData.__dict__.pop('Password')
+    
+    return userData
 
 """ def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
     return db.query(models.Usuario).offset(skip).limit(limit).all() """

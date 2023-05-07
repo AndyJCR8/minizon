@@ -149,7 +149,6 @@ class UsuarioUpdate(BaseModel):
   Telefono: Optional[int] = None
   Email: Optional[str] = None
   Password: Optional[str] = None
-  Fecuente: Optional[bool] = False
 
 class Usuario(UsuarioBase):
   IDUsuario: int
