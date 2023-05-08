@@ -6,6 +6,7 @@ export default function AccountAddresses({UserID}) {
   
   const [returnButton, setReturnButton] = useState(false);
   const [title, setTitle] = useState("Mis direcciones");
+  const [addresses, setAddresses] = useState([]);
 
   const navigate = useNavigate()
 
@@ -32,12 +33,23 @@ export default function AccountAddresses({UserID}) {
       <main className='addresses'>
         <Routes>
           <Route element={
-            <section className='address addressNew'>
-              <Link to='@addNewAddress' onClick={() => setTitle("Nueva dirección")}>
-                <i className='fa-solid fa-plus'></i>
-                <p>Agregar nueva dirección</p>
-              </Link>
-            </section>
+            <>
+              {
+                addresses.map(address => {
+                  return (
+                    <section className='address'>
+                      
+                    </section>
+                  )
+                })
+              }
+              <section className='address addressNew'>
+                <Link to='@addNewAddress' onClick={() => setTitle("Nueva dirección")}>
+                  <i className='fa-solid fa-plus'></i>
+                  <p>Agregar nueva dirección</p>
+                </Link>
+              </section>
+            </>
           } path='/'/>
           <Route element={<NewAddress/>} path='@addNewAddress'/>
         </Routes>
@@ -49,7 +61,30 @@ export default function AccountAddresses({UserID}) {
 function NewAddress() {
   return (
     <form className='addressesForm'>
+      <header>
+        <h2>Datos de la nueva dirección</h2>
+      </header>
+      <main>
+        <div className='formItem'>
+          <label>Dirección</label>
+          <input className='formInput' placeholder='1ra. av 3ra calle zona 1'/>
+        </div>
+        <div className='formItem'>
+          <label>Departamento</label>
+          <select className='formSelect'>
+            
+          </select>
+        </div>
+        <div className='formItem'>
+          <label>Municipio</label>
+          <select className='formSelect'>
 
+          </select>
+        </div>
+      </main>
+      <footer>
+
+      </footer>
     </form>
   )
 }
