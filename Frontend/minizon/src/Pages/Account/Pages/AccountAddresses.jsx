@@ -1,6 +1,9 @@
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import './AccountPages.scss'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
+import useFormAnswer from '../../../Hooks/useFormAnswer';
+import axios from 'axios';
+import { getToken } from '../../../Services/TokenFromCookie';
 
 export default function AccountAddresses({UserID}) {
   
@@ -59,31 +62,117 @@ export default function AccountAddresses({UserID}) {
 }
 
 function NewAddress() {
+
+  const [departamentos, setDepartamentos] = useState([]);
+  const [municipios, setMunicipios] = useState([]);
+
+  const [answer, answerType, answerActive, setAnswerFormData] = useFormAnswer()
+
+  /**
+   * @param {SubmitEvent} e
+   */
+  const addNewAddress = (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+
+    const formResponse = (answer, typeAnswer) => {
+      setAnswerFormData(answer, typeAnswer, true)
+      setTimeout(() => {
+        setAnswerFormData(answer, typeAnswer, false)
+      }, 2000);
+    }
+
+    if(form['IDMunicipio'].value == -1) formResponse("Debe seleccionar un municipio antes de continuar", "error");
+    
+    (async () => {
+      const res = await axios.post(`${import.meta.env.VITE_SERVICE_1}/direccion`, { Direccion: form['Direccion'].value, IDMunicipio: form['IDMunicipio'].value }, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      if(res.status == 200) formResponse("Dirección añadida correctamente", "success")
+      else formResponse("Ha ocurrido un error al añadir la dirección", "error")
+    })();
+  }
+
+  /**
+   * @param {ChangeEvent} e 
+   */
+  const departamentoChanged = (e) => {
+    (async () => {
+      const idDepartamento = e.currentTarget.value
+
+      const resMunicipios = await axios.get(`${import.meta.env.VITE_SERVICE_1}/municipios?idDepartamento=${idDepartamento}`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      
+      if(!Object.keys(resMunicipios.data).includes("message"))
+        setMunicipios(resMunicipios.data.municipios)
+      else setMunicipios([])
+    })()
+  }
+
+  useEffect(() => {
+    (async () => {
+      const resDepartamentos = await axios.get(`${import.meta.env.VITE_SERVICE_1}/departamentos`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      setDepartamentos(resDepartamentos.data.departamentos)
+      
+      const lastDepartamento = resDepartamentos.data.departamentos.at(0)
+      const resMunicipios = await axios.get(`${import.meta.env.VITE_SERVICE_1}/municipios?idDepartamento=${lastDepartamento.IDDepartamento}`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      
+      
+      if(!Object.keys(resMunicipios.data).includes("message"))
+        setMunicipios(resMunicipios.data.municipios)
+    })()
+  }, []);
+  
   return (
-    <form className='addressesForm'>
+    <form className='addressesForm' onSubmit={addNewAddress}>
       <header>
         <h2>Datos de la nueva dirección</h2>
       </header>
       <main>
         <div className='formItem'>
           <label>Dirección</label>
-          <input className='formInput' placeholder='1ra. av 3ra calle zona 1'/>
+          <input name='Direccion' className='formInput' placeholder='1ra. av 3ra calle zona 1' required/>
         </div>
         <div className='formItem'>
           <label>Departamento</label>
-          <select className='formSelect'>
-            
+          <select name='IDDepartamento' className='formSelect' onChange={departamentoChanged} required>
+            {
+              departamentos.map((departamento, i) => {
+                return (
+                  <option key={i} value={departamento.IDDepartamento}>
+                    {departamento.Nombre}
+                  </option>
+                )
+              })
+            }
           </select>
         </div>
         <div className='formItem'>
           <label>Municipio</label>
-          <select className='formSelect'>
-
+          <select name='IDMunicipio' className='formSelect' required>
+            {
+              municipios.length > 0 ?
+              municipios.map((municipio, i) => {
+                return (
+                  <option key={i} value={municipio.IDMunicipio}>
+                    {municipio.Nombre} - {municipio.CodigoPostal}
+                  </option>
+                )
+              }) : <option value={-1}>No hay municipios registrados</option>
+            }
           </select>
         </div>
       </main>
       <footer>
-
+        <div className={`formAnswerContainer${answerActive ? ' active': ''}`}>
+          <div className={`formAnswer ${answerType}`}>{answer}</div>
+        </div>
+        <button type='submit' className='button primary'>Agregar dirección</button>
       </footer>
     </form>
   )

@@ -158,7 +158,7 @@ a, button, p { text-decoration: none; -webkit-tap-highlight-color: transparent; 
   transition: all ease-in-out 125ms;
 }
 
-.formInput {
+.formInput, .formSelect {
   padding: 0.65rem 1.25rem;
   font-size: 1.05rem;
 
@@ -177,6 +177,11 @@ a, button, p { text-decoration: none; -webkit-tap-highlight-color: transparent; 
   }
 
   transition: all ease-in-out 125ms;
+}
+
+.formSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .formCheckbox[type="checkbox"] {

@@ -129,5 +129,52 @@
         transition: all ease-in-out 125ms;
       }
     }
+
+    .addressesForm {
+      display: grid;
+      header {
+        text-align: center;
+      }
+      main {
+        display: grid;
+        column-gap: 2rem;
+        row-gap: 2rem;
+        text-align: center;
+
+        margin-top: 3rem;
+
+        grid-template-rows: repeat(auto-fit, minmax(1fr, min-content));
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+
+        .formItem {
+          display: grid;
+          place-items: center;
+          grid-template-rows: auto 1fr;
+          input, select { width: 80%; }
+          label {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+          }
+        }
+      }
+
+      footer {
+        display: grid;
+        place-items: center;
+        place-content: center;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        row-gap: 1.25rem;
+        
+        margin-top: 2rem;
+
+        button {
+          width: fit-content;
+        }
+      }
+
+      width: 100%;
+      height: 100%;
+    }
   }
 }
