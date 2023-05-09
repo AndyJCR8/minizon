@@ -150,10 +150,18 @@
           display: grid;
           place-items: center;
           grid-template-rows: auto 1fr;
-          input, select { width: 80%; }
+          input { width: 70%; }
+          select { width: 80%; }
           label {
             font-size: 1.15rem;
             margin-bottom: 1rem;
+          }
+          .sectionContainer {
+            display: grid;
+            place-items: center;
+            position: relative;
+            width: 100%;
+            i { pointer-events: none; position: absolute; right: 15%; top: 50%; translate: 0% -50%; }
           }
         }
       }

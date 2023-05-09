@@ -140,32 +140,38 @@ function NewAddress() {
         </div>
         <div className='formItem'>
           <label>Departamento</label>
-          <select name='IDDepartamento' className='formSelect' onChange={departamentoChanged} required>
-            {
-              departamentos.map((departamento, i) => {
-                return (
-                  <option key={i} value={departamento.IDDepartamento}>
-                    {departamento.Nombre}
-                  </option>
-                )
-              })
-            }
-          </select>
+          <div className='sectionContainer'>
+            <select name='IDDepartamento' className='formSelect' onChange={departamentoChanged} required>
+              {
+                departamentos.map((departamento, i) => {
+                  return (
+                    <option key={i} value={departamento.IDDepartamento}>
+                      {departamento.Nombre}
+                    </option>
+                  )
+                })
+              }
+            </select>
+            <i className='fa-solid fa-caret-down'></i>
+          </div>
         </div>
         <div className='formItem'>
           <label>Municipio</label>
-          <select name='IDMunicipio' className='formSelect' required>
-            {
-              municipios.length > 0 ?
-              municipios.map((municipio, i) => {
-                return (
-                  <option key={i} value={municipio.IDMunicipio}>
-                    {municipio.Nombre} - {municipio.CodigoPostal}
-                  </option>
-                )
-              }) : <option value={-1}>No hay municipios registrados</option>
-            }
-          </select>
+          <div className='sectionContainer'>
+            <select name='IDMunicipio' className='formSelect' required>
+              {
+                municipios.length > 0 ?
+                municipios.map((municipio, i) => {
+                  return (
+                    <option key={i} value={municipio.IDMunicipio}>
+                      {municipio.Nombre} - {municipio.CodigoPostal}
+                    </option>
+                  )
+                }) : <option value={-1}>No hay municipios registrados</option>
+              }
+            </select>
+            <i className='fa-solid fa-caret-down'></i>
+          </div>
         </div>
       </main>
       <footer>
