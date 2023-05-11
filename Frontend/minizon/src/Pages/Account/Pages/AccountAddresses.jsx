@@ -4,14 +4,13 @@ import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
 import useFormAnswer from '../../../Hooks/useFormAnswer';
 import axios from 'axios';
 import { getToken } from '../../../Services/TokenFromCookie';
+import Modal from '../../../Components/UI Components/Modal/Modal';
 
 export default function AccountAddresses({UserID}) {
   
   const [returnButton, setReturnButton] = useState(false);
   const [title, setTitle] = useState("Mis direcciones");
   const [addresses, setAddresses] = useState([]);
-
-  const [idAddress, setIdAddress] = useState(0);
 
   const navigate = useNavigate()
 
@@ -23,8 +22,8 @@ export default function AccountAddresses({UserID}) {
       const res = await axios.get(`${import.meta.env.VITE_SERVICE_1}/direcciones`, {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
-      
-      setAddresses(res.data.direcciones)
+      if(res.data.direcciones)
+        setAddresses(res.data.direcciones)
     },
   )
 

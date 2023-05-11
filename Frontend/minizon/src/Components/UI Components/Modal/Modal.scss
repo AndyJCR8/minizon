@@ -1,0 +1,40 @@
+.modalContainer {
+
+  display: grid;
+  place-items: center; place-content: center;
+
+  position: absolute;
+
+  background-color: rgb(38, 38, 38, 0.45);
+
+  opacity: 0;
+
+  .modal {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    place-items: center;
+
+    position: absolute;
+
+    top: -100%;
+    opacity: 0;
+
+    background-color: var(--P1P7);
+    box-shadow: var(--boxSh);
+
+    border-radius: 10px;
+    transition: top var(--Anim1) 125ms, opacity var(--Anim1) 125ms 35ms;
+  }
+
+  &.active {
+    .modal {
+      top: 50%;
+      translate: 0 50%;
+      opacity: 1;
+    }
+
+    opacity: 1;
+  }
+
+  transition: all ease-in-out 120ms;
+}
