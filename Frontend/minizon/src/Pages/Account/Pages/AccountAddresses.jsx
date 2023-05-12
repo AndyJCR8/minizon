@@ -5,12 +5,15 @@ import useFormAnswer from '../../../Hooks/useFormAnswer';
 import axios from 'axios';
 import { getToken } from '../../../Services/TokenFromCookie';
 import Modal from '../../../Components/UI Components/Modal/Modal';
+import useModal from '../../../Hooks/useModal';
 
 export default function AccountAddresses({UserID}) {
   
   const [returnButton, setReturnButton] = useState(false);
   const [title, setTitle] = useState("Mis direcciones");
   const [addresses, setAddresses] = useState([]);
+
+  const modalStates = useModal()
 
   const navigate = useNavigate()
 
@@ -62,7 +65,7 @@ export default function AccountAddresses({UserID}) {
                       </div>
                       <div className='options'>
                         <Link to={`@editAddress/${address.IDDireccion}`}>Editar</Link>
-                        <Link to="">Eliminar</Link>
+                        <button type='button'>Eliminar</button>
                       </div>
                     </section>
                   )
@@ -74,6 +77,12 @@ export default function AccountAddresses({UserID}) {
                   <p>Agregar nueva dirección</p>
                 </Link>
               </section>
+              <Modal title='Eliminar dirección' message='¿Desea eliminar la dirección seleccionada?' actions={
+                <>
+                  <button className='button primary'>Si</button>
+                  <button className='button secondary'>No</button>
+                </>
+              } states={modalStates}/>
             </>
           } path='/'/>
           <Route element={<NewAddress/>} path='@addNewAddress'/>
