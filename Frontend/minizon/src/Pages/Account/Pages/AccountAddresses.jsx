@@ -12,9 +12,9 @@ export default function AccountAddresses({UserID}) {
   const [returnButton, setReturnButton] = useState(false);
   const [title, setTitle] = useState("Mis direcciones");
   const [addresses, setAddresses] = useState([]);
+  const [deleteAddData, setDeleteAddData] = useState({});
 
   const modalStates = useModal()
-
   const navigate = useNavigate()
 
   const handleNavigate = useCallback(
@@ -30,6 +30,28 @@ export default function AccountAddresses({UserID}) {
     },
   )
 
+  const handleDeleteAddress = useCallback(
+    async () => {
+      const res = await axios.delete(`${import.meta.env.VITE_SERVICE_1}/direccion?idDireccion=${deleteAddData.IDDireccion}`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      modalStates.Active.setActive(false)
+      console.log(res)
+    },
+    [deleteAddData],
+  )
+
+  const handleSetModalData = useCallback(
+    (address) => {
+      setDeleteAddData(address);
+      modalStates.Active.setActive(true); 
+      modalStates.SubMessage.setSubMessage(`${address.Direccion} - ${address.municipio.Nombre} ${address.municipio.departamento.Nombre}`); 
+    },
+    [],
+  )
+  
+  
+
   useEffect(() => {
     if(location.pathname.includes("@")) setReturnButton(true)
   });
@@ -42,6 +64,7 @@ export default function AccountAddresses({UserID}) {
       handleAddresses()
     }
   }, [navigate]);
+  
   
   return (
     <div className='addressesContainer'>
@@ -65,7 +88,7 @@ export default function AccountAddresses({UserID}) {
                       </div>
                       <div className='options'>
                         <Link to={`@editAddress/${address.IDDireccion}`}>Editar</Link>
-                        <button type='button'>Eliminar</button>
+                        <button onClick={() => { handleSetModalData(address) }} type='button'>Eliminar</button>
                       </div>
                     </section>
                   )
@@ -79,8 +102,8 @@ export default function AccountAddresses({UserID}) {
               </section>
               <Modal title='Eliminar dirección' message='¿Desea eliminar la dirección seleccionada?' actions={
                 <>
-                  <button className='button primary'>Si</button>
-                  <button className='button secondary'>No</button>
+                  <button className='button primary' onClick={() => { handleDeleteAddress() }}>Si</button>
+                  <button className='button secondary' onClick={() => { modalStates.Active.setActive(false) }}>No</button>
                 </>
               } states={modalStates}/>
             </>

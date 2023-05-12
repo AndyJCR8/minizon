@@ -7,13 +7,12 @@ import React, { useEffect, useState, ReactElement } from 'react'
  *  Destroy: { destroy: boolean, setDestroy: any }
  * }}}
  */
-export default function Modal({title, message, actions, states}) {
+export default function Modal({title, message, subMessage, actions, states}) {
   
   useEffect(() => { states.Active.setActive(true) }, []);
 
   const handleClose = () => {
     states.Active.setActive(false)
-    //setTimeout(() => { states.Destroy.setDestroy(true) }, 1000);
   }
 
   return (
@@ -27,6 +26,7 @@ export default function Modal({title, message, actions, states}) {
         </header>
         <main className='modalBody'>
           <p className='message'>{message}</p>
+          { subMessage && <p className='subMessage'>{subMessage}</p> }
         </main>
         <footer className='modalOptions'>
           {actions}
