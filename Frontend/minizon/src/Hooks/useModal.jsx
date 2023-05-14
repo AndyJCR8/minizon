@@ -12,6 +12,6 @@ export default function useModal() {
     Active: { "active": active, "setActive": setActive },
     Title: { "title": title, "setTitle": setTitle },
     Message: { "message": message, "setMessage": setMessage },
-    SubMessage: { "message": subMessage, "setSubMessage": setSubMessage }
+    SubMessage: { "subMessage": subMessage, "setSubMessage": setSubMessage }
   }
 }

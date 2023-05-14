@@ -9,7 +9,7 @@ import React, { useEffect, useState, ReactElement } from 'react'
  */
 export default function Modal({title, message, subMessage, actions, states}) {
   
-  useEffect(() => { states.Active.setActive(true) }, []);
+  //useEffect(() => { states.Active.setActive(true) }, []);
 
   const handleClose = () => {
     states.Active.setActive(false)

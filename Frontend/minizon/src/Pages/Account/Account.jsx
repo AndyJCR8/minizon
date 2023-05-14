@@ -66,7 +66,7 @@ function AccountGUI({userData}) {
           <Route element={<AccountOrders UserID={userData['IDUsuario']}/>} path='/orders'/>
           <Route element={<AccountUserData UserID={userData['IDUsuario']}/>} path='/userData'/>
           <Route element={<AccountAddresses UserID={userData['IDUsuario']}/>} path='/addresses/*'/>
-          <Route element={<AccountCards UserID={userData['IDUsuario']}/>} path='/cards'/>
+          <Route element={<AccountCards UserID={userData['IDUsuario']}/>} path='/cards/*'/>
           <Route element={<Navigate to='orders'/>} path='*'/>
         </Routes>
       </div>

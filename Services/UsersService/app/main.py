@@ -2,7 +2,7 @@ import uuid
 from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import usuarios, tarjetas, direcciones, pedidos, departamentosMuni
+from .routers import usuarios, tarjetas, direcciones, pedidos, departamentosMuni, marcas
 from .JWT import code
 from .config.envConfig import settings
 
@@ -21,6 +21,7 @@ app.include_router(tarjetas.router, prefix='/api', tags=["CRUD Tarjetas"])
 app.include_router(direcciones.router, prefix='/api', tags=["CRUD Direcciones"])
 app.include_router(pedidos.router, prefix='/api', tags=["CRUD Pedidos"])
 app.include_router(departamentosMuni.router, prefix='/api', tags=["Departamentos y municipios"])
+app.include_router(marcas.router, prefix='/api', tags=["Marcas"])
 
 
 @app.get('/')

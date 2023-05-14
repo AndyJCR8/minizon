@@ -27,7 +27,7 @@ export default function AccountAddresses({UserID}) {
       })
       if(res.data.direcciones)
         setAddresses(res.data.direcciones)
-    },
+    }, []
   )
 
   const handleDeleteAddress = useCallback(
@@ -37,8 +37,9 @@ export default function AccountAddresses({UserID}) {
       })
       modalStates.Active.setActive(false)
       console.log(res)
+      handleAddresses()
     },
-    [deleteAddData],
+    [deleteAddData]
   )
 
   const handleSetModalData = useCallback(
@@ -47,9 +48,8 @@ export default function AccountAddresses({UserID}) {
       modalStates.Active.setActive(true); 
       modalStates.SubMessage.setSubMessage(`${address.Direccion} - ${address.municipio.Nombre} ${address.municipio.departamento.Nombre}`); 
     },
-    [],
+    []
   )
-  
   
 
   useEffect(() => {
@@ -64,7 +64,6 @@ export default function AccountAddresses({UserID}) {
       handleAddresses()
     }
   }, [navigate]);
-  
   
   return (
     <div className='addressesContainer'>
@@ -100,7 +99,7 @@ export default function AccountAddresses({UserID}) {
                   <p>Agregar nueva dirección</p>
                 </Link>
               </section>
-              <Modal title='Eliminar dirección' message='¿Desea eliminar la dirección seleccionada?' actions={
+              <Modal title='Eliminar dirección' message='¿Desea eliminar la dirección seleccionada?' subMessage={modalStates.SubMessage.subMessage} actions={
                 <>
                   <button className='button primary' onClick={() => { handleDeleteAddress() }}>Si</button>
                   <button className='button secondary' onClick={() => { modalStates.Active.setActive(false) }}>No</button>
@@ -267,7 +266,7 @@ function EditAddress() {
     if(form['IDMunicipio'].value == -1) formResponse("Debe seleccionar un municipio antes de continuar", "error");
     
     (async () => {
-      const res = await axios.put(`${import.meta.env.VITE_SERVICE_1}/direccion`, { Direccion: form['Direccion'].value, IDMunicipio: form['IDMunicipio'].value }, {
+      const res = await axios.put(`${import.meta.env.VITE_SERVICE_1}/direccion?idDireccion=${id}`, { Direccion: form['Direccion'].value, IDMunicipio: form['IDMunicipio'].value }, {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
       if(res.status == 200) formResponse("Dirección editada correctamente", "success")
