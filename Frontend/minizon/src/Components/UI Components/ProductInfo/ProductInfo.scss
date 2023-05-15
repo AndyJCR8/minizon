@@ -11,21 +11,37 @@
   top: 0;
   left: 0;
 
+  opacity: 0;
+
   z-index: 1002;
   pointer-events: none;
 
+  
   .productSpecificInfo {
-
     display: grid;
     grid-template-columns: 50% 1fr;
     grid-template-rows: 1fr;
+    position: relative;
+
     width: 80%;
     height: 50%;
 
-    background-color: var(--P1P6);
+    margin-top: -35%;
+
+    background-color: var(--P1P7);
+    box-shadow: var(--boxShV1);
     border-radius: 15px;
 
-    padding: 2rem 2rem 1rem 1rem;
+    padding: 2rem;
+
+    .closeContainer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      button {
+        margin: 1rem 1rem 0 0;
+      }
+    }
     
     header {
       display: flex;
@@ -44,9 +60,75 @@
         border-radius: 15px;
         object-fit: cover;
       }
+      
     }
+
+    main {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      padding: 1rem 2rem;
+
+      .productName {
+        font-size: 1.75rem;
+        font-weight: 600;
+      }
+      .productDescription {
+        font-size: 1.25rem;
+        font-weight: 200;
+      }
+      .productDetails {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        width: 100%;
+        place-items: center;
+        place-content: center;
+        place-self: end;
+        
+        .productPrice {
+          display: flex;
+          place-content: end;
+          font-size: 1.5rem;
+          width: 100%;
+          font-weight: 700;
+          margin-right: 2rem;
+        }
+
+        .productCount {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          place-items: center;
+          place-content: center;
+          background-color: var(--P1P8);
+          box-shadow: var(--boxSh);
+          border-radius: 15px;
+          padding: 0.75rem 1.25rem;
+          margin-right: 2rem;
+
+          font-size: 1rem !important;
+
+          .count {
+            font-size: 1.25rem;
+            margin: 0;
+          }
+
+        }
+
+        .addToCartContainer {
+          button { padding: 1rem 1.5rem; }
+        }
+      }
+    }
+
+    transition: margin-top var(--Anim1) 125ms;
   }
 
-  &.active { pointer-events: all; }
+  &.active {
+    .productSpecificInfo {
+      margin-top: 0%;
+    }
+    opacity: 1;
+    pointer-events: all;
+  }
+
   transition: all ease-in-out 125ms;
 }
