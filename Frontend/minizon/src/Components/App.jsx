@@ -11,6 +11,7 @@ import Bottombar from './Navbars/Bottombar/Bottombar'
 import Home from '../Pages/Home/Home'
 import Account from '../Pages/Account/Account'
 import Notification from './UI Components/Notification/Notification'
+import ShoppingCart from '../Pages/ShoppingCart/ShoppingCart'
 
 export const NotificationContext = createContext()
 
@@ -50,6 +51,7 @@ function Body() {
     <NotificationContext.Provider value={{setNotificationData: setNotificationData}}>
       <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route path='/cart' element={<ShoppingCart/>}/>
         <Route path='/account/*' element={<Account/>}/>
       </Routes>
       <Notification data={notificationData}/>

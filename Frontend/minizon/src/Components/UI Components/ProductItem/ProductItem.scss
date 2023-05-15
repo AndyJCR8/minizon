@@ -121,6 +121,13 @@ $holderLoadingAnim: loading infinite ease-in-out 1.5s;
     padding: 0 0.75rem;
     color: var(--P1S6);
     font-weight: 800;
+
+    .cartContainer {
+      display: grid;
+      place-items: center;
+      place-content: center;
+      button { padding: 0.5rem 0.75rem !important; }
+    }
   }
   .itemBody, .itemFooter {
     &:hover { cursor: initial; }

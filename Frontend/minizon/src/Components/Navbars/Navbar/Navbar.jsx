@@ -55,7 +55,7 @@ export default function Navbar() {
             <Link to="/"><i className='fa-solid fa-heart'></i></Link>
           </div>
           <div className='navbarItem'>
-            <Link to="/" className='shopIcon'>
+            <Link to="/cart" className='shopIcon'>
               <i className='fa-solid fa-bag-shopping'></i>
               <i className='counter'>9</i>
             </Link>

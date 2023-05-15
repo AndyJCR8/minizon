@@ -3,6 +3,7 @@ import "./Home.scss"
 import React, { useContext, useEffect } from 'react'
 import Section from "./Section/Section"
 import { NotificationContext } from "../../Components/App"
+import ProductInfo from "../../Components/UI Components/ProductInfo/ProductInfo"
 
 export default function Home() {
 
@@ -50,7 +51,10 @@ export default function Home() {
             linkPath={'/categories/mostbuyed'}
             dataPath={'/link/backend/productosMasVendidos'}/>
         */}
-        <Section title="Más vendidos" linkText="ver todos" linkPath="/" productsCount={5}/>
+        <ProductInfo>
+          <Section title="Más vendidos" linkText="ver todos" linkPath="/" productsCount={5}/>
+          <Section title="Mesas" linkText="ver todos" linkPath="/" productsCount={5}/>
+        </ProductInfo>
       </div>
     </div>
   )
