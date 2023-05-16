@@ -59,6 +59,8 @@
       top: 50%;
       translate: 0% -50%;
       color: white;
+      border-radius: 0;
+      background-color: rgba($color: #000000, $alpha: .09);
 
       &:nth-child(1) { left: 0rem; }
       &:nth-child(2) { right: 0rem; }

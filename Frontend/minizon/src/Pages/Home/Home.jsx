@@ -7,20 +7,17 @@ import ProductInfo from "../../Components/UI Components/ProductInfo/ProductInfo"
 
 export default function Home() {
 
-  const notificationContext = useContext(NotificationContext)
+  /* const notificationContext = useContext(NotificationContext)
   useEffect(() => {
     notificationContext.setNotificationData({
-      "message": "Este es un mensaje enviado desde la página principal",
+      "message": "Página principal",
       //"type": "success",
       "icon": "home",
       "execInfo": {
         "time": "3000"
       }
     })
-    /* setTimeout(() => {
-
-    }, 2000); */
-  }, []);
+  }, []); */
 
   return (
     <div className="home">

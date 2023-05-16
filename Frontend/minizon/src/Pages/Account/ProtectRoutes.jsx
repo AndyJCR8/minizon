@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { Children, cloneElement, useState } from 'react'
+import React, { Children, cloneElement, useState } from 'react';
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { getToken } from '../../Services/TokenFromCookie';
+import Loader from '../../Components/UI Components/Loader/Loader';
 
 export default function ProtectRoutes({children}) {
   const [userVerified, setUserVerified] = useState(false);
@@ -21,7 +22,7 @@ export default function ProtectRoutes({children}) {
         setLoading(false)
         if(res.data['userValid']) setUserVerified(true)
         else setUserVerified(false)
-        console.log(res.data.UserData)
+        
         setUserData(res.data.UserData)
       })()
     } else {
@@ -34,10 +35,7 @@ export default function ProtectRoutes({children}) {
   return (
     <>
       {
-        !userVerified && loading &&
-        <div>
-            <p>cargando...</p>
-        </div>
+        !userVerified && loading && <Loader size={"xxl"}/>
       }
       {
         !userVerified && !loading ? <Navigate to={"login"}/> : null

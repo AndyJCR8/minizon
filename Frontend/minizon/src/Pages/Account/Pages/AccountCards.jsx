@@ -36,7 +36,6 @@ export default function AccountCards({UserID}) {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
       modalStates.Active.setActive(false)
-      console.log(res)
       handleCards()
     },
     [deleteAddData]

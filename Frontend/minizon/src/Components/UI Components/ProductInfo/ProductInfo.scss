@@ -5,18 +5,28 @@
   place-content: center;
   place-items: center;
 
-  background-color: rgb(0, 0, 0, 0.75);
+  background-color: transparent;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-
-  opacity: 0;
-
-  z-index: 1002;
-  pointer-events: none;
-
   
+  opacity: 0;
+  
+  z-index: 1002;
+  
+  @media (max-width: 1050px) { place-items: end; }
+  
+  .backgroundScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.75);
+    z-index: 1001;
+
+    pointer-events: none;
+  }
+
   .productSpecificInfo {
     display: grid;
     grid-template-columns: 50% 1fr;
@@ -26,7 +36,7 @@
     width: 80%;
     height: 50%;
 
-    margin-top: -35%;
+    translate: 0% -35%;
 
     background-color: var(--P1P7);
     box-shadow: var(--boxShV1);
@@ -34,12 +44,18 @@
 
     padding: 2rem;
 
+    z-index: 1003;
+
     .closeContainer {
       position: absolute;
       top: 0;
       right: 0;
       button {
         margin: 1rem 1rem 0 0;
+        background-color: transparent;
+        box-shadow: none;
+        &:hover { background-color: var(--P1P6); box-shadow: var(--SHP1P6); }
+        transition: all ease 150ms;
       }
     }
     
@@ -71,11 +87,21 @@
       .productName {
         font-size: 1.75rem;
         font-weight: 600;
+        .name { margin-top: 0; }
+        .category {
+          color: #ffffffc7;
+          font-size: 0.95rem;
+          
+          i { margin-right: 0.5rem; }
+        }
       }
+
       .productDescription {
         font-size: 1.25rem;
-        font-weight: 200;
+        font-weight: 400;
+        text-align: justify;
       }
+
       .productDetails {
         display: grid;
         grid-template-columns: 1fr auto auto;
@@ -108,7 +134,7 @@
 
           .count {
             font-size: 1.25rem;
-            margin: 0;
+            margin: 0 0.5rem;
           }
 
         }
@@ -119,15 +145,31 @@
       }
     }
 
-    transition: margin-top var(--Anim1) 125ms;
+    @media (max-width: 1050px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 75%;
+      height: 75%;
+
+      translate: 0% 50%;
+      .closeContainer { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    transition: translate var(--Anim1) 125ms;
   }
 
   &.active {
     .productSpecificInfo {
-      margin-top: 0%;
+      translate: 0%;
     }
+
+    .backgroundScreen { pointer-events: all; }
+
     opacity: 1;
-    pointer-events: all;
   }
 
   transition: all ease-in-out 125ms;

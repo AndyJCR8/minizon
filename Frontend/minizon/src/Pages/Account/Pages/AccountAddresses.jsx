@@ -36,7 +36,6 @@ export default function AccountAddresses({UserID}) {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
       modalStates.Active.setActive(false)
-      console.log(res)
       handleAddresses()
     },
     [deleteAddData]

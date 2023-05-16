@@ -1,8 +1,11 @@
 import "./Loader.scss"
 import React from 'react'
 
-export default function Loader() {
+export default function Loader({size}) {
+  
   return (
-    <div>Loader</div>
+    <div className="loaderContainer">
+      <span className={`loader ${size}`}></span>
+    </div>
   )
 }

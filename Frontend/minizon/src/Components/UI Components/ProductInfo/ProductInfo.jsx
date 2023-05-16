@@ -45,7 +45,10 @@ export default function ProductInfo({children}) {
               <img src={`${productData.Imagen}`}/>
             </header>
             <main>
-              <div className='productName'><p>{productData.Nombre}</p></div>
+              <div className='productName'>
+                <p className='name'>{productData.Nombre}</p>
+                <p className='category'><i className='fa-solid fa-cubes-stacked'></i>{productData.Categoria}</p>
+              </div>
               <div className='productDescription'><p>{productData.Descripcion}</p></div>
               <div className='productDetails'>
                 <p className='productPrice'>Q{productData.PrecioDeVenta}</p>
@@ -64,6 +67,7 @@ export default function ProductInfo({children}) {
               </div>
             </main>
           </div>
+          <div onClick={() => { setActive(false); setTimeout(() => { setShowInfo(false) }, 250); }} className='backgroundScreen'></div>
         </div> : null
       }
     </>
