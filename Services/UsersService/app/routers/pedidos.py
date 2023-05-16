@@ -17,20 +17,20 @@ router = APIRouter()
 # SOLO UN MICROSERVICIO PUEDE EFECTUAR ESTA ACCIÓN
 # ------------------------------------------
 @router.get("/pedido", name="Obtener pedido")
-async def getTarjeta(idPedido: int, db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
+async def getPedido(idPedido: int, db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
     
     #return userData
     pedido = pedidos.getPedido(db, userData['IDUsuario'], idPedido)
     return { "pedido": {**pedido.__dict__} } if pedido is not None else { "message": "pedido no encontrado" }
 
 @router.get("/pedidos", name="Obtener pedidos")
-async def getTarjetas(db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):    
+async def getPedidos(db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):    
     #return userData
     _pedidos = pedidos.getPedidos(db, userData['IDUsuario'])
     return { "pedidos": _pedidos } if _pedidos.__len__() > 0 else { "message": "aún no hay pedidos efectuados en la cuenta del cliente" }
 
 @router.post("/pedido", name="Agregar nuevo pedido")
-async def addTarjeta(pedido: schemas.PedidoCreate, db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
+async def addPedido(pedido: schemas.PedidoCreate, db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
     
     try:
       pedidos.addPedido(db, userData["IDUsuario"], pedido)

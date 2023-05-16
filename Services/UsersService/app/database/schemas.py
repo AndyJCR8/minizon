@@ -128,6 +128,7 @@ class Departamento(DepartamentoBase):
 class CredencialesUsuario(BaseModel):
   Email: str
   Password: str
+  ExpireInSecs: Optional[int] = None
 
 class UsuarioBase(BaseModel):
   Nombre: str
@@ -136,6 +137,7 @@ class UsuarioBase(BaseModel):
   #FechaNacimiento: date DESCARTADO
   Telefono: int
   Email: str
+  Frecuente: Optional[bool] = False
   #Direccion: str DESCARTADO
 
 class UsuarioCreate(UsuarioBase): Password: str

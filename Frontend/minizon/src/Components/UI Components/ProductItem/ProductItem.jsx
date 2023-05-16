@@ -1,15 +1,22 @@
 import "./ProductItem.scss"
-import React from 'react'
+import React, { useCallback } from 'react'
 
-export default function ProductItem({loading, data}) {
-  console.log("ProductItem: ", data)
+export default function ProductItem({loading, data, productInfoProps}) {
+
+  const handleProductClick = useCallback(
+    () => {
+      productInfoProps.setShowInfo(true)
+      productInfoProps.setProductData(data)
+    }
+  )
+  
   return (
     <div className={`productItem${loading ? " loading" : ''}`}>
       {
         loading ? <ProductItemsLoading/> :
         <>
           <div className="itemHeader">
-            <img src={data.Imagen}/>
+            <img onClick={() => handleProductClick()} src={data.Imagen}/>
           </div>
           <div className="itemBody">
             <div className="catContainer">
@@ -24,7 +31,7 @@ export default function ProductItem({loading, data}) {
               <p>Q {data.PrecioDeVenta}</p>
             </div>
             <div className="cartContainer">
-
+              <button className="button secondary"><i className="fa-solid fa-cart-shopping"></i></button>
             </div>
           </div>
         </>

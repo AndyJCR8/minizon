@@ -15,13 +15,13 @@ export default function Bottombar() {
           <Link to="/"><i className='fa-solid fa-heart'></i></Link>
         </div>
         <div className='bottbarItem'>
-          <Link to="/" className='shopIcon'>
+          <Link to="/cart" className='shopIcon'>
             <i className='fa-solid fa-bag-shopping'></i>
             <i className='counter'>9</i>
           </Link>
         </div>
         <div className='bottbarItem'>
-          <Link to="/"><i className='fa-solid fa-user'></i></Link>
+          <Link to="/account"><i className='fa-solid fa-user'></i></Link>
         </div>
       </div>
     </nav>

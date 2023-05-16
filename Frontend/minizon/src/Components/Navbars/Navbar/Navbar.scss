@@ -139,8 +139,8 @@ PARA CIERTOS DISPOSITIVOS
         width: max-content;
         .item {
           display: grid;
-          place-items: start;
-          place-content: start;
+          align-items: center;
+          justify-content: start;
 
           text-align: center;
           box-sizing: border-box;

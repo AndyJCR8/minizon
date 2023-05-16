@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react'
 import ProductItem from '../../../Components/UI Components/ProductItem/ProductItem';
 import axios from 'axios';
 
-export default function Section({title, linkText, linkPath, dataPath, productsCount}) {
+export default function Section({title, linkText, linkPath, dataPath, productsCount, productInfoProps}) {
 
   const [data, setData] = useState({ state: "pending", items: Array.from(Array(productsCount))});
-
+  
   useEffect(() => {
     (
-      async function() {        const response = (await axios.get(`http://localhost:3001/products?total=${productsCount}`)).data
+      async function() {
+        const response = (await axios.get(`http://localhost:3001/products?total=${productsCount}`)).data
         setData({state: "ready", items: response.products})
       }
     )()
@@ -35,11 +36,12 @@ export default function Section({title, linkText, linkPath, dataPath, productsCo
       <div className="body">
         {
           data.items.map((item, j) => {
-            console.log(item)
+            //console.log(item)
             return (
               <ProductItem key={j}
               loading={data.state == "pending"}
-              data={item}/>
+              data={item}
+              productInfoProps={productInfoProps}/>
             )
           })
         }

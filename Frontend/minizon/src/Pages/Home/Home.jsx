@@ -1,9 +1,24 @@
 import Carousel, { CarouselItem } from "./Carousel/Carousel"
 import "./Home.scss"
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Section from "./Section/Section"
+import { NotificationContext } from "../../Components/App"
+import ProductInfo from "../../Components/UI Components/ProductInfo/ProductInfo"
 
 export default function Home() {
+
+  /* const notificationContext = useContext(NotificationContext)
+  useEffect(() => {
+    notificationContext.setNotificationData({
+      "message": "Página principal",
+      //"type": "success",
+      "icon": "home",
+      "execInfo": {
+        "time": "3000"
+      }
+    })
+  }, []); */
+
   return (
     <div className="home">
       <div className="info">
@@ -33,7 +48,10 @@ export default function Home() {
             linkPath={'/categories/mostbuyed'}
             dataPath={'/link/backend/productosMasVendidos'}/>
         */}
-        <Section title="Más vendidos" linkText="ver todos" linkPath="/" productsCount={5}/>
+        <ProductInfo>
+          <Section title="Más vendidos" linkText="ver todos" linkPath="/" productsCount={5}/>
+          <Section title="Mesas" linkText="ver todos" linkPath="/" productsCount={5}/>
+        </ProductInfo>
       </div>
     </div>
   )

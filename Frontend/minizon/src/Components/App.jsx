@@ -1,14 +1,19 @@
 import '@fortawesome/fontawesome-free/scss/fontawesome.scss'
 import '@fortawesome/fontawesome-free/scss/regular.scss'
 import '@fortawesome/fontawesome-free/scss/solid.scss'
-import { useState, useEffect, useRef } from 'react'
+import '@fortawesome/fontawesome-free/scss/brands.scss'
+import { useState, useEffect, useRef, createContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './Navbars/Navbar/Navbar'
 import useWindow from '../Hooks/useWindow'
 import Sidebar from './Navbars/Sidebar/Sidebar'
 import Bottombar from './Navbars/Bottombar/Bottombar'
 import Home from '../Pages/Home/Home'
-import Login from '../Pages/Login/Login'
+import Account from '../Pages/Account/Account'
+import Notification from './UI Components/Notification/Notification'
+import ShoppingCart from '../Pages/ShoppingCart/ShoppingCart'
+
+export const NotificationContext = createContext()
 
 export default function App() {
   const windowSize = useWindow();
@@ -34,10 +39,22 @@ export default function App() {
           <Sidebar/>
         </> : <Navbar/>
       }
+      <Body/>
+    </div>
+  )
+}
+
+function Body() {
+  const [notificationData, setNotificationData] = useState({});
+
+  return (
+    <NotificationContext.Provider value={{setNotificationData: setNotificationData}}>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/cart' element={<ShoppingCart/>}/>
+        <Route path='/account/*' element={<Account/>}/>
       </Routes>
-    </div>
+      <Notification data={notificationData}/>
+    </NotificationContext.Provider>
   )
 }

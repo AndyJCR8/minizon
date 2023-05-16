@@ -5,13 +5,18 @@ from . import clearUpdateValuesFromDict
 from .. import models, schemas
 from ...JWT import code
 
-def getUsuario(db: Session, id: int):
-    return db.query(models.Usuario).filter(models.Usuario.IDUsuario == id).first()
+def getUsuario(db: Session, id: int, userData: dict):
+    if id != userData['IDUsuario']: raise HTTPException(status_code=400, detail="ID Inválido")
+    
+    userData = db.query(models.Usuario).filter(models.Usuario.IDUsuario == id).first()
+    userData.__dict__.pop('Password')
+    
+    return userData
 
 """ def getUsuarios(db: Session, skip: int = 0, limit: int = 1000):
     return db.query(models.Usuario).offset(skip).limit(limit).all() """
 
-def verifyUsuario(db: Session, Email: str, Password: str):
+def verifyUsuario(db: Session, Email: str, Password: str, ExpireInSecs: int = None):
     
     try:
 
@@ -22,15 +27,15 @@ def verifyUsuario(db: Session, Email: str, Password: str):
 
     res.pop("_sa_instance_state")
     res.pop("Password")
-    res["verified"] = True
-
-    res = { **res, "AuthToken": code.generateNewToken(res) }
+    #res["verified"] = True
+    res['AuthToken'] = code.generateNewToken(res, ExpireInSecs if not None else 25200)
+    res['Expires'] = code.verifyToken(res['AuthToken'])['validUntil']
 
     return res
 
 def createUsuario(db: Session, usuario: schemas.UsuarioCreate):
     salt = bc.gensalt()
-    
+    #print(usuario)
     hashedPass = bc.hashpw(usuario.Password.encode('utf-8'), salt).decode()
     
     #if not usuario.Nickname: usuario["Nickname"] = usuario["Nombre"]
