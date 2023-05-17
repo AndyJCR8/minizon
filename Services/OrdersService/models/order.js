@@ -7,7 +7,7 @@ const orderSchema=new Schema({
         unique: true
     },
     IDProductos: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.Mixed, 
         ref: 'payment',
         require: true
     }],

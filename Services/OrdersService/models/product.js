@@ -13,17 +13,27 @@ const productSchema=new Schema({
         type: Number,
         min: 0,
         max: 9999999.99,
-        set: value => parseFloat(value).toFixed(2)
+        set: value => parseFloat(value).toFixed(2),
+        require: true
     },
     PrecioVenta:{
         type: Number,
         min: 0,
         max: 9999999.99,
-        set: value => parseFloat(value).toFixed(2)
+        set: value => parseFloat(value).toFixed(2),
+        require: true
     },
     Descripcion:{
         type: String,
         require: true
+    },
+    Categoria:{
+        type: String,
+        require:true
+    },
+    SubCategoria:{
+        type: String,
+        require: false
     },
     RutasImagen:{
         type: String,
@@ -31,7 +41,7 @@ const productSchema=new Schema({
             original: { type: String, required: true },
             thumbnail: { type: String, required: true }
         },
-        require: false
+        require: true
     },
     CreatedAt:{
         type: Date, 
