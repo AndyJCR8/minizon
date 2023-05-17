@@ -49,8 +49,11 @@ export default function Home() {
             dataPath={'/link/backend/productosMasVendidos'}/>
         */}
         <ProductInfo>
-          <Section title="Más vendidos" linkText="ver todos" linkPath="/" productsCount={5}/>
-          <Section title="Mesas" linkText="ver todos" linkPath="/" productsCount={5}/>
+          <Section title="Más vendidos" productsCount={5}/>
+          <Section title="Mesas" linkText="ver todos" linkPath="/products/categories?cat=salacomedor&subcat=mesas" productsCount={5}/>
+          <Section title="Sillas" linkText="ver todos" linkPath="/products/categories?cat=salacomedor&subcat=sillas" productsCount={5}/>
+          <Section title="Camas" linkText="ver todos" linkPath="/products/categories?cat=cuartodormitorio&subcat=camas" productsCount={5}/>
+          <Section title="Closets" linkText="ver todos" linkPath="/products/categories?cat=organizacion&subcat=closets" productsCount={5}/>
         </ProductInfo>
       </div>
     </div>

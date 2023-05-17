@@ -31,7 +31,9 @@ export default function Section({title, linkText, linkPath, dataPath, productsCo
     <div className="section">
       <div className="header">
         <div className='title'> <p>{title}</p> </div>
-        <div className='viewall'> <Link to={linkPath}>{linkText}<i className='fa-solid fa-cubes-stacked'></i></Link> </div>
+        {
+          linkText ? <div className='viewall'> <Link to={linkPath}>{linkText}<i className='fa-solid fa-cubes-stacked'></i></Link> </div> : null
+        }        
       </div>
       <div className="body">
         {
