@@ -35,22 +35,16 @@ const productSchema=new Schema({
         type: String,
         require: false
     },
-    RutasImagen:{
-        type: String,
-        imagePath: {
-            original: { type: String, required: true },
-            thumbnail: { type: String, required: true }
-        },
-        require: true
+    RutasImagen: {
+        original: { type: String, required: true },
+        thumbnail: { type: String, required: true }
     },
     CreatedAt:{
         type: Date, 
-        default: Date.now,
         require: false 
     },
     UpdatedAt:{
         type: Date, 
-        default: Date.now,
         require: false 
     }
 })

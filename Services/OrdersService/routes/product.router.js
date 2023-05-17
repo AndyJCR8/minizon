@@ -3,9 +3,9 @@ import { buscarProductos, buscarProducto, nuevoProducto, editarProducto, elimina
 const router=express.Router()
 
 router.get('/buscarProductos', buscarProductos)
-router.get('/buscarProducto', buscarProducto)
 router.post('/nuevoProducto', nuevoProducto)
-router.put('/editarProducto', editarProducto)
-router.delete('/eliminarProducto', eliminarProducto)
+router.get('/buscarProducto/:id', buscarProducto)
+router.put('/editarProducto/:id', editarProducto)
+router.delete('/eliminarProducto/:id', eliminarProducto)
 
 export default router

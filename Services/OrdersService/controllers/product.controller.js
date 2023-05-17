@@ -20,7 +20,7 @@ export const nuevoProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen
+    RutasImagen: { original, thumbnail }
   } = req.body;
 
   const newProduct = new Product({
@@ -31,14 +31,15 @@ export const nuevoProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen
+    RutasImagen: { original, thumbnail },
+    CreatedAt: Date.now()
   });
 
   try {
     const createdProduct = await newProduct.save();
     res.status(201).json(createdProduct);
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear el producto' });
+    res.status(500).json({ error: 'Error al crear el producto', message: error.message });
   }
 };
 
@@ -111,6 +112,6 @@ export const eliminarProducto = async (req, res) => {
       res.status(404).json({ message: 'Producto no encontrado' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar el producto' });
+    res.status(500).json({ error: 'Error al eliminar el producto', message: error.message });
   }
 };
