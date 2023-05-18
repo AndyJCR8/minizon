@@ -36,11 +36,13 @@ function ProductsBySearch() {
   const [searchParams] = useSearchParams()
   
   useEffect(() => {
-    console.log(searchParams.get("id"))
+    //console.log(searchParams.get("id"))
   }, [searchParams]);
   
   return (
-    <></>
+    <ProductInfo>
+      <ShowProducts title={`Búsqueda: ${searchParams.get('searchFor')}`}/>
+    </ProductInfo>
   )
 }
 
@@ -65,7 +67,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
 
   useEffect(() => {
     /* RECUPERAR LOS NUEVOS DATOS DE LA SIGUIENTE PÁGINA */
-    if(requestController) requestController.cancel("req canceled")
+    if(requestController) requestController.cancel("request canceled")
 
     const source = axios.CancelToken.source();
     setRequestController(source);
