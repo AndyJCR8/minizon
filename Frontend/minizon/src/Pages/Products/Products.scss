@@ -15,6 +15,16 @@
     
     overflow-y: overlay;
     overflow-x: hidden;
+    header {
+      display: grid;
+      margin: 1rem 2rem;
+      place-items: center;
+      
+      .title {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
 
     main {
       display: grid;
@@ -29,20 +39,53 @@
 
     footer {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(1rem, 4rem));
+      grid-template-rows: auto auto;
       place-items: center;
-      place-content: center;
-      margin: 2rem 0;
-      width: 100%;
+      .page {
+        display: flex;
+        margin-top: 2rem;
+        p { margin: 0; }
+        font-weight: 700;
+      }
+      .paginationButtons {
 
-      .pageButton {
-        cursor: pointer;
-        background-color: var(--P1P6);
-        box-shadow: var(--SHP1P6);
-        border: none;
-        font-size: 1.15rem;
-        padding: 0.5rem 1rem;
-        border-radius: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(1rem, 3rem));
+        place-items: center;
+        place-content: center;
+        column-gap: 1rem;
+        margin: 0.85rem 0 2rem 0;
+        width: 100%;
+  
+        .pageButton, .dotButton, .leftPage, .rightPage {
+          cursor: pointer;
+          background-color: var(--P1P6);
+          box-shadow: var(--SHP1P6);
+          border: none;
+          font-size: 1rem;
+          font-weight: 600;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+  
+          &:hover { background-color: var(--HVP1P6); }
+          &:active { scale: 0.95; }
+          transition: all ease-in-out 125ms;
+  
+          &.active {  background-color: var(--P1P4); box-shadow: var(--SHP1P4); } }
+        
+        .dotButton {
+          cursor: initial;
+          padding: 0.3rem 0.5rem;
+          border-radius: 8px;
+        }
+        
+        .leftPage, .rightPage {
+          background-color: var(--P1P4);
+          box-shadow: var(--SHP1P4);
+  
+          &:hover { background-color: var(--HVP1P4); }
+        }
+  
       }
 
       @media (max-width: 500px) {
