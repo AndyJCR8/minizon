@@ -1,7 +1,7 @@
 export const categoriesWithSubCats = {
   "salacomedor": {
     "catName": "Sala / comedor",
-    "juegodesala": "Juedo de sala",
+    "juegodesala": "Juego de sala",
     "sofasysillones": "Sofás y sillones",
     "mesas": "Mesas",
     "centrodeentretenimiento": "Centro de entretenimiento",
