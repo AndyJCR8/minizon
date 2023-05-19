@@ -12,10 +12,10 @@ export default function Search() {
   }
 
   return (
-    <div className='searchContainer'>
+    <form className='searchContainer' onSubmit={(e) => {e.preventDefault()}}>
       <input ref={searchInput} className='searchInput' placeholder='Búsqueda'/>
       <button onClick={() => handleSearch()} className='searchIcon'><i className='fa fa-search'></i></button>
       <button className='sidebarMenu' onClick={() => document.querySelector("#sidebar").classList.add("active")}><i className='fa fa-bars'></i></button>
-    </div>
+    </form>
   )
 }

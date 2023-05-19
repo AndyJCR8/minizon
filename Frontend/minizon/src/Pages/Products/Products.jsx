@@ -1,9 +1,10 @@
-import { Route, Routes, useSearchParams } from 'react-router-dom'
+import { Route, Routes, useNavigate, useSearchParams } from 'react-router-dom'
 import './Products.scss'
 import React, { useEffect, useRef, useState } from 'react'
 import ProductItem from '../../Components/UI Components/ProductItem/ProductItem'
 import ProductInfo from '../../Components/UI Components/ProductInfo/ProductInfo'
 import axios, { CanceledError } from 'axios'
+import { categories, categoriesWithSubCats } from './CategoriesTitles'
 
 export default function Products() {
 
@@ -19,14 +20,39 @@ export default function Products() {
 
 function ProductsByCategory() {
   const [searchParams] = useSearchParams()
+  const [catTitle, setCatTitle] = useState("");
+  const navigate = useNavigate()
 
   useEffect(() => {
-    console.log(searchParams.get("id"))
+    
+    if(searchParams.has("subcat")) {
+      const cat = searchParams.get("cat")
+      const subcat = searchParams.get("subcat")
+
+      if(cat == null || subcat == null) navigate("/")
+
+      try {
+        const catTitle = categoriesWithSubCats[cat]["catName"], subcatTitle = categoriesWithSubCats[cat][subcat]
+
+        if(catTitle == undefined || subcatTitle == undefined) navigate('/')
+        const title = `${categoriesWithSubCats[cat]["catName"]} - ${categoriesWithSubCats[cat][subcat]}`;
+  
+        setCatTitle(title)
+      } catch (error) { navigate('/') }
+    } else {
+      const cat = searchParams.get("cat")
+      const title = categories[cat]
+
+      if(cat == null || title == undefined) navigate("/")
+
+      setCatTitle(title)
+    }
+    
   }, [searchParams]);
 
   return (
     <ProductInfo>
-      <ShowProducts title="Categoría"/>
+      <ShowProducts title={catTitle}/>
     </ProductInfo>
   )
   
@@ -37,11 +63,12 @@ function ProductsBySearch() {
   
   useEffect(() => {
     //console.log(searchParams.get("id"))
+    () => {}
   }, [searchParams]);
   
   return (
     <ProductInfo>
-      <ShowProducts title={`Búsqueda: ${searchParams.get('searchFor')}`}/>
+      <ShowProducts title={`Buscando por: ${searchParams.get('search')}`}/>
     </ProductInfo>
   )
 }
@@ -58,7 +85,6 @@ function ShowProducts({title, productInfoProps, dataPath}) {
     (
       async function() {
         const response = (await axios.get(`http://localhost:3001/productsPaginate?total=${20}&page=${currentPage}`)).data
-        console.log(response)
         setData({state: "ready", items: response.products})
         setTotalPages(response.totalPages)
       }
@@ -86,7 +112,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
     return () => {
       if(requestController) requestController.cancel()
     }
-  }, [currentPage]);
+  }, [currentPage, title, dataPath]);
 
   const handlePageClick = (page) => {
     if(page <= totalPages && page >= 1) setCurrentPage(page);
