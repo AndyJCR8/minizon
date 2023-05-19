@@ -42,23 +42,6 @@ pip install pydantic
 pip install psycopg2
 ```
 
-# Seguridad
-### Token keys
-
-> Para que el servicio funcione correctamente es necesario generar las claves públicas y privadas para el proyecto, por lo que es necesario crear una carpeta dentro del directorio acutal llamada **TokenKeys** y en su interior deben existir los archivos con las claves del servicio
-> 
-> La generación de claves pública y privada se realizó por medio de la consola de comandos, a través de la aplicación **OpenSSL**. Los siguientes comandos son capaces de generar las claves necesarias para el correcto funcionamiento del proyecto:
-```sh
-# Generación de la clave privada
-# Tomar en cuenta que cuando solicite el ingreso de la frase secreta, guardar dicha constraseña en un lugar seguro para colocarlo posteriormente en el archivo ".env"
-openssl genpkey -algorithm RSA -aes256 -out private_key.pem -aes256 -aes256 -aes256 -aes256 -aes256 -aes256
-```
-```sh
-# Generación de la clave pública basada en la privada
-# Nuevamente en la solicitud de ingreso de la frase, colocar la utilizada en el comando anterior
-openssl rsa -in private_key.pem -pubout -out public_key.pem
-```
-
 ### Variables de entorno
 
 >Para que pueda funcionar el servicio es neceasrio indicar en el archivo **.env** las siguientes variables de entorno:
@@ -68,8 +51,6 @@ openssl rsa -in private_key.pem -pubout -out public_key.pem
 > * **DB_NAME**: nombre de la base de datos de usuarios
 > * **S2_DOMAIN**: nombre de dominio donde esté alojado el servicio 2 <em>(servicio de pedidos)</em>, por ejemplo: localhost:8001
 > * **S3_DOMAIN**: nombre de dominio donde esté alojado el servicio 3 <em>(servicio de cobros)</em>, por ejemplo: localhost:8002
-> * **PVK_NAME**: nombre del archivo de la clave privada almacenada en la carpeta <em>TokenKeys</em>
-> * **PBK_NAME**: nombre del archivo de la clave pública almacenada en la carpeta <em>TokenKeys</em>
 >> solo indicar el nombre, ya que la extensión debe terminar obligatoriamente en **.pem** en ambas claves
 > * **JWT_PASS**: contraseña para cifrar y decifrar tokens JWT
 > 
