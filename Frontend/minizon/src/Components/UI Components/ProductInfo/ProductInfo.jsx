@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import './ProductInfo.scss'
 import React, { Children, cloneElement } from 'react'
+import { addToCart, getCart, getCartCount } from '../../../Services/CartService';
+import { useContext } from 'react';
+import { CartCountContext, NotificationContext } from '../../App';
 
 export default function ProductInfo({children}) {
 
@@ -11,14 +14,46 @@ export default function ProductInfo({children}) {
   const [productCount, setProductCount] = useState(0);
   const [counter, setCounter] = useState(1);
 
-  useEffect(() => {
-    setProductCount(productData.Cantidad)
-  }, [productData]);
+  const notificationContext = useContext(NotificationContext)
+  const cartCountContext = useContext(CartCountContext)
 
   const handleProductCount = (plus) => {
     if(counter < productCount && plus) { setCounter(last => last + 1) }
     if(counter > 1 && !plus) { setCounter(last => last - 1) }
   }
+
+  const handleAddToCart = () => {
+    const cart = getCart()
+    if(cart.some(obj => obj._id == productData._id)) {
+      if(cart.find(obj => obj._id == productData._id).Cantidad + counter > productData.Stock) {
+        notificationContext.setNotificationData({
+          "message": "Existencia excedida",
+          "type": "error",
+          "icon": "xmark",
+          "execInfo": {
+            "time": "3000"
+          }
+        })
+        return
+      }
+    }
+    
+    addToCart({...productData, Cantidad: counter})
+    cartCountContext.setCartCount(getCartCount())
+    notificationContext.setNotificationData({
+      "message": "Producto añadido al carrito",
+      "type": "success",
+      "icon": "check",
+      "execInfo": {
+        "time": "3000"
+      }
+    })
+  }
+
+  useEffect(() => {
+    setProductCount(productData.Stock)
+  }, [productData]);
+
 
   useEffect(() => {
     setTimeout(() => { setActive(showInfo) }, 100);
@@ -62,7 +97,7 @@ export default function ProductInfo({children}) {
                   </div>
                 </div>
                 <div className='addToCartContainer'>
-                  <button className='button secondary'><i className='fa-solid fa-shopping-cart'></i></button>
+                  <button onClick={() => handleAddToCart()} className='button secondary'><i className='fa-solid fa-shopping-cart'></i></button>
                 </div>
               </div>
             </main>

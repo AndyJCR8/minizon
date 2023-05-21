@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import './Bottombar.scss'
-import React, { useRef } from 'react'
+import React, { useContext } from 'react'
+import { CartCountContext } from '../../App';
 
 export default function Bottombar() {
-
+  const cartCounterContext = useContext(CartCountContext)
+  
   return (
     <nav className='bottombar'>
       <div className='bottbarItems'>
@@ -17,7 +19,7 @@ export default function Bottombar() {
         <div className='bottbarItem'>
           <Link to="/cart" className='shopIcon'>
             <i className='fa-solid fa-bag-shopping'></i>
-            <i className='counter'>9</i>
+            <i className='counter'>{cartCounterContext.cartCount > 9 ? '+9' : cartCounterContext.cartCount}</i>
           </Link>
         </div>
         <div className='bottbarItem'>

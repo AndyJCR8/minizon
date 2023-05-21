@@ -75,10 +75,10 @@ export default function AccountAddresses({UserID}) {
           <Route element={
             <>
               {
-                addresses.map(address => {
+                addresses.map((address, i) => {
                   
                   return (
-                    <section className='address'>
+                    <section key={i} className='address'>
                       <p className='addressInfo'>{address.Direccion}</p>
                       <div className='place'>
                         <p>{address.municipio.Nombre}</p>

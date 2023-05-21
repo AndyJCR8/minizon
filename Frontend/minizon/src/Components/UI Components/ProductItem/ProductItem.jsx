@@ -1,7 +1,12 @@
+import { addToCart, getCart, getCartCount } from "../../../Services/CartService"
+import { CartCountContext, NotificationContext } from "../../App"
 import "./ProductItem.scss"
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 
 export default function ProductItem({loading, data, productInfoProps}) {
+  const notificationContext = useContext(NotificationContext)
+  const cartCountContext = useContext(CartCountContext)
+  
 
   const handleProductClick = useCallback(
     () => {
@@ -9,6 +14,35 @@ export default function ProductItem({loading, data, productInfoProps}) {
       productInfoProps.setProductData(data)
     }
   )
+
+  const handleAddToCart = () => {
+    const cart = getCart()
+    
+    if(cart.some(obj => obj._id == data._id)) {
+      if(cart.find(obj => obj._id == data._id).Cantidad + 1 > data.Stock) {
+        notificationContext.setNotificationData({
+          "message": "Producto agotado",
+          "type": "error",
+          "icon": "xmark",
+          "execInfo": {
+            "time": "3000"
+          }
+        })
+        return
+      }
+    }
+    
+    addToCart({...data})
+    cartCountContext.setCartCount(getCartCount())
+    notificationContext.setNotificationData({
+      "message": "Producto añadido al carrito",
+      "type": "success",
+      "icon": "check",
+      "execInfo": {
+        "time": "3000"
+      }
+    })
+  }
   
   return (
     <div className={`productItem${loading ? " loading" : ''}`}>
@@ -31,7 +65,7 @@ export default function ProductItem({loading, data, productInfoProps}) {
               <p>Q {data.PrecioDeVenta}</p>
             </div>
             <div className="cartContainer">
-              <button className="button secondary"><i className="fa-solid fa-cart-shopping"></i></button>
+              <button onClick={() => handleAddToCart()} className="button secondary"><i className="fa-solid fa-cart-shopping"></i></button>
             </div>
           </div>
         </>

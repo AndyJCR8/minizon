@@ -122,7 +122,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
     const buttons = [];
 
     if(totalPages > 4) {
-      buttons.push(<button onClick={() => handlePageClick(currentPage - 1)} className={`leftPage`}><i className='fa-solid fa-caret-left'></i></button>);
+      buttons.push(<button key="a" onClick={() => handlePageClick(currentPage - 1)} className={`leftPage`}><i className='fa-solid fa-caret-left'></i></button>);
       
       for (let i = 1; i <= totalPages; i++) {
         if(i == 3) {
@@ -150,7 +150,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
         }
       }
       
-      buttons.push(<button onClick={() => handlePageClick(currentPage + 1)} className={`rightPage`}><i className='fa-solid fa-caret-right'></i></button>);
+      buttons.push(<button key="b" onClick={() => handlePageClick(currentPage + 1)} className={`rightPage`}><i className='fa-solid fa-caret-right'></i></button>);
     } else {
       for (let i = 1; i <= totalPages; i++) {
         buttons.push(<button key={i} onClick={() => handlePageClick(i)} className={`pageButton${i === currentPage ? ' active' : ''}`}> {i} </button>);

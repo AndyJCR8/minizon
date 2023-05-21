@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom'
 import Search from '../../UI Components/Search/Search'
 import './Navbar.scss'
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useContext } from 'react'
 import { exteriorLinks, interiorsLinks } from '../links'
+import { CartCountContext } from '../../App'
 
 
 export default function Navbar() {
-
+  
   const navbarOptions = useRef(null)
+  const cartCounterContext = useContext(CartCountContext)
   
   useEffect(() => {
     const dropDownItems = navbarOptions.current.querySelectorAll(".dropdown")
@@ -57,13 +59,12 @@ export default function Navbar() {
           <div className='navbarItem'>
             <Link to="/cart" className='shopIcon'>
               <i className='fa-solid fa-bag-shopping'></i>
-              <i className='counter'>9</i>
+              <i className='counter'>{cartCounterContext.cartCount > 9 ? '+9' : cartCounterContext.cartCount}</i>
             </Link>
           </div>
           <div className='navbarItem'>
             <Link to="/account"><i className='fa-solid fa-user'></i></Link>
           </div>
-          
         </div>
       </div>
     </nav>
