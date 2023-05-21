@@ -20,7 +20,8 @@ export const nuevoProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen: { original, thumbnail }
+    RutasImagen: { original, thumbnail },
+    Stock
   } = req.body;
 
   const newProduct = new Product({
@@ -32,6 +33,7 @@ export const nuevoProducto = async (req, res) => {
     Categoria,
     SubCategoria,
     RutasImagen: { original, thumbnail },
+    Stock,
     CreatedAt: Date.now()
   });
 
@@ -70,7 +72,8 @@ export const editarProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen
+    RutasImagen,
+    Stock
   } = req.body;
 
   try {
@@ -85,6 +88,7 @@ export const editarProducto = async (req, res) => {
         Categoria,
         SubCategoria,
         RutasImagen,
+        Stock,
         UpdatedAt: Date.now()
       },
       { new: true }
