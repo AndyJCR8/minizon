@@ -15,7 +15,7 @@ export function getCart() {
   else return JSON.parse(localStorage.getItem(varName));
   
   localStorage.setItem(varName, JSON.stringify(carrito));
-  return JSON.parse(localStorage.getItem(varName))
+  return carrito
 }
 
 export function addToCart(productInfo) {
@@ -39,7 +39,7 @@ export function addToCart(productInfo) {
 
 export function updateCart(index, count) {
   let carrito = JSON.parse(localStorage.getItem(varName));
-  carrito[index].Cantidad += count;
+  carrito[index].Cantidad = parseInt(carrito[index].Cantidad) + count;
   localStorage.setItem(varName, JSON.stringify(carrito));
 }
 
