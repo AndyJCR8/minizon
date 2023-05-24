@@ -64,7 +64,7 @@ export default function ShoppingCart() {
                           <button className='button secondary'><i className='fa-solid fa-heart'></i></button>
                         </div>
                         <div className='counter'>
-                          <ProductCount key={i} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioDeVenta} count={product.Cantidad} maxCount={product.Stock}/>
+                          <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioDeVenta} count={product.Cantidad} maxCount={product.Stock}/>
                         </div>
                         <div className='price'>
                           <p>Q {product.PrecioDeVenta}</p>

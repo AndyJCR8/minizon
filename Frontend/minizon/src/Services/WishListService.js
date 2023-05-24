@@ -28,11 +28,8 @@ export function addToWishList(productInfo) {
   const itemRepeated = wishList.some(obj => obj._id == productInfo._id)
   
   if(itemRepeated) {
-    updateWishList(wishList.findIndex(obj => obj._id == productInfo._id), productInfo.Cantidad ?? 1)
     return;
   }
-
-  if(!productInfo.Cantidad) productInfo.Cantidad = 1
   
   wishList.push(productInfo);
   localStorage.setItem(varName, JSON.stringify(wishList));

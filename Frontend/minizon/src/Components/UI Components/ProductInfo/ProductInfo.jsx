@@ -4,6 +4,7 @@ import React, { Children, cloneElement } from 'react'
 import { addToCart, getCart, getCartCount } from '../../../Services/CartService';
 import { useContext } from 'react';
 import { CartCountContext, NotificationContext } from '../../App';
+import { addToWishList, getWishList, removeFromWishList } from '../../../Services/WishListService';
 
 export default function ProductInfo({children}) {
 
@@ -13,6 +14,8 @@ export default function ProductInfo({children}) {
 
   const [productCount, setProductCount] = useState(0);
   const [counter, setCounter] = useState(1);
+
+  const [loved, setLoved] = useState(false);
 
   const notificationContext = useContext(NotificationContext)
   const cartCountContext = useContext(CartCountContext)
@@ -49,9 +52,26 @@ export default function ProductInfo({children}) {
       }
     })
   }
+  
+  const handleAddToWishList = () => {
+
+    if(!loved) addToWishList(productData)
+    else removeFromWishList(getWishList().findIndex(item => item._id == productData._id))
+
+    setLoved(!loved)
+    notificationContext.setNotificationData({
+      "message": !loved ? "Producto añadido a los deseados" : "Producto eliminado de los deseados",
+      "type": "",
+      "icon": "heart",
+      "execInfo": {
+        "time": "2000"
+      }
+    })
+  }
 
   useEffect(() => {
     setProductCount(productData.Stock)
+    setLoved(getWishList().some(item => item._id == productData._id))
   }, [productData]);
 
 
@@ -82,7 +102,10 @@ export default function ProductInfo({children}) {
             <main>
               <div className='productName'>
                 <p className='name'>{productData.Nombre}</p>
-                <p className='category'><i className='fa-solid fa-cubes-stacked'></i>{productData.Categoria}</p>
+                <div className='categoryContainer'>
+                  <p className='category'><i className='fa-solid fa-cubes-stacked'></i>{productData.Categoria}</p>
+                  <button onClick={() => handleAddToWishList()} className='button'><i className={`fa-${loved ? 'solid' : 'regular'} fa-heart`}></i></button>
+                </div>
               </div>
               <div className='productDescription'><p>{productData.Descripcion}</p></div>
               <div className='productDetails'>

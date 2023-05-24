@@ -30,6 +30,13 @@ export default function Account() {
 
 function AccountGUI({userData}) {
   
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    document.cookie = 'token =; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/account;'
+    navigate("/account/login")
+  }
+
   return (
     <div className='accountContainer'>
       <div className='accountNavbar'>
@@ -56,7 +63,7 @@ function AccountGUI({userData}) {
           </Link>
         </ul>
         <div className='footer'>
-          <Link to="/logout" className='button primary'>Cerrar sesión</Link>
+          <button onClick={() => handleLogout()} className='button primary'>Cerrar sesión</button>
         </div>
       </div>
       <div className='separator'></div>

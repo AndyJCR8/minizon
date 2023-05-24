@@ -75,7 +75,7 @@ export default function AccountCards({UserID}) {
           <Route element={
             <>
               {
-                cards.map(card => {
+                cards.map((card, i)=> {
                   const identificador = card.Identificador.toString()
                   const year = card.YearVencimiento.toString()
                   const brand = {
@@ -91,7 +91,7 @@ export default function AccountCards({UserID}) {
                   card.YearVencimiento = year.substring(year.length - 2)
                   
                   return (
-                    <section className={`card ${card.marca.Nombre}`}>
+                    <section key={i} className={`card ${card.marca.Nombre}`}>
                       <div className='cardContainer'>
                         <p className='cardOwner'>{card.NombreTitular}</p>
                         

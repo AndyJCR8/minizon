@@ -113,6 +113,10 @@
           @media (max-width: 768px) {
             grid-template-columns: 1fr;
             grid-template-rows: repeat(3, auto);
+            row-gap: 1rem;
+            .price { 
+              p { margin: 0; margin-bottom: 1rem; }
+             }
           }
           
         }

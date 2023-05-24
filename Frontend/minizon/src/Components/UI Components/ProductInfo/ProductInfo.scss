@@ -91,11 +91,25 @@
         font-size: 1.75rem;
         font-weight: 600;
         .name { margin-top: 0; }
-        .category {
-          color: #ffffffc7;
-          font-size: 0.95rem;
-          
-          i { margin-right: 0.5rem; }
+        .categoryContainer {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          .category {
+            color: #ffffffc7;
+            font-size: 0.95rem;
+            
+            i { margin-right: 0.5rem; }
+          }
+
+          button {
+            height: fit-content;
+            background-color: transparent;
+            &:hover { scale: 1.25; }
+            &:active { scale: 1; }
+
+            transition: all ease 125ms;
+          }
         }
       }
 
