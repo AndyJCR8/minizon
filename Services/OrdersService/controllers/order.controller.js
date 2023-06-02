@@ -1,3 +1,4 @@
+import { decode, encode } from '../jwt/encription.js';
 import { Order } from '../models/order.js';
 
 // Obtener todas las ordenes
@@ -29,7 +30,22 @@ export const nuevaOrden = async (req, res) => {
 
   try {
     const createdOrder = await newOrder.save();
-    res.status(201).json(createdOrder);
+
+    const token = req.get("authorization").split(' ')[1]
+    const payload = (await decode(token)).Payload
+    console.log(payload["Orders"])
+    let newPayload = {}
+
+    if(payload["Orders"] == undefined) newPayload = { ...payload, "Orders": [createdOrder] }
+    else { 
+      payload.Orders.push(createdOrder)
+      newPayload = { ...payload }
+    }
+    console.log(newPayload)
+    const newToken = await encode(newPayload)
+
+    res.status(201).json({"Order": createdOrder, "token ": newToken});
+    //res.status(201).json(createdOrder);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear la orden', message: error.message });
   }

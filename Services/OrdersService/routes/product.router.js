@@ -8,4 +8,4 @@ router.get('/buscarProducto/:id', buscarProducto)
 router.put('/editarProducto/:id', editarProducto)
 router.delete('/eliminarProducto/:id', eliminarProducto)
 
-export default router
+export default router 
