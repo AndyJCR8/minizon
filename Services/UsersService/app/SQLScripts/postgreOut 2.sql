@@ -4,7 +4,7 @@
 
 CREATE TABLE IF NOT EXISTS public.usuario
 (
-    "IDUsuario" integer NOT NULL DEFAULT nextval('"usuario_IDUsuario_seq"'::regclass),
+    "IDUsuario" serial NOT NULL,
     "Nombre" character varying COLLATE pg_catalog."default",
     "Edad" integer,
     "Telefono" bigint,
@@ -33,7 +33,7 @@ CREATE INDEX IF NOT EXISTS "ix_usuario_IDUsuario"
 
 CREATE TABLE IF NOT EXISTS public.marca
 (
-    "IDMarca" integer NOT NULL DEFAULT nextval('"marca_IDMarca_seq"'::regclass),
+    "IDMarca" serial NOT NULL,
     "Nombre" character varying COLLATE pg_catalog."default",
     CONSTRAINT marca_pkey PRIMARY KEY ("IDMarca")
 )
@@ -57,7 +57,7 @@ CREATE INDEX IF NOT EXISTS "ix_marca_IDMarca"
 
 CREATE TABLE IF NOT EXISTS public.departamento
 (
-    "IDDepartamento" integer NOT NULL DEFAULT nextval('"departamento_IDDepartamento_seq"'::regclass),
+    "IDDepartamento" serial NOT NULL,
     "Nombre" character varying COLLATE pg_catalog."default",
     CONSTRAINT departamento_pkey PRIMARY KEY ("IDDepartamento")
 )
@@ -82,7 +82,7 @@ CREATE INDEX IF NOT EXISTS "ix_departamento_IDDepartamento"
 
 CREATE TABLE IF NOT EXISTS public.municipio
 (
-    "IDMunicipio" integer NOT NULL DEFAULT nextval('"municipio_IDMunicipio_seq"'::regclass),
+    "IDMunicipio" serial NOT NULL,
     "Nombre" character varying COLLATE pg_catalog."default",
     "CodigoPostal" character varying COLLATE pg_catalog."default",
     "IDDepartamento" integer,
@@ -113,7 +113,7 @@ CREATE INDEX IF NOT EXISTS "ix_municipio_IDMunicipio"
 
 CREATE TABLE IF NOT EXISTS public.direccion
 (
-    "IDDireccion" integer NOT NULL DEFAULT nextval('"direccion_IDDireccion_seq"'::regclass),
+    "IDDireccion" serial NOT NULL,
     "Direccion" character varying COLLATE pg_catalog."default",
     "IDUsuario" integer,
     "IDMunicipio" integer,
@@ -148,7 +148,7 @@ CREATE INDEX IF NOT EXISTS "ix_direccion_IDDireccion"
 
 CREATE TABLE IF NOT EXISTS public.pedido
 (
-    "IDPedido" integer NOT NULL DEFAULT nextval('"pedido_IDPedido_seq"'::regclass),
+    "IDPedido" serial,
     "NIT" character varying COLLATE pg_catalog."default",
     "Fecha" date,
     "IDDireccion" integer,
@@ -179,7 +179,7 @@ CREATE INDEX IF NOT EXISTS "ix_pedido_IDPedido"
 
 CREATE TABLE IF NOT EXISTS public.tarjeta
 (
-    "IDTarjeta" integer NOT NULL DEFAULT nextval('"tarjeta_IDTarjeta_seq"'::regclass),
+    "IDTarjeta" serial NOT NULL,
     "Identificador" bigint,
     "YearVencimiento" integer,
     "MesVencimiento" integer,
