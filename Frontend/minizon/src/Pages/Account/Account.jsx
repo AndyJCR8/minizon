@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import Login from '../Login&Register/Login'
 import ProtectRoutes from './ProtectRoutes';
 import Register from '../Login&Register/Register';
-import Logout from '../Login&Register/Logout';
 
 import AccountOrders from './Pages/AccountOrders';
 import AccountUserData from './Pages/AccountUserData';
@@ -16,7 +15,6 @@ export default function Account() {
     
     <Routes>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/logout' element={<Logout/>}/>
       <Route path='/register' element={<Register/>}/>
       
       <Route element={
