@@ -50,9 +50,8 @@ function ProductsByCategory() {
       setCatTitle(title)
       queryParams = `cat=${cat}`
     }
-    console.log(`QueryParams: ${queryParams}`)
+    
     setProductPath(`buscarProductosCat?${queryParams}&`)
-  
   }, [searchParams]);
 
   return (
@@ -87,19 +86,6 @@ function ShowProducts({title, productInfoProps, dataPath}) {
   const [data, setData] = useState({ state: "pending", items: Array.from(Array(10))});
   const [requestController, setRequestController] = useState(null);
 
-  /* useEffect(() => {
-    ACA SE DEBE CAMBIAR LA RUTA PARA OBTENER LOS DATOS REALES
-    (
-      async function() {
-        //const response = (await axios.get(`http://localhost:3001/productsPaginate?total=${20}&page=${currentPage}`)).data
-        const response = (await axios.get(`${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`)).data
-        //setData({state: "ready", items: response.products})
-        setData({state: "ready", items: response.docs})
-        setTotalPages(response.pages)
-      }
-    )()
-  }, [dataPath]); */
-
   useEffect(() => {
     /* RECUPERAR LOS NUEVOS DATOS DE LA SIGUIENTE PÁGINA */
     if(requestController) requestController.cancel("request canceled")
@@ -115,7 +101,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
         })
         .then(response => {
           setData({state: "ready", items: response.data.docs})
-          console.log({state: "ready", items: response.data.docs, path: `${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`})
+          //console.log({state: "ready", items: response.data.docs, path: `${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`})
           setTotalPages(response.pages)
         })
         .catch(error => {})

@@ -49,11 +49,10 @@ export default function Home() {
             dataPath={'/link/backend/productosMasVendidos'}/>
         */}
         <ProductInfo>
-          <Section title="Más vendidos" productsCount={5}/>
-          <Section title="Mesas" linkText="ver todos" linkPath="/products/categories?cat=salacomedor&subcat=mesas" productsCount={5}/>
-          <Section title="Sillas" linkText="ver todos" linkPath="/products/categories?cat=salacomedor&subcat=sillas" productsCount={5}/>
-          <Section title="Camas" linkText="ver todos" linkPath="/products/categories?cat=cuartodormitorio&subcat=camas" productsCount={5}/>
-          <Section title="Closets" linkText="ver todos" linkPath="/products/categories?cat=organizacion&subcat=closets" productsCount={5}/>
+          <Section title="Mesas" linkText="ver todos" dataPath="buscarProductosCatLimit?count=5&cat=salacomedor&subcat=mesas" linkPath="/products/categories?cat=salacomedor&subcat=mesas" productsCount={5}/>
+          <Section title="Sillas" linkText="ver todos" dataPath="buscarProductosCatLimit?count=5&cat=salacomedor&subcat=sillas" linkPath="/products/categories?cat=salacomedor&subcat=sillas" productsCount={5}/>
+          <Section title="Camas" linkText="ver todos" dataPath="buscarProductosCatLimit?count=5&cat=cuartodormitorio&subcat=camas" linkPath="/products/categories?cat=cuartodormitorio&subcat=camas" productsCount={5}/>
+          <Section title="Closets" linkText="ver todos" dataPath="buscarProductosCatLimit?count=5&cat=organizacion&subcat=closets" linkPath="/products/categories?cat=organizacion&subcat=closets" productsCount={5}/>
         </ProductInfo>
       </div>
     </div>

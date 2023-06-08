@@ -63,7 +63,7 @@ export default function WishList() {
                           <button onClick={() => handleDeleteItem(i)} className='button primary'><i className='fa-solid fa-trash'></i></button>
                         </div>
                         <div className='price'>
-                          <p>Q {product.PrecioDeVenta}</p>
+                          <p>Q {product.PrecioVenta}</p>
                         </div>
                       </div>
                     </div>

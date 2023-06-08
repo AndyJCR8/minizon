@@ -51,6 +51,22 @@ export const buscarProductosCat = async (req, res) => {
   }
 };
 
+export const buscarProductosCatLimit = async (req, res) => {
+  try {
+
+    let products;
+    if (req.query.subcat) {
+      products = await Product.find({ Categoria: req.query.cat, SubCategoria: req.query.subcat }).limit(parseInt(req.query.count));
+    } else {
+      products = await Product.find({ Categoria: req.query.cat }).limit(parseInt(req.query.count));
+    }
+    
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener los productos' });
+  }
+};
+
 // Crear un nuevo producto
 export const nuevoProducto = async (req, res) => {
 

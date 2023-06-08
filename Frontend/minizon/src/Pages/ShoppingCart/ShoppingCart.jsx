@@ -21,7 +21,7 @@ export default function ShoppingCart() {
     () => {
       const cart = getCart()
       if(cart.length > 0)
-        setSubTotal(cart.reduce((acc, val) => acc + (parseFloat(val.PrecioDeVenta) * parseInt(val.Cantidad)), 0))
+        setSubTotal(cart.reduce((acc, val) => acc + (parseFloat(val.PrecioVenta) * parseInt(val.Cantidad)), 0))
 
       cartCountContext.setCartCount(getCartCount())
       
@@ -76,10 +76,10 @@ export default function ShoppingCart() {
                           <button className='button secondary'><i className='fa-solid fa-heart'></i></button>
                         </div>
                         <div className='counter'>
-                          <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioDeVenta} count={product.Cantidad} maxCount={product.Stock}/>
+                          <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioVenta} count={product.Cantidad} maxCount={product.Stock}/>
                         </div>
                         <div className='price'>
-                          <p>Q {product.PrecioDeVenta}</p>
+                          <p>Q {product.PrecioVenta}</p>
                         </div>
                       </div>
                     </div>
