@@ -3,8 +3,7 @@ import mongoose, { Schema, model } from "mongoose";
 const orderSchema = new Schema({
     IDUsuario: {
         type: String,
-        require: true,
-        unique: true
+        require: true
     },
     IDProductos: [{
         producto: {

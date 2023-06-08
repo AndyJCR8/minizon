@@ -35,9 +35,9 @@ const productSchema=new Schema({
         type: String,
         require: false
     },
-    RutasImagen: {
-        original: { type: String, required: true },
-        thumbnail: { type: String, required: true }
+    Imagen: {
+        type: String,
+        required: true
     },
     Stock: {
         type: Number,
