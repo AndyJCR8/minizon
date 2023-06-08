@@ -404,7 +404,7 @@ INSERT INTO municipio ("Nombre", "CodigoPostal", "IDDepartamento") VALUES
 ('Pueblo Nuevo Viñas', '06013', 18),
 ('Nueva Santa Rosa', '06014', 18);
 
-INSERT INTO municipio (Nombre, CodigoPostal, IDDepartamento) VALUES
+INSERT INTO municipio ("Nombre", "CodigoPostal", "IDDepartamento") VALUES
 ('Sololá', '07001', 19),
 ('San José Chacayá', '07002', 19),
 ('Santa María Visitación', '07003', 19),
@@ -458,7 +458,7 @@ INSERT INTO municipio ("Nombre", "CodigoPostal", "IDDepartamento") VALUES
 ('San Francisco El Alto', '09003', 21),
 ('San Andrés Xecul', '09004', 21);
 
-INSERT INTO municipio (Nombre, CodigoPostal, IDDepartamento) VALUES
+INSERT INTO municipio ("Nombre", "CodigoPostal", "IDDepartamento") VALUES
 ('Zacapa', '19001', 22),
 ('Estanzuela', '19002', 22),
 ('Río Hondo', '19003', 22),
@@ -471,3 +471,10 @@ INSERT INTO municipio (Nombre, CodigoPostal, IDDepartamento) VALUES
 ('Huité', '19010', 22),
 ('San Jorge', '19011', 22),
 ('Río Hondo', '19012', 22);
+
+INSERT INTO marca ("Nombre") VALUES ('Visa');
+INSERT INTO marca ("Nombre") VALUES ('MasterCard');
+INSERT INTO marca ("Nombre") VALUES ('AmericanExpress');
+INSERT INTO marca ("Nombre") VALUES ('Discover');
+INSERT INTO marca ("Nombre") VALUES ('DinersClub');
+INSERT INTO marca ("Nombre") VALUES ('JCB');
