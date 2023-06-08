@@ -62,7 +62,7 @@ export default function ProductItem({loading, data, productInfoProps}) {
           </div> 
           <div className="itemFooter">
             <div className="priceContainer">
-              <p>Q {data.PrecioDeVenta}</p>
+              <p>Q {data.PrecioVenta}</p>
             </div>
             <div className="cartContainer">
               <button onClick={() => handleAddToCart()} className="button secondary"><i className="fa-solid fa-cart-shopping"></i></button>

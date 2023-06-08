@@ -21,10 +21,11 @@ export default function Products() {
 function ProductsByCategory() {
   const [searchParams] = useSearchParams()
   const [catTitle, setCatTitle] = useState("");
+  const [productPath, setProductPath] = useState("buscarProductosCat?");
   const navigate = useNavigate()
 
   useEffect(() => {
-    
+    let queryParams = ""
     if(searchParams.has("subcat")) {
       const cat = searchParams.get("cat")
       const subcat = searchParams.get("subcat")
@@ -39,6 +40,7 @@ function ProductsByCategory() {
   
         setCatTitle(title)
       } catch (error) { navigate('/') }
+      queryParams = `cat=${cat}&subcat=${subcat}`
     } else {
       const cat = searchParams.get("cat")
       const title = categories[cat]
@@ -46,13 +48,16 @@ function ProductsByCategory() {
       if(cat == null || title == undefined) navigate("/")
 
       setCatTitle(title)
+      queryParams = `cat=${cat}`
     }
-    
+    console.log(`QueryParams: ${queryParams}`)
+    setProductPath(`buscarProductosCat?${queryParams}&`)
+  
   }, [searchParams]);
 
   return (
     <ProductInfo>
-      <ShowProducts title={catTitle}/>
+      <ShowProducts dataPath={productPath} title={catTitle}/>
     </ProductInfo>
   )
   
@@ -60,15 +65,17 @@ function ProductsByCategory() {
 
 function ProductsBySearch() {
   const [searchParams] = useSearchParams()
-  
+  const [productPath, setProductPath] = useState("buscarProductos?");
+
   useEffect(() => {
     //console.log(searchParams.get("id"))
     () => {}
+    setProductPath(`buscarProductos?searchFor=${searchParams.get('search')}&`)
   }, [searchParams]);
   
   return (
     <ProductInfo>
-      <ShowProducts title={`Buscando por: ${searchParams.get('search')}`}/>
+      <ShowProducts dataPath={productPath} title={`Buscando por: ${searchParams.get('search')}`}/>
     </ProductInfo>
   )
 }
@@ -77,19 +84,21 @@ function ShowProducts({title, productInfoProps, dataPath}) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [data, setData] = useState({ state: "pending", items: Array.from(Array(20))});
+  const [data, setData] = useState({ state: "pending", items: Array.from(Array(10))});
   const [requestController, setRequestController] = useState(null);
 
-  useEffect(() => {
-    /* ACA SE DEBE CAMBIAR LA RUTA PARA OBTENER LOS DATOS REALES */
+  /* useEffect(() => {
+    ACA SE DEBE CAMBIAR LA RUTA PARA OBTENER LOS DATOS REALES
     (
       async function() {
-        const response = (await axios.get(`http://localhost:3001/productsPaginate?total=${20}&page=${currentPage}`)).data
-        setData({state: "ready", items: response.products})
-        setTotalPages(response.totalPages)
+        //const response = (await axios.get(`http://localhost:3001/productsPaginate?total=${20}&page=${currentPage}`)).data
+        const response = (await axios.get(`${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`)).data
+        //setData({state: "ready", items: response.products})
+        setData({state: "ready", items: response.docs})
+        setTotalPages(response.pages)
       }
     )()
-  }, []);
+  }, [dataPath]); */
 
   useEffect(() => {
     /* RECUPERAR LOS NUEVOS DATOS DE LA SIGUIENTE PÁGINA */
@@ -100,13 +109,18 @@ function ShowProducts({title, productInfoProps, dataPath}) {
 
     (
       function() {
-        setData({ state: "pending", items: Array.from(Array(20))})
-        axios.get(`http://localhost:3001/productsPaginate?total=${20}&page=${currentPage}`, {
+        setData({ state: "pending", items: Array.from(Array(10))})
+        axios.get(`${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`, {
           cancelToken: source.token
         })
-        .then(response => { setData({state: "ready", items: response.data.products}) })
+        .then(response => {
+          setData({state: "ready", items: response.data.docs})
+          console.log({state: "ready", items: response.data.docs, path: `${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`})
+          setTotalPages(response.pages)
+        })
         .catch(error => {})
       }
+
     )();
 
     return () => {
@@ -168,6 +182,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
       <main>
         {/* LISTADO DE PRODUCTOS SEGUN LA RUTA ENVIADA POR LA PROP dataPath */}
         {
+          data.items.length > 0 ?
           data.items.map((item, j) => {
             return (
               <ProductItem key={j}
@@ -175,7 +190,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
               data={item}
               productInfoProps={productInfoProps}/>
             )
-          })
+          }) : <div className='notFound'>No se encontraron productos</div>
         }
       </main>
       <footer>

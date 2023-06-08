@@ -35,6 +35,14 @@
       column-gap: 1rem;
       row-gap: 2rem;
       padding: 0 1rem;
+
+      .notFound {
+        display: flex;
+        place-content: center;
+        text-align: center;
+        width: 100%;
+        font-size: 2rem;
+      }
     }
 
     footer {

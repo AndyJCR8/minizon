@@ -109,7 +109,7 @@ export default function ProductInfo({children}) {
               </div>
               <div className='productDescription'><p>{productData.Descripcion}</p></div>
               <div className='productDetails'>
-                <p className='productPrice'>Q{productData.PrecioDeVenta}</p>
+                <p className='productPrice'>Q{productData.PrecioVenta}</p>
                 <div className='productCount'>
                   <div className='minusCounter'>
                     <button onClick={() => { handleProductCount(false) }} className='button primary minusButton'><i className='fa-solid fa-minus'></i></button>
