@@ -1,7 +1,8 @@
 import express from 'express'
-import { buscarProductos, buscarProducto, nuevoProducto, editarProducto, eliminarProducto } from '../controllers/product.controller.js';
+import { todosLosProductos, buscarProducto, nuevoProducto, editarProducto, eliminarProducto, buscarProductos, buscarProductosCat } from '../controllers/product.controller.js';
 import multer from 'multer';
 import { v4 } from 'uuid'
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router=express.Router()
 
@@ -16,10 +17,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+router.get('/productos', todosLosProductos)
 router.get('/buscarProductos', buscarProductos)
-router.post('/nuevoProducto', upload.single("image"), nuevoProducto)
+router.get('/buscarProductosCat', buscarProductosCat)
 router.get('/buscarProducto/:id', buscarProducto)
-router.put('/editarProducto/:id', editarProducto)
-router.delete('/eliminarProducto/:id', eliminarProducto)
+
+router.post('/nuevoProducto', authMiddleware, upload.single("image"), nuevoProducto)
+router.put('/editarProducto/:id', authMiddleware, upload.single("image"), editarProducto)
+router.delete('/eliminarProducto/:id', authMiddleware, eliminarProducto)
 
 export default router 

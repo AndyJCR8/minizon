@@ -1,10 +1,50 @@
 import { Product } from '../models/product.js';
 
 // Obtener todos los productos
+export const todosLosProductos = async (req, res) => {
+  try {
+    const options = {
+      page: parseInt(req.query.page ?? 1),
+      limit: 10
+    }
+
+    const products = await Product.paginate({}, options);
+    
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener los productos' });
+  }
+};
+
 export const buscarProductos = async (req, res) => {
   try {
-    const products = await Product.find();
+    const options = {
+      page: parseInt(req.query.page ?? 1),
+      limit: 10
+    }
+    //const products = await Product.find({Nombre: { $regex: req.query.searchFor, $options: 'i' }});
+    const products = await Product.paginate({Nombre: { $regex: req.query.searchFor, $options: 'i' }}, options);
+    
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener los productos' });
+  }
+};
 
+export const buscarProductosCat = async (req, res) => {
+  try {
+    const options = {
+      page: parseInt(req.query.page ?? 1),
+      limit: 10
+    }
+
+    let products;
+    if (req.query.subcat) {
+      products = await Product.paginate({ Categoria: req.query.cat, SubCategoria: req.query.subcat }, options);
+    } else {
+      products = await Product.paginate({ Categoria: req.query.cat }, options);
+    }
+    
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los productos' });
@@ -72,7 +112,6 @@ export const editarProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen,
     Stock
   } = req.body;
 
@@ -87,7 +126,7 @@ export const editarProducto = async (req, res) => {
         Descripcion,
         Categoria,
         SubCategoria,
-        RutasImagen,
+        Imagen: "http://localhost:5000/public/" + req.file.filename,
         Stock,
         UpdatedAt: Date.now()
       },

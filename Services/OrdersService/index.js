@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import "./database/connectdb.js"
 import express from "express";
+import cors from 'cors'
 import path from 'path';
 import productRoutes from "./routes/product.router.js"
 import orderRoutes from "./routes/order.route.js"
@@ -16,6 +17,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+app.use(cors())
 app.use('/public', express.static('public'));
 // Configura el middleware para servir archivos estáticos desde la carpeta "public"
 app.get('/prueba.html', (req, res) => {
@@ -24,7 +26,7 @@ app.get('/prueba.html', (req, res) => {
   
 app.use(express.static('Public'));
 app.use(express.json())
-app.use('/producto', authMiddleware, productRoutes)
+app.use('/producto', productRoutes)
 app.use('/orden', authMiddleware, orderRoutes)
 app.use('/pago', authMiddleware, paymentRoutes)
 //app.use('/token', tokenRoutes)
