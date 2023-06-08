@@ -14,7 +14,9 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const app=express();
+const app = express();
+
+app.use('/public', express.static('public'));
 // Configura el middleware para servir archivos estáticos desde la carpeta "public"
 app.get('/prueba.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'prueba.html'));

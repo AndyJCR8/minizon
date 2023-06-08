@@ -44,7 +44,7 @@ export const nuevaOrden = async (req, res) => {
     console.log(newPayload)
     const newToken = await encode(newPayload)
 
-    res.status(201).json({"Order": createdOrder, "token ": newToken});
+    res.status(201).json({"Order": createdOrder, "token": newToken});
     //res.status(201).json(createdOrder);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear la orden', message: error.message });

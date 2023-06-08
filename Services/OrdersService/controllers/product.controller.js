@@ -13,6 +13,7 @@ export const buscarProductos = async (req, res) => {
 
 // Crear un nuevo producto
 export const nuevoProducto = async (req, res) => {
+
   const {
     Nombre,
     Codigo,
@@ -21,7 +22,6 @@ export const nuevoProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen: { original, thumbnail },
     Stock
   } = req.body;
 
@@ -33,7 +33,7 @@ export const nuevoProducto = async (req, res) => {
     Descripcion,
     Categoria,
     SubCategoria,
-    RutasImagen: { original, thumbnail },
+    Imagen: "http://localhost:5000/public/" + req.file.filename,
     Stock
   });
 
