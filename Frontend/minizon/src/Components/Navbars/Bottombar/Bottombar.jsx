@@ -14,7 +14,7 @@ export default function Bottombar() {
           <a onClick={() => { document.querySelector("#sidebar").classList.add("active") }}><i className='fa-solid fa-bars'></i></a>
         </div>
         <div className='bottbarItem'>
-          <Link to="/"><i className='fa-solid fa-heart'></i></Link>
+          <Link to="/wishList"><i className='fa-solid fa-heart'></i></Link>
         </div>
         <div className='bottbarItem'>
           <Link to="/cart" className='shopIcon'>

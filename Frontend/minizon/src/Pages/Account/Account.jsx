@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import Login from '../Login&Register/Login'
 import ProtectRoutes from './ProtectRoutes';
 import Register from '../Login&Register/Register';
-import Logout from '../Login&Register/Logout';
 
 import AccountOrders from './Pages/AccountOrders';
 import AccountUserData from './Pages/AccountUserData';
@@ -16,7 +15,6 @@ export default function Account() {
     
     <Routes>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/logout' element={<Logout/>}/>
       <Route path='/register' element={<Register/>}/>
       
       <Route element={
@@ -34,6 +32,7 @@ function AccountGUI({userData}) {
 
   const handleLogout = () => {
     document.cookie = 'token =; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/account;'
+    document.cookie = 'token =; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
     navigate("/account/login")
   }
 

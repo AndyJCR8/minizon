@@ -1,6 +1,8 @@
 import { CartCountContext } from '../../Components/App';
 import Loader from '../../Components/UI Components/Loader/Loader';
-import { getCart, getCartCount, removeFromCart, updateCart } from '../../Services/CartService';
+import Modal from '../../Components/UI Components/Modal/Modal';
+import useModal from '../../Hooks/useModal';
+import { clearCart, getCart, getCartCount, removeFromCart, updateCart } from '../../Services/CartService';
 import './ShoppingCart.scss'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 
@@ -9,6 +11,8 @@ export default function ShoppingCart() {
   const [loading, setLoading] = useState(true);
   const [productsData, setProductsData] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
+
+  const modalStates = useModal()
   
   const cartCountContext = useContext(CartCountContext)
   
@@ -32,6 +36,11 @@ export default function ShoppingCart() {
     handleGetCart()
   }
 
+  const handleClearCart = () => {
+    clearCart()
+    handleGetCart()
+  }
+
 
   useEffect(() => {
     handleGetCart()
@@ -47,7 +56,10 @@ export default function ShoppingCart() {
         !loading && productsData.length > 0 &&
         <div className='cartContainer'>
           <div className='productsDetails'>
-            <div className='title'>Carrito de compras</div>
+            <div className='title'>
+              <p>Carrito de compras</p>
+              <button onClick={() => modalStates.Active.setActive(true)} className='button primary'><i className='fa-solid fa-trash'></i> Vaciar carrito</button>
+            </div>
             {
               productsData.length > 0 &&
               productsData.map((product, i) => {
@@ -87,6 +99,12 @@ export default function ShoppingCart() {
               <button className='button secondary'>Buscar más productos</button>
             </main>
           </div>
+          <Modal title='Vaciar carrito de compras' message='¿Está seguro que quiere vaciar el carrito?' actions={
+            <>
+              <button className='button primary' onClick={() => { handleClearCart() }}>Si</button>
+              <button className='button secondary' onClick={() => { modalStates.Active.setActive(false) }}>No</button>
+            </>
+          } states={modalStates}/>
         </div>
       }
       {

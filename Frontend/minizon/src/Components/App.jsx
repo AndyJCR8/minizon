@@ -14,6 +14,7 @@ import Notification from './UI Components/Notification/Notification'
 import ShoppingCart from '../Pages/ShoppingCart/ShoppingCart'
 import Products from '../Pages/Products/Products'
 import { getCartCount } from '../Services/CartService'
+import WishList from '../Pages/WishList/WishList'
 
 export const NotificationContext = createContext()
 export const CartCountContext = createContext()
@@ -61,6 +62,7 @@ function Body() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<ShoppingCart/>}/>
+        <Route path='/wishList' element={<WishList/>}/>
         <Route path='/account/*' element={<Account/>}/>
         <Route path='/products/*' element={<Products/>}/>
       </Routes>

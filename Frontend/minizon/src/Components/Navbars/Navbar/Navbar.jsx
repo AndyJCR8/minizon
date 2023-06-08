@@ -54,7 +54,7 @@ export default function Navbar() {
 
         <div className='navbarItems'>
           <div className='navbarItem'>
-            <Link to="/"><i className='fa-solid fa-heart'></i></Link>
+            <Link to="/wishList"><i className='fa-solid fa-heart'></i></Link>
           </div>
           <div className='navbarItem'>
             <Link to="/cart" className='shopIcon'>
