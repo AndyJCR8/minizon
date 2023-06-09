@@ -41,16 +41,8 @@ export default function ProceedPayment() {
         </header>
         <main>
           <div className='formItem'>
-            <label>Nombre completo</label>
-            <input name='nombre' className='formInput' placeholder='nombre completo' required/>
-          </div>
-          <div className='formItem'>
             <label>NIT</label>
             <input name='nit' className='formInput' placeholder='1234567' required/>
-          </div>
-          <div className='formItem'>
-            <label>Telefono</label>
-            <input name='telefono' type='tel' className='formInput' placeholder='11223344' required/>
           </div>
           <div className='formItem'>
             <label>Dirección de entrega</label>
@@ -80,7 +72,7 @@ export default function ProceedPayment() {
                     const ident = tarjeta.Identificador.toString()
 
                     return (
-                      <option key={i} value={tarjeta.IDTarjeta}>
+                      <option key={i} value={`${tarjeta.IDTarjeta};${tarjeta.TipoCredito}`}>
                         {tarjeta.marca.Nombre} {ident.substring(ident.length - 4)}
                       </option>
                     )

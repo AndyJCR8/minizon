@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { CartCountContext } from '../../Components/App';
 import Loader from '../../Components/UI Components/Loader/Loader';
 import Modal from '../../Components/UI Components/Modal/Modal';
@@ -7,24 +8,44 @@ import ProtectRoutes from '../Account/ProtectRoutes';
 import ProceedPayment from '../ProceedPayment/ProceedPayment';
 import './ShoppingCart.scss'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
+import { getToken } from '../../Services/TokenFromCookie';
 
 export default function ShoppingCart() {
 
   const [loading, setLoading] = useState(true);
   const [productsData, setProductsData] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
+  const [frecuent, setFrecuent] = useState(false);
 
   const modalStates = useModal()
   
   const cartCountContext = useContext(CartCountContext)
+
+  useEffect(() => {
+    (
+      async () => {
+        const userData = await axios.get(`${import.meta.env.VITE_SERVICE_1}/usuario/specificUserData`, {
+          headers: { Authorization: `Bearer ${getToken()}` }
+        })
+        axios.post('',)
+        //console.log("UserData: ", userData.data)
+        setFrecuent(userData.data.Frecuente)
+      }
+    )()
+  })
   
   
   const handleGetCart = useCallback(
-    () => {
+    async () => {
       const cart = getCart()
+
+      const Frecuente = (await axios.get(`${import.meta.env.VITE_SERVICE_1}/usuario/specificUserData`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })).data.Frecuente
+
       if(cart.length > 0)
-        setSubTotal(cart.reduce((acc, val) => acc + (parseFloat(val.PrecioVenta) * parseInt(val.Cantidad)), 0))
+        setSubTotal(cart.reduce((acc, val) => acc + ((Frecuente ? parseFloat(val.PrecioBeneficio) : parseFloat(val.PrecioVenta)) * parseInt(val.Cantidad)), 0))
 
       cartCountContext.setCartCount(getCartCount())
       
@@ -81,10 +102,10 @@ export default function ShoppingCart() {
                               <button className='button secondary'><i className='fa-solid fa-heart'></i></button>
                             </div>
                             <div className='counter'>
-                              <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioVenta} count={product.Cantidad} maxCount={product.Stock}/>
+                              <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={frecuent ? product.PrecioBeneficio : product.PrecioVenta} count={product.Cantidad} maxCount={product.Stock}/>
                             </div>
                             <div className='price'>
-                              <p>Q {product.PrecioVenta}</p>
+                              <p>Q {frecuent ? product.PrecioBeneficio : product.PrecioVenta}</p>
                             </div>
                           </div>
                         </div>
@@ -100,7 +121,7 @@ export default function ShoppingCart() {
                   <p>Q {subTotal}</p>
                 </header>
                 <main>
-                  <button className='button primary'><i className='fa-solid fa-lock'></i>Iniciar compra</button>
+                  <Link to='pay' className='button primary'><i className='fa-solid fa-lock'></i>Iniciar compra</Link>
                   <button className='button secondary'>Buscar más productos</button>
                 </main>
               </div>

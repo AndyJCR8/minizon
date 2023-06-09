@@ -166,7 +166,8 @@
     main {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      button {
+      button, a {
+        text-align: center;
         margin: 0 1rem;
         i { margin-right: 0.5rem; }
       }

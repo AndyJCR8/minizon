@@ -1,12 +1,14 @@
+import axios from "axios"
 import { addToCart, getCart, getCartCount } from "../../../Services/CartService"
 import { CartCountContext, NotificationContext } from "../../App"
 import "./ProductItem.scss"
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { getToken } from "../../../Services/TokenFromCookie"
 
 export default function ProductItem({loading, data, productInfoProps}) {
   const notificationContext = useContext(NotificationContext)
   const cartCountContext = useContext(CartCountContext)
-  
+  const [frecuent, setFrecuent] = useState(false);
 
   const handleProductClick = useCallback(
     () => {
@@ -43,6 +45,18 @@ export default function ProductItem({loading, data, productInfoProps}) {
       }
     })
   }
+
+  useEffect(() => {
+    (
+      async () => {
+        const userData = await axios.get(`${import.meta.env.VITE_SERVICE_1}/usuario/specificUserData`, {
+          headers: { Authorization: `Bearer ${getToken()}` }
+        })
+        //console.log("UserData: ", userData.data)
+        setFrecuent(userData.data.Frecuente)
+      }
+    )()
+  })
   
   return (
     <div className={`productItem${loading ? " loading" : ''}`}>
@@ -62,7 +76,7 @@ export default function ProductItem({loading, data, productInfoProps}) {
           </div> 
           <div className="itemFooter">
             <div className="priceContainer">
-              <p>Q {data.PrecioVenta}</p>
+              <p>Q {frecuent ? data.PrecioBeneficio : data.PrecioVenta}</p>
             </div>
             <div className="cartContainer">
               <button onClick={() => handleAddToCart()} className="button secondary"><i className="fa-solid fa-cart-shopping"></i></button>

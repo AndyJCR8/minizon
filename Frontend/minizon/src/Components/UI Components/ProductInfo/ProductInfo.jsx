@@ -5,6 +5,8 @@ import { addToCart, getCart, getCartCount } from '../../../Services/CartService'
 import { useContext } from 'react';
 import { CartCountContext, NotificationContext } from '../../App';
 import { addToWishList, getWishList, removeFromWishList } from '../../../Services/WishListService';
+import axios from 'axios';
+import { getToken } from '../../../Services/TokenFromCookie';
 
 export default function ProductInfo({children}) {
 
@@ -16,6 +18,7 @@ export default function ProductInfo({children}) {
   const [counter, setCounter] = useState(1);
 
   const [loved, setLoved] = useState(false);
+  const [frecuent, setFrecuent] = useState(false);
 
   const notificationContext = useContext(NotificationContext)
   const cartCountContext = useContext(CartCountContext)
@@ -70,6 +73,19 @@ export default function ProductInfo({children}) {
   }
 
   useEffect(() => {
+    (
+      async () => {
+        const userData = await axios.get(`${import.meta.env.VITE_SERVICE_1}/usuario/specificUserData`, {
+          headers: { Authorization: `Bearer ${getToken()}` }
+        })
+        //console.log("UserData: ", userData.data)
+        
+        setFrecuent(userData.data.Frecuente)
+      }
+    )()
+  })
+
+  useEffect(() => {
     setProductCount(productData.Stock)
     setLoved(getWishList().some(item => item._id == productData._id))
   }, [productData]);
@@ -109,7 +125,7 @@ export default function ProductInfo({children}) {
               </div>
               <div className='productDescription'><p>{productData.Descripcion}</p></div>
               <div className='productDetails'>
-                <p className='productPrice'>Q{productData.PrecioVenta}</p>
+                <p className='productPrice'>Q{frecuent ? productData.PrecioBeneficio : productData.PrecioVenta}</p>
                 <div className='productCount'>
                   <div className='minusCounter'>
                     <button onClick={() => { handleProductCount(false) }} className='button primary minusButton'><i className='fa-solid fa-minus'></i></button>
