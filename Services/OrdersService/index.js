@@ -5,7 +5,6 @@ import cors from 'cors'
 import path from 'path';
 import productRoutes from "./routes/product.router.js"
 import orderRoutes from "./routes/order.route.js"
-import paymentRoutes from "./routes/payment.route.js"
 import tokenRoutes from './routes/tokenRoutes.js';
 import { authMiddleware } from './middlewares/authMiddleware.js';
 import { encode } from './jwt/encription.js';
@@ -28,7 +27,6 @@ app.use(express.static('Public'));
 app.use(express.json())
 app.use('/producto', productRoutes)
 app.use('/orden', authMiddleware, orderRoutes)
-app.use('/pago', authMiddleware, paymentRoutes)
 //app.use('/token', tokenRoutes)
 
 const PORT = process.env.PORT || 5000
