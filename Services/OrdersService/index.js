@@ -30,4 +30,4 @@ app.use('/orden', authMiddleware, orderRoutes)
 //app.use('/token', tokenRoutes)
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT,()=>console.log("http://localhost:"+PORT));
+app.listen(PORT,'0.0.0.0',()=>console.log("http://localhost:"+PORT));

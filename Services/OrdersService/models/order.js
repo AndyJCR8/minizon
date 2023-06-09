@@ -3,7 +3,8 @@ import mongoose, { Schema, model } from "mongoose";
 const orderSchema = new Schema({
     IDUsuario: {
         type: String,
-        require: true
+        require: true,
+        unique: false
     },
     NIT: {
         type: String,
@@ -31,10 +32,14 @@ const orderSchema = new Schema({
      IDTarjeta: {
         type: String,
         require: true,
-        unique: true
+        unique: false
     },
     Tipo: {
         type: String,
+        require: true
+    },
+    IDDireccion: {
+        type: Number,
         require: true
     },
     Direccion: {

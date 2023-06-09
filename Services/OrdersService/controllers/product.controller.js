@@ -69,7 +69,7 @@ export const buscarProductosCatLimit = async (req, res) => {
 
 // Crear un nuevo producto
 export const nuevoProducto = async (req, res) => {
-
+  
   const {
     Nombre,
     Codigo,

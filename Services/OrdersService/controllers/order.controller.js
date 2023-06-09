@@ -1,5 +1,7 @@
 import { decode, encode } from '../jwt/encription.js';
 import { Order } from '../models/order.js';
+import axios from 'axios'
+import moment from 'moment'
 
 // Obtener todas las ordenes
 export const buscarOrdenes = async (req, res) => {
@@ -13,43 +15,60 @@ export const buscarOrdenes = async (req, res) => {
 
 // Crear una nueva orden
 export const nuevaOrden = async (req, res) => {
-  const {
-    IDUsuario,
-    NIT,
-    IDProductos,
-    CodigoPedido,
-    EstadoPedido,
-    IDTarjeta,
-    Tipo
-  } = req.body;
-
-  const newOrder = new Order({
-    IDUsuario,
-    NIT,
-    IDProductos,
-    CodigoPedido,
-    EstadoPedido,
-    IDTarjeta,
-    Tipo,
-    CreatedAt: Date.now()
-  });
-
+  
   try {
-    const createdOrder = await newOrder.save();
-
+    
     const token = req.get("authorization").split(' ')[1]
     const payload = (await decode(token)).Payload
+    
+    const {
+      NIT,
+      IDProductos,
+      CodigoPedido,
+      EstadoPedido,
+      IDTarjeta,
+      IDDireccion,
+      Direccion,
+      Tipo
+    } = req.body;
+    
+    const newOrder = new Order({
+      IDUsuario: payload.IDUsuario,
+      NIT,
+      IDProductos,
+      CodigoPedido,
+      EstadoPedido,
+      IDTarjeta,
+      Tipo,
+      IDDireccion,
+      Direccion,
+      CreatedAt: Date.now()
+    });
+    
+    const createdOrder = await newOrder.save();
+
     console.log(payload["Orders"])
     let newPayload = {}
 
-    if(payload["Orders"] == undefined) newPayload = { ...payload, "Orders": [createdOrder] }
+    if(payload["Orders"] == undefined) newPayload = { ...payload, "Orders": [createdOrder], 'iss': process.env.HOST }
     else { 
       payload.Orders.push(createdOrder)
-      newPayload = { ...payload }
+      newPayload = { ...payload, 'iss': process.env.HOST }
     }
-    console.log(newPayload)
+    
     const newToken = await encode(newPayload)
+    /* PROCESANDO PEDIDO EN EL BACKEN DE USUARIOS */
+    await axios.post('http://0.0.0.0:8000/api/pedido', {
+      'NIT': NIT,
+      'Fecha': moment().format('YYYY-MM-DD').toString(),
+      "IDDireccion": IDDireccion
+    }, { headers: { Authorization: `Bearer ${newToken}` } })
+    /* ------------------------------------------ */
 
+    /* SIMULANDO QUE EL PEDIDO YA FUE PROCESADO */
+    
+    /* ---------------------------------------- */
+    
     res.status(201).json({"Order": createdOrder, "token": newToken});
     //res.status(201).json(createdOrder);
   } catch (error) {

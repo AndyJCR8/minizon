@@ -9,7 +9,7 @@ export async function encode(payload, expiresIn = 25200) {
         .setProtectedHeader({alg: alg})
         .setExpirationTime(`${expiresIn}s`)
         .sign(secret)
-        console.log(token)
+        //console.log(token)
         
         return token
     } catch (error) {

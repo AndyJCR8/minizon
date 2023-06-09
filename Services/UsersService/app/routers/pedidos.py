@@ -30,7 +30,7 @@ async def getPedidos(db: Session = Depends(getDB), userData: dict = Depends(prot
     return { "pedidos": _pedidos } if _pedidos.__len__() > 0 else { "message": "aún no hay pedidos efectuados en la cuenta del cliente" }
 
 @router.post("/pedido", name="Agregar nuevo pedido")
-async def addPedido(pedido: schemas.PedidoCreate, db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
+async def addPedido(pedido: schemas.PedidoCreate, db: Session = Depends(getDB), userData: dict = Depends(service2Issuer)):
     
     try:
       pedidos.addPedido(db, userData["IDUsuario"], pedido)
