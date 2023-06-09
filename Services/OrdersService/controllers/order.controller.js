@@ -15,16 +15,22 @@ export const buscarOrdenes = async (req, res) => {
 export const nuevaOrden = async (req, res) => {
   const {
     IDUsuario,
+    NIT,
     IDProductos,
     CodigoPedido,
-    EstadoPedido
+    EstadoPedido,
+    IDTarjeta,
+    Tipo
   } = req.body;
 
   const newOrder = new Order({
     IDUsuario,
+    NIT,
     IDProductos,
     CodigoPedido,
     EstadoPedido,
+    IDTarjeta,
+    Tipo,
     CreatedAt: Date.now()
   });
 
@@ -72,9 +78,12 @@ export const editarOrden = async (req, res) => {
   const orderId = req.params.id;
   const {
     IDUsuario,
+    NIT,
     IDProductos,
     CodigoPedido,
-    EstadoPedido
+    EstadoPedido,
+    IDTarjeta,
+    Tipo
   } = req.body;
 
   try {
@@ -82,9 +91,12 @@ export const editarOrden = async (req, res) => {
       orderId,
       {
         IDUsuario,
+        NIT,
         IDProductos,
         CodigoPedido,
         EstadoPedido,
+        IDTarjeta,
+        Tipo,
         UpdatedAt: Date.now()
       },
       { new: true }

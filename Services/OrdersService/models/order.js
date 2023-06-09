@@ -5,6 +5,10 @@ const orderSchema = new Schema({
         type: String,
         require: true
     },
+    NIT: {
+        type: String,
+        require: true
+    },
     IDProductos: [{
         producto: {
             type: mongoose.Schema.Types.Mixed,
