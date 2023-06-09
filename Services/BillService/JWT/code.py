@@ -1,6 +1,15 @@
 import datetime
 import jwt
-from ..config.envConfig import settings
+
+import os
+import sys
+
+# Obtiene la ruta absoluta del directorio actual
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Agrega la ruta del directorio actual al sistema de rutas de Python
+sys.path.append(current_dir)
+from config.envConfig import settings
 
 def generateNewToken(payload, exp = 25200):
     expireDate = datetime.datetime.utcnow() + datetime.timedelta(seconds=exp)

@@ -4,6 +4,15 @@ from functools import wraps
 
 app = Flask(__name__)
 
+import os
+import sys
+
+# Obtiene la ruta absoluta del directorio actual
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Agrega la ruta del directorio actual al sistema de rutas de Python
+sys.path.append(current_dir)
+from JWT import code
+
 # Configurar la conexión a la base de datos
 db = mysql.connector.connect(
     host="localhost",
@@ -25,18 +34,11 @@ def verificar_token(f):
                 token = header.split(' ')[1]
 
         # Verifica si el token es válido
-        if not token:
+        res = code.verifyToken(token)
+        if not res:
             return jsonify({'mensaje': 'Token de autorización faltante'}), 401
-
-        # Aquí puedes realizar la validación del token
-        # por ejemplo, verificar si el token es válido en una base de datos o
-        # si coincide con un valor predefinido
-
-        # Si el token no es válido, devuelve una respuesta de error
-        # De lo contrario, permite continuar con la solicitud
-        # Puedes agregar aquí tu lógica de validación personalizada
-        # Por ahora, el siguiente código simplemente permite cualquier token
-        return f(*args, **kwargs)
+        
+        return f(res, *args, **kwargs)
 
     return decorated
 
@@ -49,9 +51,16 @@ class Cabecera:
         self.id_pedido = id_pedido
 
 # Obtener todas las cabeceras
+@app.route('/token', methods=['GET'])
+def getToken():
+    token = code.generateNewToken({"data": "hola mundo"})
+    return jsonify({'Token': token})
+
+# Obtener todas las cabeceras
 @app.route('/cabeceras', methods=['GET'])
 @verificar_token
-def get_all_cabeceras():
+def get_all_cabeceras(tokenPayload):
+    print(f"tkPayload: {tokenPayload}")
     cursor = db.cursor()
     cursor.execute("SELECT * FROM cabecera")
     result = cursor.fetchall()

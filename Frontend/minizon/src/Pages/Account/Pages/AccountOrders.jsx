@@ -1,11 +1,49 @@
+import axios from 'axios';
 import './AccountPages.scss'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getToken } from '../../../Services/TokenFromCookie.js'
 
 export default function AccountOrders({UserID}) {
   
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const ords = await axios.get(`${import.meta.env.VITE_SERVICE_2}/orden/buscarOrdenes`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      setOrders(ords.data)
+    })()
+
+  }, []);
+
   return (
     <div className='ordersContainer'>
-      AccountOrders
+      <div className='ordersList'>
+        <div className='title'>
+          <p>Lista de pedidos</p>
+        </div>
+        <div className='items'>
+          {
+            orders.length > 0 ?
+            orders.map((order, i) => {
+              const firstProduct = ""
+
+              return (
+                <section className='item'>
+                  <div className='image'>
+                    <img src={`${firstProduct.Imagen}`}/>
+                  </div>
+                  <div className='orderInfo'>
+                    <p>{order.CodigoPedido}</p>
+                    <p>{order.EstadoPedido}</p>
+                  </div>
+                </section>
+              )
+            }) : <p>No hay pedidos registradas</p>
+          }
+        </div>
+      </div>
     </div>
   )
 }

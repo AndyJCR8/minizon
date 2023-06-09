@@ -5,7 +5,7 @@ class Settings(BaseSettings):
 
     S1_DOMAIN: str ='localhost:8000'
     S2_DOMAIN: str ='localhost:8001'
-    JWT_PASS: str
+    JWT_PASS: str = ""
     
     class Config:
         env_file = "BillService/.env"
