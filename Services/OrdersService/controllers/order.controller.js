@@ -33,7 +33,6 @@ export const nuevaOrden = async (req, res) => {
     const {
       NIT,
       IDProductos,
-      EstadoPedido,
       IDTarjeta,
       IDDireccion,
       Direccion,
@@ -45,7 +44,7 @@ export const nuevaOrden = async (req, res) => {
       NIT,
       IDProductos,
       CodigoPedido: await getNextCodigoPedido(), // Obtener el siguiente valor del contador
-      EstadoPedido,
+      EstadoPedido: 'completado',
       IDTarjeta,
       Tipo,
       IDDireccion,
@@ -54,7 +53,7 @@ export const nuevaOrden = async (req, res) => {
     });
     
     const createdOrder = await newOrder.save();
-
+    
     console.log(payload["Orders"])
     let newPayload = {}
 
@@ -74,7 +73,41 @@ export const nuevaOrden = async (req, res) => {
     /* ------------------------------------------ */
 
     /* SIMULANDO QUE EL PEDIDO YA FUE PROCESADO */
+    let totalQuet = 0.0
+    let detalles = []
     
+    for(let pr of IDProductos) {
+      let subTotal = 0.0
+      if(!pr.PrecioVenta) subTotal = (parseFloat(pr.PrecioBeneficio) * parseInt(pr.Cantidad))
+      else subTotal = (parseFloat(pr.PrecioVenta) * parseInt(pr.Cantidad))
+
+      totalQuet += subTotal
+      detalles.push({
+        "CantidadProducto": parseInt(pr.Cantidad),
+        "SubTotalQuetzales": subTotal,
+        "IDProducto": pr._id
+      })
+    }
+
+    let encabezadoData = {
+      "IDPedido": createdOrder.CodigoPedido,
+      "TotalQuetzales": totalQuet,
+      "TotalDolares": totalQuet * 0.77
+    }
+    //console.log(`TOTALQUET: ${totalQuet}\ndetalles: ${JSON.stringify(detalles)}\nencabezado: ${JSON.stringify(encabezadoData)}`)
+    await axios.post('http://0.0.0.0:5010/cabeceras', encabezadoData, {
+      headers: { Authorization: `Bearer ${newToken}` }
+    })
+
+    /* const lastEncabezado = axios.get(`http://0.0.0.0:5010/cabecera/pedido/${encabezadoData.IDPedido}`, {
+      headers: { Authorization: `Bearer ${newToken}` }
+    })
+    print("Last: ",JSON.stringify(lastEncabezado))
+    for(let detalle of detalles) {
+      await axios.post('http://0.0.0.0:5010/montos', {...detalle, 'IDFactura': lastEncabezado.IDFactura}, {
+        headers: { Authorization: `Bearer ${newToken}` }
+      })
+    } */
     /* ---------------------------------------- */
     
     res.status(201).json({"Order": createdOrder, "token": newToken});

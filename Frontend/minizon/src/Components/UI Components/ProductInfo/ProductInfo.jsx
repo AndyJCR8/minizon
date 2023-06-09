@@ -43,8 +43,12 @@ export default function ProductInfo({children}) {
         return
       }
     }
+
+    const cartData = {...productData, Cantidad: counter}
+    if(frecuent) delete cartData.PrecioVenta
+    else delete cartData.PrecioBeneficio
     
-    addToCart({...productData, Cantidad: counter})
+    addToCart(cartData)
     cartCountContext.setCartCount(getCartCount())
     notificationContext.setNotificationData({
       "message": "Producto añadido al carrito",

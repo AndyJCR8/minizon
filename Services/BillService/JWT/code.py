@@ -19,7 +19,8 @@ def generateNewToken(payload, exp = 25200):
 def verifyToken(token):
     
     try:
-      result = jwt.decode(token, settings.JWT_PASS, algorithms="HS256")
+      print("HOLA MUNDO: ", settings.JWT_PASS)
+      result = jwt.decode(token, '&7!SXlb)n(kh8GO2=]M2', algorithms="HS256")
       #print(result)
     except jwt.InvalidTokenError as e: raise e
 

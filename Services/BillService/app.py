@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, request
 import mysql.connector
+from flask import Flask, jsonify, request
 from functools import wraps
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -34,7 +35,9 @@ def verificar_token(f):
                 token = header.split(' ')[1]
 
         # Verifica si el token es válido
+        print(token)
         res = code.verifyToken(token)
+
         if not res:
             return jsonify({'mensaje': 'Token de autorización faltante'}), 401
         
@@ -85,15 +88,30 @@ def get_cabecera_by_id(id):
     else:
         cursor.close()
         return jsonify({'message': 'Cabecera no encontrada'})
+    
+# Obtener una cabecera ID de pedido
+@app.route('/cabecera/pedido/<int:id>', methods=['GET'])
+@verificar_token
+def get_cabecera_by_id_pedido(id):
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM cabecera WHERE IDPedido = %s", (id,))
+    result = cursor.fetchone()
+    if result:
+        cabecera = Cabecera(result[0], result[1], result[2], result[3], result[4])
+        cursor.close()
+        return jsonify(cabecera.__dict__)
+    else:
+        cursor.close()
+        return jsonify({'message': 'Cabecera no encontrada'})
 
 # Crear una nueva cabecera
 @app.route('/cabeceras', methods=['POST'])
 @verificar_token
-def create_cabecera():
+def create_cabecera(b):
     data = request.get_json()
     total_quetzales = data['TotalQuetzales']
     total_dolares = data['TotalDolares']
-    fecha_emision = data['FechaEmision']
+    fecha_emision = datetime.now().strftime('%Y-%m-%d')
     id_pedido = data['IDPedido']
     
     cursor = db.cursor()
@@ -106,14 +124,16 @@ def create_cabecera():
 # Crear un nuevo monto
 @app.route('/montos', methods=['POST'])
 @verificar_token
-def create_monto():
+def create_monto(b):
     data = request.get_json()
-    monto = data['Monto']
-    id_cabecera = data['IDCabecera']
+    cantidad = data['CantidadProducto']
+    id_factura = data['IDFacura']
+    subTotal = data['SubTotal']
+    id_producto = data['IDProducto']
     
     cursor = db.cursor()
-    cursor.execute("INSERT INTO monto (Monto, IDCabecera) VALUES (%s, %s)",
-                   (monto, id_cabecera))
+    cursor.execute("INSERT INTO monto (CantidadProducto, SubTotalQuetzales, IDProducto, IDFactura,) VALUES (%s, %s)",
+                   (cantidad, subTotal, id_producto, id_factura))
     db.commit()
     cursor.close()
     return jsonify({'message': 'Monto creado'})
@@ -121,4 +141,4 @@ def create_monto():
 # Resto de las rutas...
 
 if __name__ == '__main__':
-    app.run(port=5010)
+    app.run(host='0.0.0.0', port=5010)

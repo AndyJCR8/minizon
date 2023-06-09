@@ -1,12 +1,19 @@
 import './ProceedPayment.scss'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getToken } from '../../Services/TokenFromCookie';
+import { clearCart, getCart } from '../../Services/CartService';
+import { CartCountContext, NotificationContext } from '../../Components/App';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProceedPayment() {
 
+  const notificationContext = useContext(NotificationContext)
+  const cartCountContext = useContext(CartCountContext)
+  
   const [direcciones, setDirecciones] = useState([]);
   const [tarjetas, setTarjetas] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     (async () => {
@@ -30,7 +37,36 @@ export default function ProceedPayment() {
    */
   const handleSubmit = (e) => {
     e.preventDefault()
+    const form = e.target;
+    console.log(form['NIT'])
 
+    const data = {
+      'NIT': form['NIT'].value,
+      'IDProductos': getCart(),
+      'IDTarjeta': form['Tarjeta'].value.split(';')[0],
+      'Tipo': form['Tarjeta'].value.split(';')[1] === 'false' ? 'Débidto' : 'Crédito',
+      'IDDireccion': form['Direccion'].value.split(';')[0],
+      'Direccion': form['Direccion'].value.split(';')[1],
+    };
+
+    (async () => {
+      const res = await axios.post(`${import.meta.env.VITE_SERVICE_2}/orden/nuevaOrden`, data,{
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      
+      notificationContext.setNotificationData({
+        "message": "Pedido realizado con éxito",
+        "type": "success",
+        "icon": "check",
+        "execInfo": {
+          "time": "3000"
+        }
+      })
+
+      clearCart()
+      navigate('/')
+      cartCountContext.setCartCount(0)
+    })();
   }
 
   return (
@@ -42,17 +78,17 @@ export default function ProceedPayment() {
         <main>
           <div className='formItem'>
             <label>NIT</label>
-            <input name='nit' className='formInput' placeholder='1234567' required/>
+            <input name='NIT' className='formInput' placeholder='1234567' required/>
           </div>
           <div className='formItem'>
             <label>Dirección de entrega</label>
             <div className='sectionContainer'>
-              <select name='IDDireccion' className='formSelect' required>
+              <select name='Direccion' className='formSelect' required>
                 {
                   direcciones.length > 0 ?
                   direcciones.map((direccion, i) => {
                     return (
-                      <option key={i} value={direccion.IDDireccion}>
+                      <option key={i} value={`${direccion.IDDireccion};${direccion.municipio.Nombre} - ${direccion.Direccion}`}>
                         {direccion.municipio.Nombre} - {direccion.Direccion}
                       </option>
                     )
@@ -65,7 +101,7 @@ export default function ProceedPayment() {
           <div className='formItem'>
             <label>Seleccione la tarjeta</label>
             <div className='sectionContainer'>
-              <select name='IDTarjetaa' className='formSelect' required>
+              <select name='Tarjeta' className='formSelect' required>
                 {
                   tarjetas.length > 0 ?
                   tarjetas.map((tarjeta, i) => {
