@@ -46,7 +46,7 @@ def createUsuario(db: Session, usuario: schemas.UsuarioCreate):
         db.add(dbUsuario)
         db.commit()
         db.refresh(dbUsuario)
-    except: raise HTTPException(406, detail="user already registered")
+    except Exception as e: raise HTTPException(406, detail=f"user already registered, error: {e}")
 
     dbUsuario.__dict__.pop("Password")
     dbUsuario.__dict__.pop("_sa_instance_state")
