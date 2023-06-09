@@ -13,6 +13,15 @@ export const buscarOrdenes = async (req, res) => {
   }
 };
 
+const getNextCodigoPedido = async () => {
+  const order = await Order.findOne().sort({ CodigoPedido: -1 }).exec();
+  if (order && order.CodigoPedido) {
+    return order.CodigoPedido + 1;
+  } else {
+    return 1; // Valor predeterminado si no hay ningún documento existente
+  }
+};
+
 // Crear una nueva orden
 export const nuevaOrden = async (req, res) => {
   
@@ -24,7 +33,6 @@ export const nuevaOrden = async (req, res) => {
     const {
       NIT,
       IDProductos,
-      CodigoPedido,
       EstadoPedido,
       IDTarjeta,
       IDDireccion,
@@ -36,7 +44,7 @@ export const nuevaOrden = async (req, res) => {
       IDUsuario: payload.IDUsuario,
       NIT,
       IDProductos,
-      CodigoPedido,
+      CodigoPedido: await getNextCodigoPedido(), // Obtener el siguiente valor del contador
       EstadoPedido,
       IDTarjeta,
       Tipo,
