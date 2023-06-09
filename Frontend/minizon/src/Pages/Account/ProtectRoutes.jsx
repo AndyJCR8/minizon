@@ -38,7 +38,7 @@ export default function ProtectRoutes({children}) {
         !userVerified && loading && <Loader size={"xxl"} text="cargando"/>
       }
       {
-        !userVerified && !loading ? <Navigate to={"login"}/> : null
+        !userVerified && !loading ? <Navigate to={"/account/login"}/> : null
       }
       {
         userVerified && Children.map(children, child => {

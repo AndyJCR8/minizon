@@ -25,8 +25,8 @@ async def pruebaUsuario():
     return {"passed": True} """
     
 @router.get("/usuario/specificUserData", name="Obtener datos de un usuario especifico")
-async def updateUsuario(idUsuario: int, db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
-    return usuarios.getUsuario(db=db, id=idUsuario, userData=userData)
+async def updateUsuario(db: Session = Depends(getDB), userData: dict = Depends(protectedRoute)):
+    return usuarios.getUsuario(db=db, userData=userData)
 
 @router.post("/usuario/registro", name="Registrar nuevo usuario")
 async def registerUsuario(usuario: schemas.UsuarioCreate, db: Session = Depends(getDB)):

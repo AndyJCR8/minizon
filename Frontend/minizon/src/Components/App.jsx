@@ -61,7 +61,7 @@ function Body() {
     <NotificationContext.Provider value={{setNotificationData: setNotificationData}}>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/cart' element={<ShoppingCart/>}/>
+        <Route path='/cart/*' element={<ShoppingCart/>}/>
         <Route path='/wishList' element={<WishList/>}/>
         <Route path='/account/*' element={<Account/>}/>
         <Route path='/products/*' element={<Products/>}/>

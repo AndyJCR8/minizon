@@ -1,55 +1,90 @@
-import React from 'react'
+import './ProceedPayment.scss'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { getToken } from '../../Services/TokenFromCookie';
 
 export default function ProceedPayment() {
+
+  const [direcciones, setDirecciones] = useState([]);
+  const [tarjetas, setTarjetas] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const resDir = await axios.get(`${import.meta.env.VITE_SERVICE_1}/direcciones`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+
+      const resTar = await axios.get(`${import.meta.env.VITE_SERVICE_1}/tarjetas`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+
+      setDirecciones(resDir.data.direcciones)
+      setTarjetas(resTar.data.tarjetas)
+
+    })()
+  }, []);
+
+  /**
+   * 
+   * @param {SubmitEvent} e 
+   */
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+  }
+
   return (
     <div className='paymentContainer'>
-      <form className='paymentForm' onSubmit={addNewAddress}>
+      <form className='paymentForm' onSubmit={handleSubmit}>
         <header>
           <h2>Datos para el pedido</h2>
         </header>
         <main>
           <div className='formItem'>
             <label>Nombre completo</label>
-            <input name='Nombre' className='formInput' placeholder='nombre completo' required/>
+            <input name='nombre' className='formInput' placeholder='nombre completo' required/>
           </div>
           <div className='formItem'>
             <label>NIT</label>
             <input name='nit' className='formInput' placeholder='1234567' required/>
           </div>
           <div className='formItem'>
-            <label>NIT</label>
-            <input name='Direccion' className='formInput' placeholder='1ra. av 3ra calle zona 1' required/>
+            <label>Telefono</label>
+            <input name='telefono' type='tel' className='formInput' placeholder='11223344' required/>
           </div>
           <div className='formItem'>
-            <label>Departamento</label>
+            <label>Dirección de entrega</label>
             <div className='sectionContainer'>
-              <select name='IDDepartamento' className='formSelect' onChange={departamentoChanged} required>
+              <select name='IDDireccion' className='formSelect' required>
                 {
-                  departamentos.map((departamento, i) => {
+                  direcciones.length > 0 ?
+                  direcciones.map((direccion, i) => {
                     return (
-                      <option key={i} value={departamento.IDDepartamento}>
-                        {departamento.Nombre}
+                      <option key={i} value={direccion.IDDireccion}>
+                        {direccion.municipio.Nombre} - {direccion.Direccion}
                       </option>
                     )
-                  })
+                  }) : <option value={1}>No hay direcciones registradas</option>
                 }
               </select>
               <i className='fa-solid fa-caret-down'></i>
             </div>
           </div>
           <div className='formItem'>
-            <label>Municipio</label>
+            <label>Seleccione la tarjeta</label>
             <div className='sectionContainer'>
-              <select name='IDMunicipio' className='formSelect' required>
+              <select name='IDTarjetaa' className='formSelect' required>
                 {
-                  municipios.length > 0 ?
-                  municipios.map((municipio, i) => {
+                  tarjetas.length > 0 ?
+                  tarjetas.map((tarjeta, i) => {
+                    const ident = tarjeta.Identificador.toString()
+
                     return (
-                      <option key={i} value={municipio.IDMunicipio}>
-                        {municipio.Nombre} - {municipio.CodigoPostal}
+                      <option key={i} value={tarjeta.IDTarjeta}>
+                        {tarjeta.marca.Nombre} {ident.substring(ident.length - 4)}
                       </option>
                     )
-                  }) : <option value={-1}>No hay municipios registrados</option>
+                  }) : <option value={1}>No hay tarjetas registradas</option>
                 }
               </select>
               <i className='fa-solid fa-caret-down'></i>

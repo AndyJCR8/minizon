@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session, joinedload
 from .. import models, schemas
+from . import usuarios
 
 def getPedido(db: Session, idUsuario: int, idPedido: int):
     
@@ -25,6 +26,7 @@ def addPedido(db: Session, idUsuario: int, pedido: schemas.PedidoCreate):
     direccion = db.query(models.Direccion).filter_by(IDDireccion = pedido.IDDireccion).first()
     if idUsuario is not direccion.IDUsuario: raise HTTPException(400, detail="no existe la dirección")
 
+    
     pedidoDict = { **pedido.dict() }
     dbPedido = models.Pedido(**pedidoDict)
 
@@ -33,32 +35,10 @@ def addPedido(db: Session, idUsuario: int, pedido: schemas.PedidoCreate):
         db.commit()
         db.refresh(dbPedido)
     except Exception as e: raise HTTPException(406, detail=f"error detail {e}")
+    
+    pedidosCount = len(getPedidos(db, idUsuario))
+    
+    if pedidosCount > 15:
+        usuarios.updateUsuario(db, idUsuario, schemas.UsuarioUpdate(Frecuente=True))
 
     return { "message": "Pedido agregado con éxito" }
-
-""" def updateTarjeta(db: Session, idTarjeta: int, idUsuario: int, tarjeta: schemas.TarjetaUpdate):
-
-    try:
-        dbTarjeta = db.query(models.Tarjeta).filter_by(IDTarjeta = idTarjeta, IDUsuario = idUsuario)
-        if(dbTarjeta.all().__len__() < 1): return None
-
-        tarjetaDict = clearUpdateValuesFromDict(tarjeta.dict())
-        dbTarjeta.update(tarjetaDict)
-        db.commit()
-        
-    except Exception as e: raise HTTPException(406, detail=f"error detail {e}")
-
-    return { "message": "Tarjeta actualizada con éxito" }
-
-def deleteTarjeta(db: Session, idTarjeta: int, idUsuario: int):
-
-    try:
-        dbTarjeta = db.query(models.Tarjeta).filter_by(IDTarjeta = idTarjeta, IDUsuario = idUsuario)
-        if(dbTarjeta.all().__len__() < 1): return None
-
-        dbTarjeta.delete()
-        db.commit()
-        
-    except Exception as e: raise HTTPException(406, detail=f"error detail {e}")
-
-    return { "message": "Tarjeta eliminada con éxito" } """

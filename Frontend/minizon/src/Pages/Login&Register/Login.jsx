@@ -47,7 +47,7 @@ export default function Login() {
           */
          const expires = (new Date(response.Expires)).toUTCString()
   
-         document.cookie = `token=${response.AuthToken}; expires=${expires}`
+         document.cookie = `token=${response.AuthToken}; expires=${expires}; path=/`
          /* console.log(response)
          console.log("expires: ", expires) */
 

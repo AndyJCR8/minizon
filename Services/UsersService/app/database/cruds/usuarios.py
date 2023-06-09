@@ -5,10 +5,9 @@ from . import clearUpdateValuesFromDict
 from .. import models, schemas
 from ...JWT import code
 
-def getUsuario(db: Session, id: int, userData: dict):
-    if id != userData['IDUsuario']: raise HTTPException(status_code=400, detail="ID Inválido")
-    
-    userData = db.query(models.Usuario).filter(models.Usuario.IDUsuario == id).first()
+def getUsuario(db: Session, userData: dict):
+    #if id != userData['IDUsuario']: raise HTTPException(status_code=400, detail="ID Inválido")
+    userData = db.query(models.Usuario).filter(models.Usuario.IDUsuario == userData['IDUsuario']).first()
     userData.__dict__.pop('Password')
     
     return userData

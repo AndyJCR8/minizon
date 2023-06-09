@@ -43,4 +43,3 @@ async def verifyToken(token: str):
     return {
         "info": decodedToken
     }
-

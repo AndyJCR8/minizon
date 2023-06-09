@@ -1,0 +1,79 @@
+.paymentContainer {
+  
+  display: grid;
+  
+  width: 100%;
+  height: 100%;
+
+  overflow-y: overlay;
+  overflow-x: hidden;
+  
+
+  .paymentForm {
+    display: grid;
+    header {
+      display: flex;
+      place-content: center;
+      place-items: center;
+
+      text-align: center;
+      .editAddressText {
+        font-weight: 300 !important;
+        font-size: 1.05rem;
+      }
+    }
+    main {
+      display: grid;
+      column-gap: 2rem;
+      row-gap: 2rem;
+      text-align: center;
+  
+      margin-top: 3rem;
+  
+      grid-template-rows: repeat(auto-fit, minmax(1fr, min-content));
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  
+      .formItem {
+        display: grid;
+        place-items: center;
+        grid-template-rows: auto 1fr;
+        input { width: 70%; }
+        select { width: 80%; }
+        label {
+          font-size: 1.15rem;
+          margin-bottom: 1rem;
+        }
+        .sectionContainer {
+          display: grid;
+          place-items: center;
+          position: relative;
+          width: 100%;
+          i { pointer-events: none; position: absolute; right: 15%; top: 50%; translate: 0% -50%; }
+        }
+      }
+    }
+  
+    footer {
+      display: grid;
+      place-items: center;
+      place-content: center;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      row-gap: 1.25rem;
+      
+      margin-top: 2rem;
+  
+      button {
+        width: fit-content;
+      }
+
+      @media (max-width: 500px) {
+        margin-top: 3rem;
+        margin-bottom: 10rem;
+      }
+    }
+  
+    width: 100%;
+    height: 100%;
+  }
+}

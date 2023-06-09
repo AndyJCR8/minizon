@@ -3,8 +3,11 @@ import Loader from '../../Components/UI Components/Loader/Loader';
 import Modal from '../../Components/UI Components/Modal/Modal';
 import useModal from '../../Hooks/useModal';
 import { clearCart, getCart, getCartCount, removeFromCart, updateCart } from '../../Services/CartService';
+import ProtectRoutes from '../Account/ProtectRoutes';
+import ProceedPayment from '../ProceedPayment/ProceedPayment';
 import './ShoppingCart.scss'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 
 export default function ShoppingCart() {
 
@@ -48,72 +51,81 @@ export default function ShoppingCart() {
 
 
   return (
-    <>
-      {
-        loading && <Loader size="xxl" text="cargando"/>
-      }
-      {
-        !loading && productsData.length > 0 &&
-        <div className='cartContainer'>
-          <div className='productsDetails'>
-            <div className='title'>
-              <p>Carrito de compras</p>
-              <button onClick={() => modalStates.Active.setActive(true)} className='button primary'><i className='fa-solid fa-trash'></i> Vaciar carrito</button>
+    <Routes>
+      <Route path='/' element={
+        <>
+          {
+            loading && <Loader size="xxl" text="cargando"/>
+          }
+          {
+            !loading && productsData.length > 0 &&
+            <div className='cartContainer'>
+              <div className='productsDetails'>
+                <div className='title'>
+                  <p>Carrito de compras</p>
+                  <button onClick={() => modalStates.Active.setActive(true)} className='button primary'><i className='fa-solid fa-trash'></i> Vaciar carrito</button>
+                </div>
+                {
+                  productsData.length > 0 &&
+                  productsData.map((product, i) => {
+                    return (
+                      <section key={i} className='item'>
+                        <div className='image'>
+                          <img src={`${product.Imagen}`}/>
+                        </div>
+                        <div className='productInfo'>
+                          <p>{product.Nombre}</p>
+                          <div className='details'>
+                            <div className='actions'>
+                              <button onClick={() => handleDeleteItem(i)} className='button primary'><i className='fa-solid fa-trash'></i></button>
+                              <button className='button secondary'><i className='fa-solid fa-heart'></i></button>
+                            </div>
+                            <div className='counter'>
+                              <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioVenta} count={product.Cantidad} maxCount={product.Stock}/>
+                            </div>
+                            <div className='price'>
+                              <p>Q {product.PrecioVenta}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    )
+                  })
+                }
+                <div className='separator'></div>
+              </div>
+              <div className='extras'>
+                <header>
+                  <p>Subtotal</p>
+                  <p>Q {subTotal}</p>
+                </header>
+                <main>
+                  <button className='button primary'><i className='fa-solid fa-lock'></i>Iniciar compra</button>
+                  <button className='button secondary'>Buscar más productos</button>
+                </main>
+              </div>
+              <Modal title='Vaciar carrito de compras' message='¿Está seguro que quiere vaciar el carrito?' actions={
+                <>
+                  <button className='button primary' onClick={() => { handleClearCart() }}>Si</button>
+                  <button className='button secondary' onClick={() => { modalStates.Active.setActive(false) }}>No</button>
+                </>
+              } states={modalStates}/>
             </div>
-            {
-              productsData.length > 0 &&
-              productsData.map((product, i) => {
-                return (
-                  <section key={i} className='item'>
-                    <div className='image'>
-                      <img src={`${product.Imagen}`}/>
-                    </div>
-                    <div className='productInfo'>
-                      <p>{product.Nombre}</p>
-                      <div className='details'>
-                        <div className='actions'>
-                          <button onClick={() => handleDeleteItem(i)} className='button primary'><i className='fa-solid fa-trash'></i></button>
-                          <button className='button secondary'><i className='fa-solid fa-heart'></i></button>
-                        </div>
-                        <div className='counter'>
-                          <ProductCount key={product._id} setSubTotal={setSubTotal} index={i} productPrice={product.PrecioVenta} count={product.Cantidad} maxCount={product.Stock}/>
-                        </div>
-                        <div className='price'>
-                          <p>Q {product.PrecioVenta}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                )
-              })
-            }
-            <div className='separator'></div>
-          </div>
-          <div className='extras'>
-            <header>
-              <p>Subtotal</p>
-              <p>Q {subTotal}</p>
-            </header>
-            <main>
-              <button className='button primary'><i className='fa-solid fa-lock'></i>Iniciar compra</button>
-              <button className='button secondary'>Buscar más productos</button>
-            </main>
-          </div>
-          <Modal title='Vaciar carrito de compras' message='¿Está seguro que quiere vaciar el carrito?' actions={
-            <>
-              <button className='button primary' onClick={() => { handleClearCart() }}>Si</button>
-              <button className='button secondary' onClick={() => { modalStates.Active.setActive(false) }}>No</button>
-            </>
-          } states={modalStates}/>
-        </div>
-      }
-      {
-        !loading && productsData.length == 0 &&
-        <div className='noProductsContainer'>
-          <h1>No hay productos en el carrito</h1>
-        </div>
-      }
-    </>
+          }
+          {
+            !loading && productsData.length == 0 &&
+            <div className='noProductsContainer'>
+              <h1>No hay productos en el carrito</h1>
+            </div>
+          }
+        </>
+      }/>
+      <Route element={
+        <ProtectRoutes>
+          <ProceedPayment/>
+        </ProtectRoutes>
+      } path='/pay'/>
+    </Routes>
   )
 }
 

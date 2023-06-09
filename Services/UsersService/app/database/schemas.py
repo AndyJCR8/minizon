@@ -149,6 +149,7 @@ class UsuarioUpdate(BaseModel):
   Telefono: Optional[int] = None
   Email: Optional[str] = None
   Password: Optional[str] = None
+  Frecuente: Optional[bool] = None
 
 class Usuario(UsuarioBase):
   IDUsuario: int

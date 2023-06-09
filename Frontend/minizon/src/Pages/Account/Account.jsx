@@ -9,6 +9,7 @@ import AccountOrders from './Pages/AccountOrders';
 import AccountUserData from './Pages/AccountUserData';
 import AccountAddresses from './Pages/AccountAddresses';
 import AccountCards from './Pages/AccountCards';
+import { getToken } from '../../Services/TokenFromCookie';
 
 export default function Account() {
   return (
@@ -31,10 +32,14 @@ function AccountGUI({userData}) {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    document.cookie = 'token =; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/account;'
+    //document.cookie = 'token =; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/account;'
     document.cookie = 'token =; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
     navigate("/account/login")
   }
+
+  useEffect(() => {
+    if(!getToken()) navigate('/account/login')
+  });
 
   return (
     <div className='accountContainer'>
