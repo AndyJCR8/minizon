@@ -73,13 +73,15 @@ export const nuevoProducto = async (req, res) => {
   const {
     Nombre,
     Codigo,
-    PrecioBeneficio,
     PrecioVenta,
     Descripcion,
     Categoria,
     SubCategoria,
     Stock
   } = req.body;
+
+  // Calcula el PrecioBeneficio aplicando el descuento del 20%
+  const PrecioBeneficio = PrecioVenta * 0.8;
 
   const newProduct = new Product({
     Nombre,
