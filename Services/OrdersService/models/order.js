@@ -37,6 +37,10 @@ const orderSchema = new Schema({
         type: String,
         require: true
     },
+    Direccion: {
+        type: String,
+        require: true
+    },
     CreatedAt: {
         type: Date,
         require: false
