@@ -27,11 +27,11 @@ const orderSchema = new Schema({
      IDTarjeta: {
         type: String,
         require: true,
-        unique: true,
-        Tipo: {
-            type: String,
-            require: true
-        }
+        unique: true
+    },
+    Tipo: {
+        type: String,
+        require: true
     },
     CreatedAt: {
         type: Date,
