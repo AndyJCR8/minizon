@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
 import mongoosePaginate from 'mongoose-paginate'
 
-const productSchema=new Schema({
+export const productSchema=new Schema({
     Nombre:{
         type: String,
         require: true

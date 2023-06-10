@@ -24,7 +24,7 @@ router.get('/buscarProductosCatLimit', buscarProductosCatLimit)
 router.get('/buscarProducto/:id', buscarProducto)
 
 router.post('/nuevoProducto', authMiddleware, upload.single("image"), nuevoProducto)
-router.put('/editarProducto/:id', authMiddleware, upload.single("image"), editarProducto)
+router.put('/editarProducto/:id', authMiddleware, editarProducto)
 router.delete('/eliminarProducto/:id', authMiddleware, eliminarProducto)
 
 export default router 

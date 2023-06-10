@@ -125,28 +125,22 @@ export const editarProducto = async (req, res) => {
   const {
     Nombre,
     Codigo,
-    PrecioVenta,
     Descripcion,
     Categoria,
     SubCategoria,
     Stock
   } = req.body;
-
-  // Calcula el PrecioBeneficio aplicando el descuento del 20%
-  const PrecioBeneficio = PrecioVenta * 0.8;
-
+  
   try {
+    
     const product = await Product.findByIdAndUpdate(
       productId,
       {
         Nombre,
         Codigo,
-        PrecioBeneficio,
-        PrecioVenta,
         Descripcion,
         Categoria,
         SubCategoria,
-        Imagen: "http://localhost:5000/public/" + req.file.filename,
         Stock,
         UpdatedAt: Date.now()
       },
@@ -159,7 +153,7 @@ export const editarProducto = async (req, res) => {
       res.status(404).json({ message: 'Producto no encontrado' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar el producto' });
+    res.status(500).json({ error: 'Error al actualizar el producto', message: error.message });
   }
 };
 

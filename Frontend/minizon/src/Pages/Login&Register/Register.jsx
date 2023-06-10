@@ -69,12 +69,21 @@ export default function Register() {
 
       })
     }
-  }, [doAfterTime, formData]);
+  }, [formData]);
+
+  useEffect(() => {
+    try {
+      if(doAfterTime['do'] != undefined) doAfterTime['do']()
+      else { setTimeout(() => {
+        doAfterTime['do']()
+      }, 1000); }
+    } catch (e) {}
+  }, [doAfterTime]);
 
   /**
    * @param {SubmitEvent} e 
    */
-  const loginUser = (e) => {
+  const registerUser = (e) => {
     e.preventDefault()
     const form = e.currentTarget
 
@@ -113,7 +122,7 @@ export default function Register() {
 
   return (
     <div className="registerContainer">
-      <form className="credentialsForm" onSubmit={loginUser}>
+      <form className="credentialsForm" onSubmit={registerUser}>
         <div className="header">
           <p className="title">Registro de usuario</p>
         </div>

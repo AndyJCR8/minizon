@@ -1,6 +1,6 @@
 ﻿/*
 Created: 22/03/2023
-Modified: 28/04/2023
+Modified: 09/06/2023
 Model: PostgreSQL 12
 Database: PostgreSQL 12
 */
@@ -11,14 +11,11 @@ Database: PostgreSQL 12
 
 CREATE TABLE "usuario"
 (
-  "IDUsuario" Integer NOT NULL GENERATED ALWAYS AS IDENTITY
-    (INCREMENT BY 1 NO MINVALUE NO MAXVALUE START WITH 1 CACHE 1),
+  "IDUsuario" Serial NOT NULL,
   "Nombre" Character varying(150) NOT NULL,
-  "Nickname" Character varying(150) NOT NULL,
-  "FechaNacimiento" Date NOT NULL,
+  "Edad" Integer,
   "Telefono" Bigint NOT NULL,
   "Email" Character varying(250) NOT NULL,
-  "Direccion" Character varying(250) NOT NULL,
   "Password" Character varying(1000) NOT NULL,
   "Frecuente" Boolean NOT NULL
 )
@@ -29,20 +26,26 @@ WITH (
 ALTER TABLE "usuario" ADD CONSTRAINT "PK_usuario" PRIMARY KEY ("IDUsuario")
 ;
 
+ALTER TABLE "usuario" ADD CONSTRAINT "Email" UNIQUE ("Email")
+;
+
 -- Table direccion
 
 CREATE TABLE "direccion"
 (
-  "IDDireccion" Integer NOT NULL GENERATED ALWAYS AS IDENTITY
-    (INCREMENT BY 1 NO MINVALUE NO MAXVALUE START WITH 1 CACHE 1),
+  "IDDireccion" Serial NOT NULL,
   "Direccion" Character varying(250) NOT NULL,
-  "IDUsuario" Integer NOT NULL
+  "IDUsuario" Integer NOT NULL,
+  "IDMunicipio" Integer NOT NULL
 )
 WITH (
   autovacuum_enabled=true)
 ;
 
 CREATE INDEX "IX_Relationship4" ON "direccion" ("IDUsuario")
+;
+
+CREATE INDEX "IX_Relationship7" ON "direccion" ("IDMunicipio")
 ;
 
 ALTER TABLE "direccion" ADD CONSTRAINT "PK_direccion" PRIMARY KEY ("IDDireccion")
@@ -52,8 +55,7 @@ ALTER TABLE "direccion" ADD CONSTRAINT "PK_direccion" PRIMARY KEY ("IDDireccion"
 
 CREATE TABLE "departamento"
 (
-  "IDDepartamento" Integer NOT NULL GENERATED ALWAYS AS IDENTITY
-    (INCREMENT BY 1 NO MINVALUE NO MAXVALUE START WITH 1 CACHE 1),
+  "IDDepartamento" Serial NOT NULL,
   "Nombre" Character varying(100) NOT NULL
 )
 WITH (
@@ -67,8 +69,7 @@ ALTER TABLE "departamento" ADD CONSTRAINT "PK_departamento" PRIMARY KEY ("IDDepa
 
 CREATE TABLE "municipio"
 (
-  "IDMunicipio" Integer NOT NULL GENERATED ALWAYS AS IDENTITY
-    (INCREMENT BY 1 NO MINVALUE NO MAXVALUE START WITH 1 CACHE 1),
+  "IDMunicipio" Serial NOT NULL,
   "Nombre" Character varying(100) NOT NULL,
   "CodigoPostal" Character varying(25) NOT NULL,
   "IDDepartamento" Integer NOT NULL
@@ -83,27 +84,80 @@ CREATE INDEX "IX_Relationship1" ON "municipio" ("IDDepartamento")
 ALTER TABLE "municipio" ADD CONSTRAINT "PK_municipio" PRIMARY KEY ("IDMunicipio")
 ;
 
--- Table compra
+-- Table pedido
 
-CREATE TABLE "compra"
+CREATE TABLE "pedido"
 (
-  "IDCompra" Integer NOT NULL GENERATED ALWAYS AS IDENTITY
-    (INCREMENT BY 1 NO MINVALUE NO MAXVALUE START WITH 1 CACHE 1),
+  "IDPedido" Serial NOT NULL,
   "NIT" Bigint NOT NULL,
-  "IDMunicipio" Integer NOT NULL,
+  "Fecha" Date NOT NULL,
   "IDDireccion" Integer NOT NULL
 )
 WITH (
   autovacuum_enabled=true)
 ;
 
-CREATE INDEX "IX_Relationship2" ON "compra" ("IDMunicipio")
+CREATE INDEX "IX_Relationship3" ON "pedido" ("IDDireccion")
 ;
 
-CREATE INDEX "IX_Relationship3" ON "compra" ("IDDireccion")
+ALTER TABLE "pedido" ADD CONSTRAINT "PK_pedido" PRIMARY KEY ("IDPedido")
 ;
 
-ALTER TABLE "compra" ADD CONSTRAINT "PK_compra" PRIMARY KEY ("IDCompra")
+-- Table tarjeta
+
+CREATE TABLE "tarjeta"
+(
+  "IDTarjeta" Serial NOT NULL,
+  "Identificador" Bigint NOT NULL,
+  "YearVencimiento" Integer NOT NULL,
+  "MesVencimiento" Integer NOT NULL,
+  "NombreTitular" Character varying(250) NOT NULL,
+  "CodigoSeguridad" Integer NOT NULL,
+  "TipoCredito" Boolean NOT NULL,
+  "IDUsuario" Integer NOT NULL,
+  "IDMarca" Integer NOT NULL
+)
+WITH (
+  autovacuum_enabled=true)
+;
+
+CREATE INDEX "IX_Relationship5" ON "tarjeta" ("IDUsuario")
+;
+
+CREATE INDEX "IX_Relationship6" ON "tarjeta" ("IDMarca")
+;
+
+ALTER TABLE "tarjeta" ADD CONSTRAINT "PK_tarjeta" PRIMARY KEY ("IDTarjeta")
+;
+
+-- Table marca
+
+CREATE TABLE "marca"
+(
+  "IDMarca" Serial NOT NULL,
+  "Nombre" Character varying(250) NOT NULL
+)
+WITH (
+  autovacuum_enabled=true)
+;
+
+ALTER TABLE "marca" ADD CONSTRAINT "PK_marca" PRIMARY KEY ("IDMarca")
+;
+
+-- Table LogPedidos
+
+CREATE TABLE "LogPedidos"
+(
+  "IDLogPedido" Serial NOT NULL,
+  "Accion" Character varying(100) NOT NULL,
+  "Descripcion" Character varying(500) NOT NULL,
+  "Fecha" Date NOT NULL
+)
+WITH (
+  autovacuum_enabled=true)
+;
+
+ALTER TABLE "LogPedidos" ADD CONSTRAINT "PK_LogPedidos" PRIMARY KEY ("IDLogPedido")
 ;
 
 -- Create foreign keys (relationships) section -------------------------------------------------
@@ -116,15 +170,7 @@ ALTER TABLE "municipio"
       ON UPDATE NO ACTION
 ;
 
-ALTER TABLE "compra"
-  ADD CONSTRAINT "Relationship2"
-    FOREIGN KEY ("IDMunicipio")
-    REFERENCES "municipio" ("IDMunicipio")
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-;
-
-ALTER TABLE "compra"
+ALTER TABLE "pedido"
   ADD CONSTRAINT "Relationship3"
     FOREIGN KEY ("IDDireccion")
     REFERENCES "direccion" ("IDDireccion")
@@ -140,3 +186,46 @@ ALTER TABLE "direccion"
       ON UPDATE NO ACTION
 ;
 
+ALTER TABLE "tarjeta"
+  ADD CONSTRAINT "Relationship5"
+    FOREIGN KEY ("IDUsuario")
+    REFERENCES "usuario" ("IDUsuario")
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+;
+
+ALTER TABLE "tarjeta"
+  ADD CONSTRAINT "Relationship6"
+    FOREIGN KEY ("IDMarca")
+    REFERENCES "marca" ("IDMarca")
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+;
+
+ALTER TABLE "direccion"
+  ADD CONSTRAINT "Relationship7"
+    FOREIGN KEY ("IDMunicipio")
+    REFERENCES "municipio" ("IDMunicipio")
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+;
+
+
+-- TRIGGER PARA LOS PEDIDOS
+
+CREATE OR REPLACE FUNCTION new_pedido()
+RETURNS TRIGGER AS $$
+BEGIN
+	INSERT INTO "LogPedidos" ("Accion", "Descripcion", "Fecha") VALUES (
+		'Nuevo dato',
+		'Se registro un nuevo pedido con los datos [NIT: ' || NEW."NIT" || '] [IDDireccion: ' || NEW."IDDireccion" || ']',
+		NEW."Fecha"
+	);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER new_pedido_trigger
+AFTER INSERT ON pedido
+FOR EACH ROW
+EXECUTE FUNCTION new_pedido();

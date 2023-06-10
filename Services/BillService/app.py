@@ -35,8 +35,13 @@ def verificar_token(f):
                 token = header.split(' ')[1]
 
         # Verifica si el token es válido
-        print(token)
-        res = code.verifyToken(token)
+        # print(token)
+        
+        try:
+            res = code.verifyToken(token)
+        except Exception as e:
+            print(f"Error: {e}")
+            return jsonify({'mensaje': f'Token de autorización invalido: {e}'}), 401
 
         if not res:
             return jsonify({'mensaje': 'Token de autorización faltante'}), 401
@@ -92,7 +97,7 @@ def get_cabecera_by_id(id):
 # Obtener una cabecera ID de pedido
 @app.route('/cabecera/pedido/<int:id>', methods=['GET'])
 @verificar_token
-def get_cabecera_by_id_pedido(id):
+def get_cabecera_by_id_pedido(token, id):
     cursor = db.cursor()
     cursor.execute("SELECT * FROM cabecera WHERE IDPedido = %s", (id,))
     result = cursor.fetchone()
@@ -107,16 +112,17 @@ def get_cabecera_by_id_pedido(id):
 # Crear una nueva cabecera
 @app.route('/cabeceras', methods=['POST'])
 @verificar_token
-def create_cabecera(b):
+def create_cabecera(tokenData):
     data = request.get_json()
-    total_quetzales = data['TotalQuetzales']
+    """ total_quetzales = data['TotalQuetzales']
     total_dolares = data['TotalDolares']
     fecha_emision = datetime.now().strftime('%Y-%m-%d')
-    id_pedido = data['IDPedido']
+    id_pedido = data['IDPedido'] """
+    fecha_emision = datetime.now().strftime('%Y-%m-%d')
     
     cursor = db.cursor()
     cursor.execute("INSERT INTO cabecera (TotalQuetzales, TotalDolares, FechaEmision, IDPedido) VALUES (%s, %s, %s, %s)",
-                   (total_quetzales, total_dolares, fecha_emision, id_pedido))
+                   (tokenData['TotalQuetzales'], tokenData['TotalDolares'], fecha_emision, tokenData['IDPedido']))
     db.commit()
     cursor.close()
     return jsonify({'message': 'Cabecera creada'})
@@ -124,21 +130,20 @@ def create_cabecera(b):
 # Crear un nuevo monto
 @app.route('/montos', methods=['POST'])
 @verificar_token
-def create_monto(b):
+def create_monto(tokenData):
     data = request.get_json()
     cantidad = data['CantidadProducto']
-    id_factura = data['IDFacura']
-    subTotal = data['SubTotal']
+    id_factura = data['IDFactura']
+    subTotal = data['SubTotalQuetzales']
     id_producto = data['IDProducto']
     
     cursor = db.cursor()
-    cursor.execute("INSERT INTO monto (CantidadProducto, SubTotalQuetzales, IDProducto, IDFactura,) VALUES (%s, %s)",
-                   (cantidad, subTotal, id_producto, id_factura))
+    """ cursor.execute("INSERT INTO monto (CantidadProducto, SubTotalQuetzales, IDProducto, IDFactura) VALUES (%s, %s, %s, %s)",
+                   (cantidad, subTotal, id_producto, id_factura)) """
+    cursor.execute("CALL agregarMontoACabecera(%s, %s, %s, %s)", (id_producto, subTotal, cantidad, id_factura))
     db.commit()
     cursor.close()
     return jsonify({'message': 'Monto creado'})
-
-# Resto de las rutas...
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5010)

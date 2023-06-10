@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import { productSchema } from "./product.js";
 
 const orderSchema = new Schema({
     IDUsuario: {
@@ -10,17 +11,7 @@ const orderSchema = new Schema({
         type: String,
         require: true
     },
-    IDProductos: [{
-        producto: {
-            type: mongoose.Schema.Types.Mixed,
-            ref: 'payment',
-            require: true
-        },
-        cantidad: {
-            type: Number,
-            require: true
-        }
-    }],
+    IDProductos: [productSchema],
     CodigoPedido: {
         type: Number,
         require: true

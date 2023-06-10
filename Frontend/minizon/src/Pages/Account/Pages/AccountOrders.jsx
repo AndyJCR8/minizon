@@ -9,7 +9,7 @@ export default function AccountOrders({UserID}) {
 
   useEffect(() => {
     (async () => {
-      const ords = await axios.get(`${import.meta.env.VITE_SERVICE_2}/orden/buscarOrdenes`, {
+      const ords = await axios.get(`${import.meta.env.VITE_SERVICE_2}/orden/buscarOrdenes/${UserID}`, {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
       setOrders(ords.data)
@@ -27,10 +27,10 @@ export default function AccountOrders({UserID}) {
           {
             orders.length > 0 ?
             orders.map((order, i) => {
-              const firstProduct = ""
+              const firstProduct = order.IDProductos[0]
 
               return (
-                <section className='item'>
+                <section key={crypto.randomUUID()} className='item'>
                   <div className='image'>
                     <img src={`${firstProduct.Imagen}`}/>
                   </div>

@@ -102,7 +102,7 @@ function ShowProducts({title, productInfoProps, dataPath}) {
         .then(response => {
           setData({state: "ready", items: response.data.docs})
           //console.log({state: "ready", items: response.data.docs, path: `${import.meta.env.VITE_SERVICE_2}/producto/${dataPath}page=${currentPage}`})
-          setTotalPages(response.pages)
+          setTotalPages(response.data.pages)
         })
         .catch(error => {})
       }
@@ -156,7 +156,6 @@ function ShowProducts({title, productInfoProps, dataPath}) {
         buttons.push(<button key={i} onClick={() => handlePageClick(i)} className={`pageButton${i === currentPage ? ' active' : ''}`}> {i} </button>);
       }
     }
-    
     return buttons;
   };
 

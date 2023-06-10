@@ -24,9 +24,9 @@ export default function ProceedPayment() {
       const resTar = await axios.get(`${import.meta.env.VITE_SERVICE_1}/tarjetas`, {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
-
-      setDirecciones(resDir.data.direcciones)
-      setTarjetas(resTar.data.tarjetas)
+      
+      setDirecciones(resDir.data.direcciones ?? [])
+      setTarjetas(resTar.data.tarjetas ?? [])
 
     })()
   }, []);
@@ -40,12 +40,28 @@ export default function ProceedPayment() {
     const form = e.target;
     console.log(form['NIT'])
 
+    const idTarjeta = parseInt(form['Tarjeta'].value.split(';')[0])
+    const idDireccion = parseInt(form['Direccion'].value.split(';')[0])
+
+    if(idTarjeta == -1 || idDireccion == -1) {
+      notificationContext.setNotificationData({
+        "message": "Datos erroneos",
+        "type": "error",
+        "icon": "xmark",
+        "execInfo": {
+          "time": "3000"
+        }
+      })
+      
+      return null
+    }
+
     const data = {
       'NIT': form['NIT'].value,
       'IDProductos': getCart(),
-      'IDTarjeta': form['Tarjeta'].value.split(';')[0],
+      'IDTarjeta': idTarjeta,
       'Tipo': form['Tarjeta'].value.split(';')[1] === 'false' ? 'Débidto' : 'Crédito',
-      'IDDireccion': form['Direccion'].value.split(';')[0],
+      'IDDireccion': idDireccion,
       'Direccion': form['Direccion'].value.split(';')[1],
     };
 
@@ -92,7 +108,7 @@ export default function ProceedPayment() {
                         {direccion.municipio.Nombre} - {direccion.Direccion}
                       </option>
                     )
-                  }) : <option value={1}>No hay direcciones registradas</option>
+                  }) : <option value={-1}>No hay direcciones registradas</option>
                 }
               </select>
               <i className='fa-solid fa-caret-down'></i>
@@ -112,7 +128,7 @@ export default function ProceedPayment() {
                         {tarjeta.marca.Nombre} {ident.substring(ident.length - 4)}
                       </option>
                     )
-                  }) : <option value={1}>No hay tarjetas registradas</option>
+                  }) : <option value={-1}>No hay tarjetas registradas</option>
                 }
               </select>
               <i className='fa-solid fa-caret-down'></i>

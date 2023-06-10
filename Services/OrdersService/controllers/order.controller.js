@@ -5,8 +5,12 @@ import moment from 'moment'
 
 // Obtener todas las ordenes
 export const buscarOrdenes = async (req, res) => {
+  const userID = req.params.userID;
+  console.log("USERID: ", userID)
   try {
-    const orders = await Order.find();
+
+    const orders = await Order.find({ IDUsuario: userID.toString() });
+    
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener las ordenes' });
@@ -51,7 +55,7 @@ export const nuevaOrden = async (req, res) => {
       Direccion,
       CreatedAt: Date.now()
     });
-    
+    console.log("Productos: ", IDProductos)
     const createdOrder = await newOrder.save();
     
     console.log(payload["Orders"])
@@ -94,20 +98,23 @@ export const nuevaOrden = async (req, res) => {
       "TotalQuetzales": totalQuet,
       "TotalDolares": totalQuet * 0.77
     }
+    const billToken = await encode({...payload, ...encabezadoData, 'iss': process.env.HOST})
     //console.log(`TOTALQUET: ${totalQuet}\ndetalles: ${JSON.stringify(detalles)}\nencabezado: ${JSON.stringify(encabezadoData)}`)
-    await axios.post('http://0.0.0.0:5010/cabeceras', encabezadoData, {
-      headers: { Authorization: `Bearer ${newToken}` }
+    await axios.post('http://0.0.0.0:5010/cabeceras', {}, {
+      headers: { Authorization: `Bearer ${billToken}` }
     })
 
-    /* const lastEncabezado = axios.get(`http://0.0.0.0:5010/cabecera/pedido/${encabezadoData.IDPedido}`, {
+    //console.log(`EncabezadoData IDPedido: ${encabezadoData.IDPedido}`)
+    const lastEncabezado = (await axios.get(`http://0.0.0.0:5010/cabecera/pedido/${encabezadoData.IDPedido}`, {
       headers: { Authorization: `Bearer ${newToken}` }
-    })
-    print("Last: ",JSON.stringify(lastEncabezado))
+    })).data
+    //console.log('LastEncabezado: ', lastEncabezado)
+    //print("Last: ",JSON.stringify(lastEncabezado))
     for(let detalle of detalles) {
-      await axios.post('http://0.0.0.0:5010/montos', {...detalle, 'IDFactura': lastEncabezado.IDFactura}, {
+      await axios.post('http://0.0.0.0:5010/montos', {...detalle, 'IDFactura': lastEncabezado.id}, {
         headers: { Authorization: `Bearer ${newToken}` }
       })
-    } */
+    }
     /* ---------------------------------------- */
     
     res.status(201).json({"Order": createdOrder, "token": newToken});

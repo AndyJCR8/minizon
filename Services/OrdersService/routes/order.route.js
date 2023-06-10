@@ -3,10 +3,10 @@ import { buscarOrdenes, buscarOrden, nuevaOrden, editarOrden, eliminarOrden } fr
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 const router=express.Router()
 
-router.get('/buscarOrdenes', buscarOrdenes)
-router.post('/nuevaOrden', authMiddleware, nuevaOrden)
+router.get('/buscarOrdenes/:userID', buscarOrdenes)
+router.post('/nuevaOrden', nuevaOrden)
 router.get('/buscarOrden/:id', buscarOrden)
-router.put('/editarOrden/:id', authMiddleware, editarOrden)
-router.delete('/eliminarOrden/:id', authMiddleware, eliminarOrden)
+router.put('/editarOrden/:id', editarOrden)
+router.delete('/eliminarOrden/:id', eliminarOrden)
 
 export default router
